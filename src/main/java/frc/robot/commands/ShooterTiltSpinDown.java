@@ -4,18 +4,18 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.TiltConstants.KTiltMotorSpeed;
+import static frc.robot.Constants.TiltConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Tilt;
+import frc.robot.subsystems.ShooterTilt;
 
-public class TiltSpinUp extends Command {
-  /** Creates a new TiltSpinUp. */
-  private Tilt tilt;
+public class ShooterTiltSpinDown extends Command {
+  /** Creates a new TiltSpinDown. */
+  private ShooterTilt shooterTilt;
 
-  public TiltSpinUp(Tilt tilt) {
-    this.tilt = tilt;
-    addRequirements(tilt);
+  public ShooterTiltSpinDown(ShooterTilt shooterTilt) {
+    this.shooterTilt = shooterTilt;
+    addRequirements(shooterTilt);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,7 +26,7 @@ public class TiltSpinUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    tilt.spinTiltMotorU(KTiltMotorSpeed);
+    shooterTilt.spinTiltMotor(-KShooterTiltMotorSpeed);
   }
 
   // Called once the command ends or is interrupted.

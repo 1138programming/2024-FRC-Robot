@@ -18,8 +18,8 @@ public final class Constants {
   }
 
   public static class TiltConstants {
-    public static final int KTiltMotorID = 1;
-    public static final int KTiltEncoderID = 2;
-    public static final double KTiltMotorSpeed = 0.5;
+    public static final int KShooterTiltMotorID = 1;
+    public static final int KShooterTiltEncoderID = 2;
+    public static final double KShooterTiltMotorSpeed = 0.5;
   } 
 }

@@ -23,43 +23,39 @@ import com.ctre.phoenix6.hardware.core.CoreCANcoder.*;
 
 
 
-public class Tilt extends SubsystemBase {
+public class ShooterTilt extends SubsystemBase {
   /** Tilt includes: (this is what design believes)
    *  - 1 Neo
    *  - 1 CANCoder 
    * */
-  private CANSparkMax tiltMotor;
-  private CANcoder tiltCANcoder;
+  private CANSparkMax shooterTiltMotor;
+  private CANcoder shooterTiltCANcoder;
   
-  public Tilt() {
-    tiltMotor = new CANSparkMax(KTiltMotorID, MotorType.kBrushless); // IDs not workings even after import
+  public ShooterTilt() {
+    shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); // IDs not workings even after import
     
-    tiltCANcoder = new CANcoder(KTiltEncoderID);
-    tiltCANcoder.setPosition(0);
-    tiltMotor.setIdleMode(IdleMode.kBrake);
+    shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
+    shooterTiltCANcoder.setPosition(0);
+    shooterTiltMotor.setIdleMode(IdleMode.kBrake);
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Tilt Cancoder", getTiltEncoder());
-        SmartDashboard.putNumber("Tilt Raw CanCoder", getTiltEncoderRaw());
+        SmartDashboard.putNumber("Shooter Tilt Cancoder", getTiltEncoder());
+        SmartDashboard.putNumber("Shooter Tilt Raw CanCoder", getTiltEncoderRaw());
   }
 
-  public void spinTiltMotorU(double speed){ // spins up
-    tiltMotor.set(speed);
-  }
-
-  public void spinTiltMotorD(double speed){ // spins down
-    tiltMotor.set(-speed);
+  public void spinTiltMotor(double speed){ // spins up
+    shooterTiltMotor.set(speed);
   }
 
   // starting angle is 15 degrees and the range is between 15-90 or 15-180 (If i recall correctlh)
   public double getTiltEncoder() {
-    return getTiltEncoderRaw() + 15; 
+    return getTiltEncoderRaw(); 
   }
   public double getTiltEncoderRaw() {
-    return tiltCANcoder.getPosition().getValueAsDouble() * 360;
+    return shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
   }
 }
