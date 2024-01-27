@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 // Neo Motor not sure yet for sparkmax
 // 2 piston pneumatics
-// an built in encoder and 2 limit switches\
-
+// an built in encoder and 2 limit switches
 // Still have to add encoder and the pison pneumatics
 
 public class Hang extends SubsystemBase {
@@ -56,7 +55,7 @@ public class Hang extends SubsystemBase {
     return hangBottomLimitSwitch.get();
   }
 
-  public void moveMotor(double speed){
+  public void moveHangMotor(double speed){
     hangMotor.set(speed);
     if(speed <= 0 ){
       if (getHangBottomLimitSwitch()){
@@ -70,7 +69,7 @@ public class Hang extends SubsystemBase {
     }
   }
 
-  public void HangStop(){
+  public void hangStop(){
     hangMotor.set(0);
   }
 }
