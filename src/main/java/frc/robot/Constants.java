@@ -19,5 +19,9 @@ public final class Constants {
 
   public static class Hang {
     public static final int KHangMotorID = 1;
+    //public static final double KHangMotorSpeedUp = 0.5;
+    //public static final double KHangMotorSpeedDown = -0.5;
+    public static final int KHangLimitSwitchDown = 2;
+    public static final int KHangLimitSwitchUp = 3;
   }
 }
