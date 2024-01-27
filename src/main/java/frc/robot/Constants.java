@@ -16,4 +16,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class TiltConstants {
+    public static final int KTiltMotorID = 1;
+    public static final int KTiltEncoderID = 2;
+    public static final double KTiltMotorSpeed = 0.5;
+  } 
 }
