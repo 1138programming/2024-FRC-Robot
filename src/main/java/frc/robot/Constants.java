@@ -19,9 +19,16 @@ public final class Constants {
 
   public static class Hang {
     public static final int KHangMotorID = 1;
-    //public static final double KHangMotorSpeedUp = 0.5;
-    //public static final double KHangMotorSpeedDown = -0.5;
+    public static final double KHangMotorSpeedUp = 0.5;
+    public static final double KHangMotorSpeedDown = -0.5;
     public static final int KHangLimitSwitchDown = 2;
     public static final int KHangLimitSwitchUp = 3;
+    public static final int KHangSetPositionUp = 10;
+    public static final int KHangSetPositionDown = -10;
+    // Piston Pneumatics double Constants
+    public static final int KHangDoubleSolenoidLeftInID = 4;
+    public static final int KHangDoubleSolenoidLeftOutID = 5;
+    public static final int KHangDoubleSolenoidRightInID = 6;
+    public static final int KHangDoubleSolenoidRightOutID = 7;
   }
 }
