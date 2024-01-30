@@ -21,5 +21,6 @@ public final class Constants {
     public static final int KShooterTiltMotorID = 1;
     public static final int KShooterTiltEncoderID = 2;
     public static final double KShooterTiltMotorSpeed = 0.5;
+    public static final double KShooterTiltEncoderPreset = 15.0;
   } 
 }

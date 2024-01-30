@@ -24,10 +24,7 @@ import com.ctre.phoenix6.hardware.core.CoreCANcoder.*;
 
 
 public class ShooterTilt extends SubsystemBase {
-  /** Tilt includes: (this is what design believes)
-   *  - 1 Neo
-   *  - 1 CANCoder 
-   * */
+
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
   
@@ -35,7 +32,7 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); // IDs not workings even after import
     
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
-    shooterTiltCANcoder.setPosition(0);
+    shooterTiltCANcoder.setPosition(KShooterTiltEncoderPreset);
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
 
   }
@@ -43,7 +40,7 @@ public class ShooterTilt extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Shooter Tilt Cancoder", getTiltEncoder());
+        SmartDashboard.putNumber("Shooter Tilt CanCoder", getTiltEncoder());
         SmartDashboard.putNumber("Shooter Tilt Raw CanCoder", getTiltEncoderRaw());
   }
 
@@ -51,6 +48,8 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltMotor.set(speed);
   }
 
+  //enter limelight stuff here
+  
   // starting angle is 15 degrees and the range is between 15-90 or 15-180 (If i recall correctlh)
   public double getTiltEncoder() {
     return getTiltEncoderRaw(); 
