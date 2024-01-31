@@ -63,19 +63,20 @@ public class Hang extends SubsystemBase {
     hangDoubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void setHangPosUp(){
+  public void setHangHookPosUp(){
     while (hangMotor.getEncoder().getPosition() >=0 && !getHangTopLimitSwitch()){
-      hangMotor.getEncoder().setPosition(KHangSetPositionUp);//constant
-      hangMotor.set(KHangMotorSpeedUp);//constant
+      hangMotor.getEncoder().setPosition(KHangSetPositionUp);
+      hangMotor.set(KHangMotorSpeedUp);
     }
     hangMotor.set(0);
   } 
+  
 
 // Moves hang to a set position
-  public void setHangPosDown(){
+  public void setHangHookPosDown(){
       while (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
-        hangMotor.getEncoder().setPosition(KHangSetPositionDown);//constant
-        hangMotor.set(KHangMotorSpeedDown);//constant
+        hangMotor.getEncoder().setPosition(KHangSetPositionDown);
+        hangMotor.set(KHangMotorSpeedDown);
       }
       hangMotor.set(0);
   }
