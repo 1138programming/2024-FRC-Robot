@@ -93,7 +93,6 @@ public class Hang extends SubsystemBase {
   }
 // Only moves up and down to the limit switches
   public void moveHangMotor(double hangSpeed){
-    hangMotor.set(hangSpeed);
     if(hangSpeed <= 0 ){
       if (getHangBottomLimitSwitch()){
         hangMotor.set(0);
