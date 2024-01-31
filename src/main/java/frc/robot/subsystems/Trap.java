@@ -24,7 +24,7 @@ public class Trap extends SubsystemBase {
   private TalonFX trapRollerMotor;
   private DigitalInput trapNoteSensor;
   private CANSparkMax trapWristMotor;
-  private AnalogPotentiometer potentiometer;
+  private AnalogPotentiometer trapPotentiometer;
 
 
   // sensorprivate 
@@ -34,7 +34,7 @@ public class Trap extends SubsystemBase {
     trapRollerMotor = new TalonFX(KTrapRollerMotorID);
     trapNoteSensor = new DigitalInput(KTrapIRSensorID);
     trapWristMotor = new CANSparkMax(KTrapWristMotorID,MotorType.kBrushless);
-    potentiometer = new AnalogPotentiometer(25, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
+    trapPotentiometer = new AnalogPotentiometer(25, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
   }
 // neo for the wrist and the rollers are side by side 
 // 775 or 550 but i programmed 
@@ -67,6 +67,10 @@ public class Trap extends SubsystemBase {
     //figure out values later
   }
 
+  public double getPotentiometer(){
+    return trapPotentiometer.get();
+  }
+
   public void stopRollers(){
     trapRollerMotor.set(0);
   }
@@ -74,6 +78,7 @@ public class Trap extends SubsystemBase {
   public void stopWrist(){
     trapWristMotor.set(0);
   }
+
   
   //create method for set positions for the wrist using potentiometer
 
