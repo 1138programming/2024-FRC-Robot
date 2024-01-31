@@ -20,4 +20,17 @@ public final class Constants {
   public static class TiltConstants{
     
   }
+  public static class TrapConstants{
+    public static final int KTrapRollerMotorID = 1;
+    public static final int KTrapIRSensorID = 2;
+    public static final int KTrapWristMotorID = 3;
+
+    public static final double KTrapRollersForwardSpeed = 0.5;
+    public static final double KTrapRollersBackwardSpeed = -0.5;
+    public static final double KTrapWristUpSpeed = 0.5;
+    public static final double KTrapWristDownSpeed = -0.5;
+    public static final double KAnalogPotentiometerSensorRange  = 270;
+    public static final double KAnalogPotentiometerSensorOffset  = 30;
+  
+  }
 }
