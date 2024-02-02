@@ -4,7 +4,7 @@
 
 package frc.robot.Subsystems;
 
-import static frc.robot.Constants.*;
+import static frc.robot.Constants.UnderIntakeConstants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // import for talonFX
@@ -12,17 +12,15 @@ import com.ctre.phoenix6.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 
-public class Intake extends SubsystemBase {
-  
-  private TalonFX innerIntakeMotor;
-  private TalonFX outerIntakeMotor;
-  
+public class UnderIntake extends SubsystemBase {
+  private TalonFX underIntakeMotor;
   /** Creates a new Intake. */
-  public Intake() {
-
-    innerIntakeMotor = new TalonFX(KInnerIntakeMotorID);
-    outerIntakeMotor = new TalonFX(KOuterIntakeMotorID);
-
+  public UnderIntake() {
+    underIntakeMotor = new TalonFX(KUnderIntakeMotorID);
+  }
+  
+  public void underIntakeSpinMotor(double speed) {
+    underIntakeMotor.set(speed);
   }
 
   @Override

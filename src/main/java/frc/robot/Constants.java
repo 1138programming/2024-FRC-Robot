@@ -16,8 +16,8 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-
-  // Intake Motor
-  public static final int KInnerIntakeMotorID = 1;
-  public static final int KOuterIntakeMotorID = 2;
+  public static class UnderIntakeConstants {
+    public static final int KUnderIntakeMotorID = 1; //placeholder
+    public static final double KUnderIntakeMotorSpeed = 1.0; //placeholder
+  }
 }

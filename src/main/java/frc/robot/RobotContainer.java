@@ -8,6 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Subsystems.*;
+import frc.robot.Commands.UnderIntakeStop;
+import frc.robot.Commands.UnderIntakeSpinIn;
+import frc.robot.Commands.UnderIntakeSpinOut;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -17,12 +21,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Subsystems
+  private final UnderIntake underIntake = new UnderIntake();
 
   // Commands
+  private final UnderIntakeStop underIntakeStop = new UnderIntakeStop();
+  private final UnderIntakeSpinIn underIntakeSpinIn = new UnderIntakeSpinIn();
+  private final UnderIntakeSpinOut underIntakeSpinOut = new UnderIntakeSpinOut();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
+    // set default command for each subsystem
+    underIntake.setDefaultCommand(underIntakeStop);
     configureBindings();
   }
 
@@ -35,7 +44,10 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings()
+  {
+    
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
