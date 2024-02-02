@@ -28,16 +28,15 @@ public class IndexerStop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //IndexerStop.indexer(0.9);
-   // indexer.IndexerSpin(0);
+        indexer.IndexerStop();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    indexer.IndexerStop();
-  }
+  public void end(boolean interrupted){
 
+  }  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
