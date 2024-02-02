@@ -10,11 +10,10 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
-// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-// import com.revrobotics.CANSparkMaxLowLevel.FollowConfig.Config;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -34,9 +33,6 @@ public class SwerveModule extends SubsystemBase {
   private PIDController angleController;
 
   private double offset;
-
-  // private SimpleMotorFeedforward feedforward;
-  // private PIDController driveController;
 
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
                       boolean driveMotorReversed, boolean angleMotorReversed) {
@@ -68,11 +64,6 @@ public class SwerveModule extends SubsystemBase {
     canCoderConfig.MagnetOffset = offset;
     canCoder = new CANcoder(encoderPort);
     canCoder.getConfigurator().apply(canCoderConfig);
-
-    
-    
-
-
   }
   
   
@@ -87,9 +78,7 @@ public class SwerveModule extends SubsystemBase {
     driveMotorOutput = desiredState.speedMetersPerSecond / KPhysicalMaxDriveSpeedMPS;
     
     angleMotor.set(angleMotorOutput);
-    driveMotor.set(driveMotorOutput);
-
-    
+    driveMotor.set(driveMotorOutput); 
   }
   
   public void lockWheel() {
