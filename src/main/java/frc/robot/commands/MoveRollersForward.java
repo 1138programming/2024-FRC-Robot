@@ -11,7 +11,7 @@ import frc.robot.Constants;
 public class MoveRollersForward extends Command {
   /** Creates a new MoveRollersForward. */
   private Trap trap;
-  public MoveRollersForward() {
+  public MoveRollersForward(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.

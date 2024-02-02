@@ -12,7 +12,7 @@ public class MoveWristForward extends Command {
   /** Creates a new MoveWristUp. */
   private Trap trap;
   
-  public MoveWristForward() {
+  public MoveWristForward(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.

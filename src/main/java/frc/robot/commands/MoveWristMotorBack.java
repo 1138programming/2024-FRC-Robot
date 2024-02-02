@@ -12,7 +12,7 @@ public class MoveWristMotorBack extends Command {
   private Trap trap;
   
   /** Creates a new MoveWristMotorBack. */
-  public MoveWristMotorBack() {
+  public MoveWristMotorBack(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.

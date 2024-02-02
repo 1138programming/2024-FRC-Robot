@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Trap;
+import frc.robot.subsystems.*;
 import frc.robot.Constants;
 
-public class MoveRollersBackwards extends Command {
-  /** Creates a new MoveRollersBackwards. */
+public class StopRollers extends Command {
+  /** Creates a new StopRollers. */
   private Trap trap;
-  public MoveRollersBackwards(Trap trap) {
+  public StopRollers(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +24,7 @@ public class MoveRollersBackwards extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.moveTrapRollersBackward();
+    trap.stopRollers();
   }
 
   // Called once the command ends or is interrupted.
