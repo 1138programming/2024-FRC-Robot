@@ -64,7 +64,7 @@ public class Hang extends SubsystemBase {
   }
 
   public void setHangHookPosUp(){
-    while (hangMotor.getEncoder().getPosition() >=0 && !getHangTopLimitSwitch()){
+    if (hangMotor.getEncoder().getPosition() >=0 && !getHangTopLimitSwitch()){
       hangMotor.getEncoder().setPosition(KHangSetPositionUp);
       hangMotor.set(KHangMotorSpeedUp);
     }
@@ -74,7 +74,7 @@ public class Hang extends SubsystemBase {
 
 // Moves hang to a set position
   public void setHangHookPosDown(){
-      while (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
+      if (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
         hangMotor.getEncoder().setPosition(KHangSetPositionDown);
         hangMotor.set(KHangMotorSpeedDown);
       }

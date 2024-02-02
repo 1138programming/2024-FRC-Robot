@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.Hang.KHangMotorSpeedUp;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.*;
 import frc.robot.Constants;
@@ -11,11 +13,9 @@ import frc.robot.Constants;
 public class MoveHangUp extends Command {
   /** Creates a new MoveHangUp. */
   private Hang hang;
-  private double speed; 
 
-  public MoveHangUp() {
+  public MoveHangUp(Hang hang) {
     this.hang = hang;
-    this.speed = speed;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -27,7 +27,7 @@ public class MoveHangUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hang.moveHangMotor(0.5);
+    hang.moveHangMotor(KHangMotorSpeedUp);
   }
 
   // Called once the command ends or is interrupted.

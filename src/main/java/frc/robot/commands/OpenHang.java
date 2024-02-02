@@ -11,11 +11,9 @@ import frc.robot.Subsystems.Hang;
 public class OpenHang extends Command {
   /** Creates a new OpenHang. */
   private Hang hang;
-  private double speed;
 
-  public OpenHang() {
+  public OpenHang(Hang hang) {
     this.hang = hang;
-    this.speed = speed;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
   }

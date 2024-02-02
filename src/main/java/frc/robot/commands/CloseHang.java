@@ -11,10 +11,9 @@ import frc.robot.Subsystems.*;
 public class CloseHang extends Command {
   /** Creates a new CloseHang. */
   private Hang hang;
-  private double speed;
-  public CloseHang() {
+  
+  public CloseHang(Hang hang) {
     this.hang = hang;
-    this.speed = speed;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
   }
