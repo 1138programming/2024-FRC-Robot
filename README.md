@@ -1,6 +1,6 @@
 # 2024-FRC-Robot
  - Link to Motor/Sensor/Pneumatics Map:
-      - https://docs.google.com/spreadsheets/d/1A6U5gYfSkhwWv3tsFpi1ovz5iwtukHmEocYSqzfthIw/edit?usp=sharing
+      - https://docs.google.com/spreadsheets/d/11lGopplchhmzkcv1--0nyyP6TwdgbU-4xgL5mNGjuKw/edit?usp=sharing
    
  - Link to StreamDeck Map:
       - https://docs.google.com/presentation/d/1qsrd0i9c39PQZ_gCiOlfC2x-TR_0ATohp7WeghVmTIE/edit?usp=sharing
