@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.TiltConstants.*;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,20 +21,25 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANcoderConfigurator;
 import com.ctre.phoenix6.hardware.core.CoreCANcoder.*;
-
-
+import edu.wpi.first.math.controller.PIDController;
 
 public class ShooterTilt extends SubsystemBase {
 
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
-  
+
+  private PIDController swivelController;
+  private double intakeControllerkP = 0.06;
+  private double intakeControllerkI = 0;
+  private double intakeControllerkD = 0;
+
   public ShooterTilt() {
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); // IDs not workings even after import
     
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
     shooterTiltCANcoder.setPosition(KShooterTiltEncoderPreset);
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
+    swivelController = new PIDController(intakeControllerkP, intakeControllerkI, intakeControllerkD);
 
   }
 
@@ -57,4 +63,11 @@ public class ShooterTilt extends SubsystemBase {
   public double getTiltEncoderRaw() {
     return shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
   }
+  public void moveSwivel(double pos){
+    shooterTiltMotor.set(swivelController.calculate(shooterTiltCANcoder.getPosition().getValue(), pos));
+  }
+
+public void swiveToPos(double setPoint){
+  moveSwivel(swivelController.calculate(getTiltEncoderRaw(), setPoint));
+}
 }
