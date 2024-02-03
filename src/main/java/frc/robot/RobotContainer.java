@@ -4,33 +4,24 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Base.DriveWithJoysticks;
 import frc.robot.commands.Base.ToggleSpeed;
 import frc.robot.commands.Base.Resets.ResetAllButGyro;
 import frc.robot.commands.Base.Resets.ResetEncoders;
 import frc.robot.commands.Base.Resets.ResetGyro;
-import frc.robot.commands.Base.Resets.ResetPose;
 import frc.robot.subsystems.Base;
 
-import static frc.robot.Constants.SwerveDriveConstants.KBaseDriveLowPercent;
-import static frc.robot.Constants.SwerveDriveConstants.KBaseDriveMaxPercent;
-import static frc.robot.Constants.SwerveDriveConstants.KBaseDriveMidPercent;
-import static frc.robot.Constants.SwerveDriveConstants.KBaseRotLowPercent;
-import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
-import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMidPercent;
+import static frc.robot.Constants.SwerveDriveConstants.*;
+import static frc.robot.Constants.OperatorConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -60,55 +51,10 @@ public class RobotContainer {
   private final ResetEncoders resetEncoders = new ResetEncoders(base);
   private final ResetGyro resetGyro = new ResetGyro(base);
 
-  // Controller Ports (check in Driver Station, IDs may be different for each computer)
-  private static final int KLogitechPort = 0;
-  private static final int KXboxPort = 1;
-  private static final int KStreamDeckPort = 2;
-  private static final int KTestingStreamDeckPort = 3;
-  private static final int KTuningStreamDeckPort = 4;
-
-  // Deadzone
-  private static final double KDeadZone = 0.05;
-
-  // Joystick Axis IDs
-  private static final int KLeftXAxis = 0;
-  private static final int KLeftYAxis = 1;
-  private static final int KRightXAxis = 2;
-  private static final int KRightYAxis = 3;
-
-  // Joystick Axis IDs
-  private static final int KXboxLeftYAxis = 1;
-  private static final int KXboxRightYAxis = 5;
-  private static final int KXboxLeftXAxis = 0;
-  private static final int KXboxRightXAxis = 4;
-
-  // Logitech Button Constants
-  public static final int KLogitechButtonX = 1;
-  public static final int KLogitechButtonA = 2;
-  public static final int KLogitechButtonB = 3;
-  public static final int KLogitechButtonY = 4;
-  public static final int KLogitechLeftBumper = 5;
-  public static final int KLogitechRightBumper = 6;
-  public static final int KLogitechLeftTrigger = 7;
-  public static final int KLogitechRightTrigger = 8;
-
-  // Xbox Button Constants
-  public static final int KXboxButtonA = 1;
-  public static final int KXboxButtonB = 2;
-  public static final int KXboxButtonX = 3;
-  public static final int KXboxButtonY = 4;
-  public static final int KXboxLeftBumper = 5;
-  public static final int KXboxRightBumper = 6;
-  public static final int KXboxSelectButton = 7;
-  public static final int KXboxStartButton = 8;
-  public static final int KXboxLeftTrigger = 2;
-  public static final int KXboxRightTrigger = 3;
-
   // Game Controllers
   public static Joystick logitech;
   public static Joystick compStreamDeck;
   public static Joystick testStreamDeck;
-  public static Joystick tuningStreamDeck;
   public static XboxController xbox;
   // Controller Buttons/Triggers
   public JoystickButton logitechBtnX, logitechBtnA, logitechBtnB, logitechBtnY, logitechBtnLB, logitechBtnRB,
@@ -118,13 +64,13 @@ public class RobotContainer {
 
   public Trigger xboxBtnRT, xboxBtnLT;
 
-  public JoystickButton comp1, comp2, comp3, comp4, comp5, comp6, comp7, comp8, comp9, comp10, comp11, comp12, comp13,
-      comp14;
+  public JoystickButton compStreamDeck1, compStreamDeck2, compStreamDeck3, compStreamDeck4, compStreamDeck5, compStreamDeck6, compStreamDeck7, compStreamDeck8, compStreamDeck9, compStreamDeck10, compStreamDeck11, compStreamDeck12, compStreamDeck13,
+      compStreamDeck14;
 
   // Top Left SD = 1, numbered from left to right
-  public JoystickButton streamDeck1, streamDeck2, streamDeck3, streamDeck4, streamDeck5, streamDeck6, streamDeck7,
-      streamDeck8, streamDeck9, // Vjoy 2
-      streamDeck10, streamDeck11, streamDeck12, streamDeck13, streamDeck14, streamDeck15;
+  public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5, testStreamDeck6, testStreamDeck7,
+      testStreamDeck8, testStreamDeck9, // Vjoy 2
+      testStreamDeck10, testStreamDeck11, testStreamDeck12, testStreamDeck13, testStreamDeck14, testStreamDeck15;
 
   private final SendableChooser<Command> autonChooser;
 
@@ -143,7 +89,6 @@ public class RobotContainer {
     xbox = new XboxController(KXboxPort); // Xbox 360 for Windows
     compStreamDeck = new Joystick(KStreamDeckPort); // Stream Deck + vjoy
     testStreamDeck = new Joystick(KTestingStreamDeckPort); // Stream Deck + vjoy
-    tuningStreamDeck = new Joystick(KTuningStreamDeckPort); // Stream Deck + vjoy
 
     // Logitch Buttons
     logitechBtnX = new JoystickButton(logitech, KLogitechButtonX);
@@ -167,36 +112,36 @@ public class RobotContainer {
     xboxBtnLT = new Trigger(() -> (joystickThreshold(xbox.getRawAxis(KXboxLeftTrigger))));
     xboxBtnRT = new Trigger(() -> (joystickThreshold(xbox.getRawAxis(KXboxRightTrigger))));
 
-    comp1 = new JoystickButton(compStreamDeck, 1);
-    comp2 = new JoystickButton(compStreamDeck, 2);
-    comp3 = new JoystickButton(compStreamDeck, 3);
-    comp4 = new JoystickButton(compStreamDeck, 4);
-    comp5 = new JoystickButton(compStreamDeck, 5);
-    comp6 = new JoystickButton(compStreamDeck, 6);
-    comp7 = new JoystickButton(compStreamDeck, 7);
-    comp8 = new JoystickButton(compStreamDeck, 8);
-    comp9 = new JoystickButton(compStreamDeck, 9);
-    comp10 = new JoystickButton(compStreamDeck, 10);
-    comp11 = new JoystickButton(compStreamDeck, 11);
-    comp12 = new JoystickButton(compStreamDeck, 12);
-    comp13 = new JoystickButton(compStreamDeck, 13);
-    comp14 = new JoystickButton(compStreamDeck, 14);
+    compStreamDeck1 = new JoystickButton(compStreamDeck, 1);
+    compStreamDeck2 = new JoystickButton(compStreamDeck, 2);
+    compStreamDeck3 = new JoystickButton(compStreamDeck, 3);
+    compStreamDeck4 = new JoystickButton(compStreamDeck, 4);
+    compStreamDeck5 = new JoystickButton(compStreamDeck, 5);
+    compStreamDeck6 = new JoystickButton(compStreamDeck, 6);
+    compStreamDeck7 = new JoystickButton(compStreamDeck, 7);
+    compStreamDeck8 = new JoystickButton(compStreamDeck, 8);
+    compStreamDeck9 = new JoystickButton(compStreamDeck, 9);
+    compStreamDeck10 = new JoystickButton(compStreamDeck, 10);
+    compStreamDeck11 = new JoystickButton(compStreamDeck, 11);
+    compStreamDeck12 = new JoystickButton(compStreamDeck, 12);
+    compStreamDeck13 = new JoystickButton(compStreamDeck, 13);
+    compStreamDeck14 = new JoystickButton(compStreamDeck, 14);
 
-    streamDeck1 = new JoystickButton(testStreamDeck, 1);
-    streamDeck2 = new JoystickButton(testStreamDeck, 2);
-    streamDeck3 = new JoystickButton(testStreamDeck, 3);
-    streamDeck4 = new JoystickButton(testStreamDeck, 4);
-    streamDeck5 = new JoystickButton(testStreamDeck, 5);
-    streamDeck6 = new JoystickButton(testStreamDeck, 6);
-    streamDeck7 = new JoystickButton(testStreamDeck, 7);
-    streamDeck8 = new JoystickButton(testStreamDeck, 8);
-    streamDeck9 = new JoystickButton(testStreamDeck, 9);
-    streamDeck10 = new JoystickButton(testStreamDeck, 10);
-    streamDeck11 = new JoystickButton(testStreamDeck, 11);
-    streamDeck12 = new JoystickButton(testStreamDeck, 12);
-    streamDeck13 = new JoystickButton(testStreamDeck, 13);
-    streamDeck14 = new JoystickButton(testStreamDeck, 14);
-    streamDeck15 = new JoystickButton(testStreamDeck, 15);
+    testStreamDeck1 = new JoystickButton(testStreamDeck, 1);
+    testStreamDeck2 = new JoystickButton(testStreamDeck, 2);
+    testStreamDeck3 = new JoystickButton(testStreamDeck, 3);
+    testStreamDeck4 = new JoystickButton(testStreamDeck, 4);
+    testStreamDeck5 = new JoystickButton(testStreamDeck, 5);
+    testStreamDeck6 = new JoystickButton(testStreamDeck, 6);
+    testStreamDeck7 = new JoystickButton(testStreamDeck, 7);
+    testStreamDeck8 = new JoystickButton(testStreamDeck, 8);
+    testStreamDeck9 = new JoystickButton(testStreamDeck, 9);
+    testStreamDeck10 = new JoystickButton(testStreamDeck, 10);
+    testStreamDeck11 = new JoystickButton(testStreamDeck, 11);
+    testStreamDeck12 = new JoystickButton(testStreamDeck, 12);
+    testStreamDeck13 = new JoystickButton(testStreamDeck, 13);
+    testStreamDeck14 = new JoystickButton(testStreamDeck, 14);
+    testStreamDeck15 = new JoystickButton(testStreamDeck, 15);
 
     // Configure the button bindings
 
@@ -219,7 +164,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     logitechBtnY.onTrue(resetGyro);
-    logitechBtnA.whileTrue(new RunCommand(() -> base.resetPose(new Pose2d(5, 3, new Rotation2d()))));
 
     // logitechBtnA.whileTrue(moveVortex);
     logitechBtnLB.onTrue(toggleMaxSpeed);
@@ -246,8 +190,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    // return new ResetPose(base, PPPath1.getPreviewStartingHolonomicPose()).andThen(autonChooser.getSelected().);
     return autonChooser.getSelected();
   }
 

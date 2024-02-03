@@ -13,12 +13,9 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -34,7 +31,6 @@ public class SwerveModule extends SubsystemBase {
   private RelativeEncoder driveEncoder;
 
   private PIDController angleController;
-  private PIDController driveController;
 
   private double offset;
 
@@ -60,8 +56,6 @@ public class SwerveModule extends SubsystemBase {
     angleController = new PIDController(KAngleP, KAngleI, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
     
-    // driveController = new PIDController(0.64442, 0, 0); //Reset These Values
-
     MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
     canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     canCoderConfig.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;

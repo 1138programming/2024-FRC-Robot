@@ -6,8 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -26,9 +24,49 @@ import com.pathplanner.lib.util.ReplanningConfig;
  */
 public final class Constants {
     public static class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
-    }
+        // Controller Ports (check in Driver Station, IDs may be different for each compStreamDeckuter)
+        public static final int KLogitechPort = 0;
+        public static final int KXboxPort = 1;
+        public static final int KStreamDeckPort = 2;
+        public static final int KTestingStreamDeckPort = 3;
 
+        // Deadzone
+        public static final double KDeadZone = 0.05;
+
+        // Joystick Axis IDs
+        public static final int KLeftXAxis = 0;
+        public static final int KLeftYAxis = 1;
+        public static final int KRightXAxis = 2;
+        public static final int KRightYAxis = 3;
+
+        // Joystick Axis IDs
+        public static final int KXboxLeftYAxis = 1;
+        public static final int KXboxRightYAxis = 5;
+        public static final int KXboxLeftXAxis = 0;
+        public static final int KXboxRightXAxis = 4;
+
+        // Logitech Button Constants
+        public static final int KLogitechButtonX = 1;
+        public static final int KLogitechButtonA = 2;
+        public static final int KLogitechButtonB = 3;
+        public static final int KLogitechButtonY = 4;
+        public static final int KLogitechLeftBumper = 5;
+        public static final int KLogitechRightBumper = 6;
+        public static final int KLogitechLeftTrigger = 7;
+        public static final int KLogitechRightTrigger = 8;
+
+        // Xbox Button Constants
+        public static final int KXboxButtonA = 1;
+        public static final int KXboxButtonB = 2;
+        public static final int KXboxButtonX = 3;
+        public static final int KXboxButtonY = 4;
+        public static final int KXboxLeftBumper = 5;
+        public static final int KXboxRightBumper = 6;
+        public static final int KXboxSelectButton = 7;
+        public static final int KXboxStartButton = 8;
+        public static final int KXboxLeftTrigger = 2;
+        public static final int KXboxRightTrigger = 3;
+    }
     public static class SwerveDriveConstants {
         // Drive motors
         public static final int KLeftFrontDriveID = 2; // SparkFlex + Vortex
@@ -63,8 +101,8 @@ public final class Constants {
         public static final int KVortexEncoderTicksPerRevolution = 7168;
 
         // Robot Specs
-        private static final double KDriveMotorGearRatio = 1 / 4.41;
-        private static final double KWheelDiameterMeters = 0.1016;
+        public static final double KDriveMotorGearRatio = 1 / 4.41;
+        public static final double KWheelDiameterMeters = 0.1016;
         public static final double KDriveMotorRotToMeter = KDriveMotorGearRatio * KWheelDiameterMeters * Math.PI;
         public static final double KDriveMotorRPMToMetersPerSec = KDriveMotorRotToMeter / 60;
         public static final double KPhysicalMaxDriveSpeedMPS = KNeoVortexMaxRPM * KDriveMotorRPMToMetersPerSec;
