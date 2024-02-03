@@ -14,14 +14,16 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Base extends SubsystemBase {
-  private SwerveModule frontLeftModule;
-  private SwerveModule frontRightModule;
-  private SwerveModule backLeftModule;
-  private SwerveModule backRightModule;
+  private SwerveModule leftFrontModule;
+  private SwerveModule rightFrontModule;
+  private SwerveModule leftBackModule;
+  private SwerveModule rightBackModule;
 
   private AHRS gyro;
 
@@ -35,31 +37,31 @@ public class Base extends SubsystemBase {
   private boolean defenseMode = false;
 
   public Base() {
-    frontLeftModule = new SwerveModule(
-        KFrontLeftAngleMotorID,
-        KFrontLeftDriveMotorID,
-        KFrontLeftMagEncoderID,
+    leftFrontModule = new SwerveModule(
+        KLeftFrontDriveID,
+        KLeftFrontAngleID,
+        KLeftFrontEncoderID,
         KFrontLeftOffset,
         KFrontLeftDriveReversed,
         KFrontLeftAngleReversed);
-    frontRightModule = new SwerveModule(
-        KFrontRightAngleMotorID,
-        KFrontRightDriveMotorID,
-        KFrontRightMagEncoderID,
+    rightFrontModule = new SwerveModule(
+        KRightFrontDriveID,
+        KRightFrontAngleID,
+        KRightFrontEncoderID,
         KFrontRightOffset,
         KFrontRightDriveReversed,
         KFrontRightAngleReversed);
-    backLeftModule = new SwerveModule(
-        KBackLeftAngleMotorID,
-        KBackLeftDriveMotorID,
-        KBackLeftMagEncoderID,
+    leftBackModule = new SwerveModule(
+        KLeftBackDriveID,
+        KLeftBackAngleID,
+        KLeftBackEncoderID,
         KBackLeftOffset,
         KBackLeftDriveReversed,
         KBackLeftAngleReversed);
-    backRightModule = new SwerveModule(
-        KBackRightAngleMotorID,
-        KBackRightDriveMotorID,
-        KBackRightMagEncoderID,
+    rightBackModule = new SwerveModule(
+        KRightBackDriveID,
+        KRightBackAngleID,
+        KRightBackEncoderID,
         KBackRightOffset,
         KBackRightDriveReversed,
         KBackRightAngleReversed);
@@ -117,10 +119,10 @@ public class Base extends SubsystemBase {
       lockWheels();
     } else {
       // setting module states, aka moving the motors
-      frontLeftModule.setDesiredState(states[0]);
-      frontRightModule.setDesiredState(states[1]);
-      backLeftModule.setDesiredState(states[2]);
-      backRightModule.setDesiredState(states[3]);
+      leftFrontModule.setDesiredState(states[0]);
+      rightFrontModule.setDesiredState(states[1]);
+      leftBackModule.setDesiredState(states[2]);
+      rightBackModule.setDesiredState(states[3]);
     }
   }
 
@@ -133,17 +135,17 @@ public class Base extends SubsystemBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
 
-    frontLeftModule.setDesiredState(states[0]);
-    frontRightModule.setDesiredState(states[1]);
-    backLeftModule.setDesiredState(states[2]);
-    backRightModule.setDesiredState(states[3]);
+    leftFrontModule.setDesiredState(states[0]);
+    rightFrontModule.setDesiredState(states[1]);
+    leftBackModule.setDesiredState(states[2]);
+    rightBackModule.setDesiredState(states[3]);
   }
 
   public void lockWheels() {
-    frontLeftModule.lockWheel();
-    frontRightModule.lockWheel();
-    backLeftModule.lockWheel();
-    backRightModule.lockWheel();
+    leftFrontModule.lockWheel();
+    rightFrontModule.lockWheel();
+    leftBackModule.lockWheel();
+    rightBackModule.lockWheel();
   }
 
   public void resetPose(Pose2d pose) {
@@ -159,10 +161,10 @@ public class Base extends SubsystemBase {
   }
 
   public void setModuleStates(SwerveModuleState[] desiredStates) {
-    frontLeftModule.setDesiredState(desiredStates[0]);
-    frontRightModule.setDesiredState(desiredStates[1]);
-    backLeftModule.setDesiredState(desiredStates[2]);
-    backRightModule.setDesiredState(desiredStates[3]);
+    leftFrontModule.setDesiredState(desiredStates[0]);
+    rightFrontModule.setDesiredState(desiredStates[1]);
+    leftBackModule.setDesiredState(desiredStates[2]);
+    rightBackModule.setDesiredState(desiredStates[3]);
   }
 
   public SwerveModuleState getModuleState(SwerveModule module) {
@@ -172,10 +174,10 @@ public class Base extends SubsystemBase {
   public SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
 
-    states[0] = getModuleState(frontLeftModule);
-    states[1] = getModuleState(frontRightModule);
-    states[2] = getModuleState(backLeftModule);
-    states[3] = getModuleState(backRightModule);
+    states[0] = getModuleState(leftFrontModule);
+    states[1] = getModuleState(rightFrontModule);
+    states[2] = getModuleState(leftBackModule);
+    states[3] = getModuleState(rightBackModule);
 
     return states;
   }
@@ -192,19 +194,19 @@ public class Base extends SubsystemBase {
   }
 
   public void resetAllRelEncoders() {
-    frontLeftModule.resetRelEncoders();
-    frontRightModule.resetRelEncoders();
-    backLeftModule.resetRelEncoders();
-    backRightModule.resetRelEncoders();
+    leftFrontModule.resetRelEncoders();
+    rightFrontModule.resetRelEncoders();
+    leftBackModule.resetRelEncoders();
+    rightBackModule.resetRelEncoders();
   }
 
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
 
-    positions[0] = frontLeftModule.getPosition();
-    positions[1] = frontRightModule.getPosition();
-    positions[2] = backLeftModule.getPosition();
-    positions[3] = backRightModule.getPosition();
+    positions[0] = leftFrontModule.getPosition();
+    positions[1] = rightFrontModule.getPosition();
+    positions[2] = leftBackModule.getPosition();
+    positions[3] = rightBackModule.getPosition();
 
     return positions;
   }
@@ -258,12 +260,14 @@ public class Base extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Shuffleboard.getTab("SmartDashboard").add("AnglePID", 1).withWidget(BuiltInWidgets.kPIDController).getEntry();
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
     SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
-    SmartDashboard.putNumber("BackLeftCanCoderPos", backLeftModule.getMagDegRaw());
-    SmartDashboard.putNumber("FrontLeftCanCoderPos", frontLeftModule.getMagDegRaw());
-    SmartDashboard.putNumber("BackRightCanCoderPos", backRightModule.getMagDegRaw());
-    SmartDashboard.putNumber("FrontRightCanCoderPos", frontRightModule.getMagDegRaw());
+    SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
+    SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
+    SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
+    SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
+
     
     odometry.update(getHeading(), getPositions());
     pose = odometry.getPoseMeters();

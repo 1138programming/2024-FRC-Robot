@@ -17,6 +17,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveModule extends SubsystemBase {
@@ -31,6 +34,7 @@ public class SwerveModule extends SubsystemBase {
   private RelativeEncoder driveEncoder;
 
   private PIDController angleController;
+  private PIDController driveController;
 
   private double offset;
 
@@ -83,7 +87,7 @@ public class SwerveModule extends SubsystemBase {
   
   public void lockWheel() {
     double angleMotorOutput;
-    if (angleMotor.getDeviceId() == KFrontLeftAngleMotorID || angleMotor.getDeviceId() == KBackRightAngleMotorID) {
+    if (angleMotor.getDeviceId() == KLeftFrontAngleID || angleMotor.getDeviceId() == KRightBackAngleID) {
       angleMotorOutput = angleController.calculate(getAngleDeg(), 45);
     }
     else {
@@ -134,5 +138,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putData("Angle PID", angleController);
+  }
 }
