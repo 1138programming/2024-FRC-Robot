@@ -29,7 +29,8 @@ public final class Constants {
     public static double Kslowspinvelocity = 0.6;
     public static double Kfastspinvelocity = 0.8;
   
- 
+
+    public static final boolean KFlywhelUpperMotorReversed = true;
     public static final double KFlywheelSpeedUpper = 0.8;
     public static final double KFlywheelSpeedLower = -0.8;
   }

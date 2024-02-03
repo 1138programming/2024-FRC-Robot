@@ -5,11 +5,10 @@
 package frc.robot.commands;
 
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedUpper;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
-import frc.robot.Constants.FlywheelConstants;
+import static frc.robot.Constants.FlywheelConstants.*;
 
 public class SpinUpperFlywheel extends Command {
   private Flywheel flywheel;
@@ -31,7 +30,6 @@ public class SpinUpperFlywheel extends Command {
   @Override
   public void execute() {
     flywheel.spinUpperFlywheel(KFlywheelSpeedUpper);
-
   }
 
   // Called once the command ends or is interrupted.

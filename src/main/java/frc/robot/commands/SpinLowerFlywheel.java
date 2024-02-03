@@ -4,12 +4,11 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedLower;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 //Constants Import
-import frc.robot.Constants.FlywheelConstants;
+import static frc.robot.Constants.FlywheelConstants.*;
 
 
 public class SpinLowerFlywheel extends Command {

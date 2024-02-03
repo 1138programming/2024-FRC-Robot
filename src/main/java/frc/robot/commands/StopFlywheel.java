@@ -6,14 +6,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
-import static frc.robot.Constants.*;
+import static frc.robot.Constants.FlywheelConstants.*;
 
 public class StopFlywheel extends Command {
   /** Creates a new StopFlywheel. */
   private Flywheel flywheel;
   
-  public StopFlywheel() {
-    
+  public StopFlywheel(Flywheel flywheel) {
     this.flywheel = flywheel;
     addRequirements(flywheel);
 

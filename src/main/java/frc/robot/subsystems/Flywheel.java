@@ -16,6 +16,7 @@ import static frc.robot.Constants.FlywheelConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
+
 public class Flywheel extends SubsystemBase {
   /** Creates a new Flywheel. */
   
@@ -23,6 +24,7 @@ public class Flywheel extends SubsystemBase {
   
   private CANSparkFlex flywheelLowerMotor;
 
+  private boolean flywheelMode;
  // private double setSpeed;
   //private double flywheelEncoder;
 
@@ -31,13 +33,10 @@ public class Flywheel extends SubsystemBase {
     flywheelUpperMotor = new CANSparkFlex(KFlywheelUpperMotor, MotorType.kBrushless);
 
     flywheelLowerMotor = new CANSparkFlex(KFlywheelLowerMotor, MotorType.kBrushless);
-  }
-////double getPosition) 
-// moveNoteIn
-// shootNote
-// stopMotors
-// getEncoder
+    
+    // flywheelUpperMotor.setInverted(true);
 
+  }
 
 public void shootNote(){
   flywheelUpperMotor.set(KFlywheelSpeedUpper);
@@ -48,9 +47,9 @@ public void stopMotors(){
   flywheelUpperMotor.set(0);
   flywheelLowerMotor.set(0);
 }
-public void SpinFlywheel(){
-  flywheelUpperMotor.set(0);
-  flywheelLowerMotor.set(0);
+public void SpinFlywheel(double speed){
+  flywheelUpperMotor.set(speed);
+  flywheelLowerMotor.set(-speed);
 }
 
 public double getUpperMotorEncoder(){
@@ -61,15 +60,19 @@ public double getLowerMotorEncoder(){
   return flywheelLowerMotor.getEncoder().getVelocity();
 }
 
-public void spinLowerFlywheel(double speed){
-  flywheelLowerMotor.set(0);
-}
 public void spinUpperFlywheel(double speed){
-  flywheelUpperMotor.set(0);
+  flywheelUpperMotor.set(speed);
 }
+
+public void spinLowerFlywheel(double speed){
+  flywheelLowerMotor.set(speed);
+}
+
 
 @Override
 public void periodic() {
   // This method will be called once per scheduler run
 }
+
+
 }
