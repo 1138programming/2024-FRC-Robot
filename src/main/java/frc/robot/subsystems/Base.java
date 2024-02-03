@@ -18,6 +18,7 @@ import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,6 +30,7 @@ public class Base extends SubsystemBase {
 
   private AHRS gyro;
 
+  private final Field2d m_field = new Field2d();
   
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
@@ -285,6 +287,9 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("FrontLeftCanCoderPos", frontLeftModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", backRightModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", frontRightModule.getMagDegRaw());
+
+    SmartDashboard.putData("Field", m_field);
+    m_field.setRobotPose(odometry.getPoseMeters());
 
     publisher2d.set(pose2da);
     arrayPublisher2d.set(new Pose2d[] {pose2da, pose2db});
