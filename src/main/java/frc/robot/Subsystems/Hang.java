@@ -36,6 +36,7 @@ public class Hang extends SubsystemBase {
     hangLimitSwitchBottom = new DigitalInput(KHangLimitSwitchDown);
     // create constants for the pneumatics
     //figure out motor type
+    // might have to change REVPH
     hangDoubleSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangDoubleSolenoidLeftInID, KHangDoubleSolenoidLeftOutID);
     hangDoubleSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangDoubleSolenoidRightInID, KHangDoubleSolenoidRightOutID);
   }
@@ -46,6 +47,7 @@ public class Hang extends SubsystemBase {
   }
 // add two methods on and off for each pneumatic system
 // make them to things in the commands later
+// add pneumatics into methods and commands
 
   public void hangLeftSolenoidIn(){
     hangDoubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
@@ -62,8 +64,14 @@ public class Hang extends SubsystemBase {
   public void hangRightSolenoidOut(){
     hangDoubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
   }
+  // Do I need this to make it go up and down
+  public void hangSolenoidsMoveUp(){
+    hangDoubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+    hangDoubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+  }
 
-  public void setHangHookPosUp(){
+  public void setHangHookPosUp(double hangSpeed){
+
     if (hangMotor.getEncoder().getPosition() >=0 && !getHangTopLimitSwitch()){
       hangMotor.getEncoder().setPosition(KHangSetPositionUp);
       hangMotor.set(KHangMotorSpeedUp);
@@ -73,12 +81,13 @@ public class Hang extends SubsystemBase {
   
 
 // Moves hang to a set position
-  public void setHangHookPosDown(){
-      if (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
-        hangMotor.getEncoder().setPosition(KHangSetPositionDown);
-        hangMotor.set(KHangMotorSpeedDown);
-      }
-      hangMotor.set(0);
+
+  public void setHangHookPosDown(double hangSpeed){
+    if (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
+      hangMotor.getEncoder().setPosition(KHangSetPositionDown);
+      hangMotor.set(KHangMotorSpeedDown);
+     }
+    hangMotor.set(0);
   }
   
   public double getHangPosition(){
@@ -106,7 +115,7 @@ public class Hang extends SubsystemBase {
     }
   }
 
-  public void hangStop(){
+  public void hangStop(double hangSpeed){
     hangMotor.set(0);
   }
 }

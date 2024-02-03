@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.Hang;
 import frc.robot.commands.*;
 
+//Hang Imports
+import frc.robot.Subsystems.Hang;
+import frc.robot.commands.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -22,13 +26,15 @@ public class RobotContainer {
   // Subsystems
   private final Hang hang = new Hang();
   // Commands
+  // Hang Commands
+  private final MoveHangHookDown moveHangHookDown = new MoveHangHookDown(hang, 0);
+  private final MoveHangHookDownSetPos moveHangHookDownSetPos = new MoveHangHookDownSetPos(hang, 0);
+  private final MoveHangHookUp moveHangHookUp = new MoveHangHookUp(hang, 0);
+  private final MoveHangHookUpSetPos moveHangHookUpSetPos = new MoveHangHookUpSetPos(hang, 0);
+  private final StopHangHooks stopHangHooks = new StopHangHooks(hang, 0);
 
   // Hang Commands
-  private final CloseHang closeHang = new CloseHang(hang);
-  private final OpenHang openHang = new OpenHang(hang);
-  private final MoveHangDown moveHangDown = new MoveHangDown(hang);
-  private final MoveHangUp moveHangUp = new MoveHangUp(hang);
-  private final StopHang stopHang = new StopHang(hang); 
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

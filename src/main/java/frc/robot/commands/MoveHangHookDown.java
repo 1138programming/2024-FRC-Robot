@@ -4,16 +4,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Subsystems.*;
 import frc.robot.Constants;
-import frc.robot.Subsystems.Hang;
 
-public class OpenHang extends Command {
-  /** Creates a new OpenHang. */
+import static frc.robot.Constants.Hang.KHangMotorSpeedDown;
+
+import edu.wpi.first.wpilibj2.command.Command;
+
+public class MoveHangHookDown extends Command {
+  /** Creates a new MoveHangDown. */
   private Hang hang;
+  private double hangSpeed;
 
-  public OpenHang(Hang hang) {
+  public MoveHangHookDown(Hang hang, double speed) {
     this.hang = hang;
+    this.hangSpeed = hangSpeed;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,13 +30,13 @@ public class OpenHang extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hang.setHangHookPosUp();
+    hang.moveHangMotor(hangSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hang.hangStop();
+    hang.hangStop(0);
   }
 
   // Returns true when the command should end.
