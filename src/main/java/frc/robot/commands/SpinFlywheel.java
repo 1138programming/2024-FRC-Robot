@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Flywheel;
+import static frc.robot.Constants.*;
 
 public class SpinFlywheel extends Command {
   /** Creates a new SpinFlywheel. */

@@ -3,12 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Flywheel;
+import static frc.robot.Constants.*;
 
-public class SpinFlywheelSpeed extends Command {
-  /** Creates a new SpinFlywheelSpeed. */
-  public SpinFlywheelSpeed() {
+public class SpinFlywheelFast extends Command {
+  /** Creates a new SpinFlywheelFast. */
+  private Flywheel flywheel;
+  
+  public SpinFlywheelFast() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 import static frc.robot.Constants.*;
 
-public class StopFlywheel extends Command {
-  /** Creates a new StopFlywheel. */
-  public StopFlywheel() {
+public class SpinFlywheelSlow extends Command {
+private Flywheel flywheel;
+
+
+  /** Creates a new SpinFlywheelSlow. */
+  public SpinFlywheelSlow() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

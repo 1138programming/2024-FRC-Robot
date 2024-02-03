@@ -6,43 +6,55 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.*;
 
-import com.ctre.phoenix6.hardware.CANcoder;
-//import com.ctre.phoenix.sensors.CANCoder;
-//import com.ctre.phoenix.sensors.CANCoderConfiguration;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANSparkFlex;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 //import com.revrobotics.CANSparkFlex.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Flywheel extends SubsystemBase {
   /** Creates a new Flywheel. */
-
-  private CANSparkFlex flywheelMotor;
   
-  private CANSparkFlex flywheelIndexerMotor;
+  private CANSparkFlex flywheelUpperMotor;
+  
+  private CANSparkFlex flywheelLowerMotor;
 
-  private double setSpeed;
-  private double setVelocity;
+  private DigitalInput 
 
-  private CANCoder flywheelCanCoder;
+
+ // private double setSpeed;
+  //private double flywheelEncoder;
+
 
   public Flywheel() {
-    flywheelMotor = new CANSparkFlex(KKFlyWheelUpperMotorID, MotorType.kBrushless);
-      flywheelMotor = new CANSparkFlex(KKFlyWheellowerMotorID, MotorType.kBrushless);
-      
-      flywheelCanCoder = new CANCoder(KFlywheelEncoderID);
+
+    flywheelForwardMotor = new CANSparkFlex(KFlyWheelUpperMotorID, MotorType.kBrushless);
+
+
+    RelativeEncoder flywheelEncoder = flywheelMotor.getEncoder();
 
     flywheelMotor.setIdleMode(IdleMode.kBrake);
   }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+////double getPosition) 
+  public void getSpinEncoder() {
+    return flywheelMotor.getEncoder().getPosition();
   }
+
+
+public void spinFlywheel(double speed){
+  flywheelMotor.set(speed);
+}
+public void stopFlywheel(){
+  flywheelMotor.set(0);
+}
+}
+
+@Override
+public void periodic() {
+  // This method will be called once per scheduler run
 }
