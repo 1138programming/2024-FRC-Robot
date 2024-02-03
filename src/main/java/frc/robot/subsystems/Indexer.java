@@ -33,17 +33,21 @@ public class Indexer extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  //Go/Stop Methods
-public void IndexerSpin(){
+  //Indexer Methods
+public void IndexerSpin(double speed){
     indexerMotor.set(KIndexerMotorSpeedForward);
+    indexerMotor.set(speed);
   //create a speed constant
   }
- public void indexerSpin(double speed){
+public void indexerSpin(double speed){
   indexerMotor.set(speed);
 }
-  public void IndexerStop(){
+
+public void IndexerStop(){
     indexerMotor.set(0);
   }
+
+
 //Limit Switch Methods
   public boolean getIndexerLimitSwitchNoteMaxPos(){
     return indexerLimitSwitchNoteMaxPos.get();
