@@ -35,6 +35,8 @@ public final class Constants {
     //public static final int KFlyWheelMotorID = 14;
   
     //flywheel motor speed
+    public static final double KFlywheelSpeedUpper = 0.8;
+    public static final double KFlywheelSpeedLower = -0.8;
     public static final double KFlywheelSpinFast = 0.9;
     public static final double KFlywheelspinslow = 0.1;
   }
