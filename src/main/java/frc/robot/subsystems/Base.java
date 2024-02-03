@@ -6,12 +6,16 @@ import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,10 +29,21 @@ public class Base extends SubsystemBase {
 
   private AHRS gyro;
 
+  
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
-  private Pose2d pose;
+  private Pose2d pose2d;
+  
+  private Pose2d pose2da = new Pose2d();
+  private Pose2d pose2db = new Pose2d();
+  private Pose3d pose3da = new Pose3d();
+  private Pose3d pose3db = new Pose3d();
 
+  StructPublisher<Pose2d> publisher2d = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
+  StructArrayPublisher<Pose2d> arrayPublisher2d = NetworkTableInstance.getDefault().getStructArrayTopic("MyPoseArray", Pose2d.struct).publish();
+  StructPublisher<Pose3d> publisher3d = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose3d.struct).publish();
+  StructArrayPublisher<Pose3d> arrayPublisher3d = NetworkTableInstance.getDefault().getStructArrayTopic("MyPoseArray", Pose3d.struct).publish();
+  
   private double driveSpeedFactor;
   private double rotSpeedFactor;
 
@@ -79,8 +94,8 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("rot P", 0);
 
     AutoBuilder.configureHolonomic(
-        this::getPose,
-        this::resetPose,
+        this::getPose2d,
+        this::resetPose2d,
         this::getSpeeds,
         this::driveRobotRelative,
         KPathFollowerConfig,
@@ -146,11 +161,11 @@ public class Base extends SubsystemBase {
     backRightModule.lockWheel();
   }
 
-  public void resetPose(Pose2d pose) {
-    odometry.resetPosition(getHeading(), getPositions(), pose);
+  public void resetPose2d(Pose2d pose2d) {
+    odometry.resetPosition(getHeading(), getPositions(), pose2d);
   }
 
-  public Pose2d getPose() {
+  public Pose2d getPose2d() {
     return odometry.getPoseMeters();
   }
 
@@ -209,12 +224,18 @@ public class Base extends SubsystemBase {
     return positions;
   }
 
-  public void resetPose() {
+  public void resetPose2d() {
     resetAllRelEncoders();
-    pose = new Pose2d();
-
-    odometry.resetPosition(getHeading(), getPositions(), pose);
+    pose2d = new Pose2d();
+    odometry.resetPosition(getHeading(), getPositions(), pose2d);
   }
+
+  // public void resetPose3d(){
+  //   resetAllRelEncoders();
+  //   pose3da = new Pose3d();
+  //   pose3db = new Pose3d();
+  //   odometry.resetPosition(getHeading(), null, pose3da);
+  // }
 
   public Rotation2d getHeading() {
     return Rotation2d.fromDegrees(getHeadingDeg());
@@ -264,8 +285,13 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("FrontLeftCanCoderPos", frontLeftModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", backRightModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", frontRightModule.getMagDegRaw());
-    
+
+    publisher2d.set(pose2da);
+    arrayPublisher2d.set(new Pose2d[] {pose2da, pose2db});
+    publisher3d.set(pose3da);
+    arrayPublisher3d.set(new Pose3d[] {pose3da, pose3db});
+
     odometry.update(getHeading(), getPositions());
-    pose = odometry.getPoseMeters();
+    pose2d = odometry.getPoseMeters();
   }
 }

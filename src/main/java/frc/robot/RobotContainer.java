@@ -219,7 +219,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     logitechBtnY.onTrue(resetGyro);
-    logitechBtnA.whileTrue(new RunCommand(() -> base.resetPose(new Pose2d(5, 3, new Rotation2d()))));
+    logitechBtnA.whileTrue(new RunCommand(() -> base.resetPose2d(new Pose2d(5, 3, new Rotation2d()))));
 
     // logitechBtnA.whileTrue(moveVortex);
     logitechBtnLB.onTrue(toggleMaxSpeed);
