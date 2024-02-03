@@ -96,7 +96,8 @@ public class Base extends SubsystemBase {
           }
           return false;
         },
-        this);
+        this
+      );
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS) {
@@ -263,6 +264,7 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("FrontLeftCanCoderPos", frontLeftModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", backRightModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", frontRightModule.getMagDegRaw());
+    
     odometry.update(getHeading(), getPositions());
     pose = odometry.getPoseMeters();
   }

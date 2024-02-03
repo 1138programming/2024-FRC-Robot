@@ -136,7 +136,6 @@ public class RobotContainer {
 
     // Auton Chooser
     autonChooser = AutoBuilder.buildAutoChooser("New New Auto");
-    SmartDashboard.putNumber("Auton Number", 1);
     SmartDashboard.putData("Auton Chooser", autonChooser);
 
     // Configure the trigger bindings
@@ -247,9 +246,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    PathPlannerPath PPPath1 = PathPlannerPath.fromPathFile("PPPath1");
 
-    return new ResetPose(base, PPPath1.getPreviewStartingHolonomicPose()).andThen(autonChooser.getSelected());
+    // return new ResetPose(base, PPPath1.getPreviewStartingHolonomicPose()).andThen(autonChooser.getSelected().);
+    return autonChooser.getSelected();
   }
 
   public double getLogiRightYAxis() {
