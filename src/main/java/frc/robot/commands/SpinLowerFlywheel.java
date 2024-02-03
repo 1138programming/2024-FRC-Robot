@@ -4,18 +4,21 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedLower;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
-import static frc.robot.Constants.*;
+//Constants Import
+import frc.robot.Constants.FlywheelConstants;
 
-public class StopFlywheel extends Command {
-  /** Creates a new StopFlywheel. */
+
+public class SpinLowerFlywheel extends Command {
   private Flywheel flywheel;
-  
-  public StopFlywheel() {
-    
-    this.flywheel = flywheel;
+
+  /** Creates a new SpinLowerFlywheel. */
+  public SpinLowerFlywheel(Flywheel flywheel) {
     addRequirements(flywheel);
+    this.flywheel = flywheel;
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -27,13 +30,15 @@ public class StopFlywheel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.stopMotors();
+    flywheel.spinLowerFlywheel(KFlywheelSpeedLower);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     flywheel.stopMotors();
+
   }
 
   // Returns true when the command should end.

@@ -48,6 +48,10 @@ public void stopMotors(){
   flywheelUpperMotor.set(0);
   flywheelLowerMotor.set(0);
 }
+public void SpinFlywheel(){
+  flywheelUpperMotor.set(0);
+  flywheelLowerMotor.set(0);
+}
 
 public double getUpperMotorEncoder(){
   return flywheelUpperMotor.getEncoder().getVelocity();
@@ -57,19 +61,12 @@ public double getLowerMotorEncoder(){
   return flywheelLowerMotor.getEncoder().getVelocity();
 }
 
-/*public void getSpinEncoder() {
-  
-  //return flywheelMotor.getEncoder().getPosition();
+public void spinLowerFlywheel(double speed){
+  flywheelLowerMotor.set(0);
 }
-
-
-public void spinFlywheel(double speed){
-  //flywheelMotor.set(speed);
+public void spinUpperFlywheel(double speed){
+  flywheelUpperMotor.set(0);
 }
-public void stopFlywheel(){
-  //flywheelMotor.set(0);
-}*/
-
 
 @Override
 public void periodic() {
