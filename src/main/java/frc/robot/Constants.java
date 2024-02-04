@@ -18,10 +18,10 @@ public final class Constants {
   }
 public static class IndexerConstants {
     public static final int KIndexerMotorID = 3;
-    public static final int KIndexerLimitSwitchNoteMaxPosID = 6;
-    public static final int KIndexerLimitSwitchNoteMaxPos = 6;
     public static final double KIndexerMotorSpeedForward = 0.5;
     public static final double KIndexerMotorSpeedUp = 0.7;
-  }
-
+   //LS
+    public static final int KIndexerLimitSwitchNoteMaxPosID = 6;
+    public static final int KIndexerLimitSwitchNoteMaxPos = 6;
+} 
 }
