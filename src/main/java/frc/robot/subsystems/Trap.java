@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+// import for the PID Controller
+import edu.wpi.first.math.controller.PIDController;
+
 
 // 775 talon srx, potentiometer, ir sensor/ beam breaker
 
@@ -26,6 +29,7 @@ public class Trap extends SubsystemBase {
   private CANSparkMax trapWristMotor;
   private AnalogPotentiometer trapPotentiometer;
 
+  private PIDController swivelController;
 
   // sensorprivate 
   //poteniometer
@@ -35,7 +39,11 @@ public class Trap extends SubsystemBase {
     trapNoteSensor = new DigitalInput(KTrapIRSensorID);
     trapWristMotor = new CANSparkMax(KTrapWristMotorID,MotorType.kBrushless);
     trapPotentiometer = new AnalogPotentiometer(25, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
+
+    swivelController = new PIDController(trapControllerkP, trapControllerkI, trapControllerkD);
   }
+
+    
 // neo for the wrist and the rollers are side by side 
 // 775 or 550 but i programmed 
   @Override
@@ -77,6 +85,11 @@ public class Trap extends SubsystemBase {
 
   public void stopWrist(){
     trapWristMotor.set(0);
+  }
+
+  // methods for PID Controller
+  public void swivelToPos(double setPoint){
+    swivelController.calculate(getPotentiometer(), setPoint);
   }
 
   

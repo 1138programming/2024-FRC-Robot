@@ -31,6 +31,10 @@ public final class Constants {
     public static final double KTrapWristDownSpeed = -0.5;
     public static final double KAnalogPotentiometerSensorRange  = 270;
     public static final double KAnalogPotentiometerSensorOffset  = 30;
+
+    public static final double trapControllerkP = 0.00028;
+    public static final double trapControllerkI = 0.000008;
+    public static final double trapControllerkD = 0;
   
   }
 }
