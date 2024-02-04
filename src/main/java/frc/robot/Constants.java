@@ -29,6 +29,7 @@ public final class Constants {
         public static final int KXboxPort = 1;
         public static final int KStreamDeckPort = 2;
         public static final int KTestingStreamDeckPort = 3;
+        public static final int KAutonTestingStreamDeckPort = 4;
 
         // Deadzone
         public static final double KDeadZone = 0.05;

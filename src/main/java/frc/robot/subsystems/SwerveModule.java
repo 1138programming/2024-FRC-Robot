@@ -16,7 +16,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveModule extends SubsystemBase {
@@ -33,6 +37,8 @@ public class SwerveModule extends SubsystemBase {
   private PIDController angleController;
 
   private double offset;
+  
+  private SendableChooser<PIDController> PIDController;
 
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
                       boolean driveMotorReversed, boolean angleMotorReversed) {
@@ -62,6 +68,7 @@ public class SwerveModule extends SubsystemBase {
     canCoderConfig.MagnetOffset = offset;
     canCoder = new CANcoder(encoderPort);
     canCoder.getConfigurator().apply(canCoderConfig);
+    SmartDashboard.putData("Angle PID", PIDController);
   }
   
   
@@ -133,6 +140,6 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putData("Angle PID", angleController);
+    angleController = PIDController.getSelected();
   }
 }

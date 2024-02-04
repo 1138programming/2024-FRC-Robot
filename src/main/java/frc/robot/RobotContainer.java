@@ -55,6 +55,7 @@ public class RobotContainer {
   public static Joystick logitech;
   public static Joystick compStreamDeck;
   public static Joystick testStreamDeck;
+  public static Joystick autonTestStreamDeck;
   public static XboxController xbox;
   // Controller Buttons/Triggers
   public JoystickButton logitechBtnX, logitechBtnA, logitechBtnB, logitechBtnY, logitechBtnLB, logitechBtnRB,
@@ -71,6 +72,10 @@ public class RobotContainer {
   public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5, testStreamDeck6, testStreamDeck7,
       testStreamDeck8, testStreamDeck9, // Vjoy 2
       testStreamDeck10, testStreamDeck11, testStreamDeck12, testStreamDeck13, testStreamDeck14, testStreamDeck15;
+      
+  public JoystickButton autonTestStreamDeck1, autonTestStreamDeck2, autonTestStreamDeck3, autonTestStreamDeck4, autonTestStreamDeck5, autonTestStreamDeck6, autonTestStreamDeck7,
+      autonTestStreamDeck8, autonTestStreamDeck9, // Vjoy 2
+      autonTestStreamDeck10, autonTestStreamDeck11, autonTestStreamDeck12, autonTestStreamDeck13, autonTestStreamDeck14, autonTestStreamDeck15;
 
   private final SendableChooser<Command> autonChooser;
 
@@ -89,6 +94,7 @@ public class RobotContainer {
     xbox = new XboxController(KXboxPort); // Xbox 360 for Windows
     compStreamDeck = new Joystick(KStreamDeckPort); // Stream Deck + vjoy
     testStreamDeck = new Joystick(KTestingStreamDeckPort); // Stream Deck + vjoy
+    autonTestStreamDeck = new Joystick(KAutonTestingStreamDeckPort); // Stream Deck + vjoy
 
     // Logitch Buttons
     logitechBtnX = new JoystickButton(logitech, KLogitechButtonX);
@@ -142,6 +148,22 @@ public class RobotContainer {
     testStreamDeck13 = new JoystickButton(testStreamDeck, 13);
     testStreamDeck14 = new JoystickButton(testStreamDeck, 14);
     testStreamDeck15 = new JoystickButton(testStreamDeck, 15);
+
+    autonTestStreamDeck1 = new JoystickButton(testStreamDeck, 1);
+    autonTestStreamDeck2 = new JoystickButton(testStreamDeck, 2);
+    autonTestStreamDeck3 = new JoystickButton(testStreamDeck, 3);
+    autonTestStreamDeck4 = new JoystickButton(testStreamDeck, 4);
+    autonTestStreamDeck5 = new JoystickButton(testStreamDeck, 5);
+    autonTestStreamDeck6 = new JoystickButton(testStreamDeck, 6);
+    autonTestStreamDeck7 = new JoystickButton(testStreamDeck, 7);
+    autonTestStreamDeck8 = new JoystickButton(testStreamDeck, 9);
+    autonTestStreamDeck9 = new JoystickButton(testStreamDeck, 9);
+    autonTestStreamDeck10 = new JoystickButton(testStreamDeck, 10);
+    autonTestStreamDeck11 = new JoystickButton(testStreamDeck, 11);
+    autonTestStreamDeck12 = new JoystickButton(testStreamDeck, 12);
+    autonTestStreamDeck13 = new JoystickButton(testStreamDeck, 13);
+    autonTestStreamDeck14 = new JoystickButton(testStreamDeck, 14);
+    autonTestStreamDeck15 = new JoystickButton(testStreamDeck, 15);
 
     // Configure the button bindings
 
