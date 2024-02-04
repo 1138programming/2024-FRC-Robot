@@ -28,6 +28,7 @@ public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
 
+  //PID
   private PIDController swivelController;
   private double intakeControllerkP = 0.06;
   private double intakeControllerkI = 0;
@@ -39,6 +40,7 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
     shooterTiltCANcoder.setPosition(KShooterTiltEncoderPreset);
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
+    
     swivelController = new PIDController(intakeControllerkP, intakeControllerkI, intakeControllerkD);
 
   }
@@ -63,6 +65,8 @@ public class ShooterTilt extends SubsystemBase {
   public double getTiltEncoderRaw() {
     return shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
   }
+
+  // PID
   public void moveSwivel(double pos){
     shooterTiltMotor.set(swivelController.calculate(shooterTiltCANcoder.getPosition().getValue(), pos));
   }
