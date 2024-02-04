@@ -26,9 +26,9 @@ public final class Constants {
     public static final int KHangSetPositionUp = 10;
     public static final int KHangSetPositionDown = -10;
     // Piston Pneumatics double Constants
-    public static final int KHangDoubleSolenoidLeftInID = 4;
-    public static final int KHangDoubleSolenoidLeftOutID = 5;
-    public static final int KHangDoubleSolenoidRightInID = 6;
-    public static final int KHangDoubleSolenoidRightOutID = 7;
+    public static final int KHangPistonLeftInID = 4;
+    public static final int KHangPistonLeftOutID = 5;
+    public static final int KHangPistonRightInID = 6;
+    public static final int KHangPistonRightOutID = 7;
   }
 }

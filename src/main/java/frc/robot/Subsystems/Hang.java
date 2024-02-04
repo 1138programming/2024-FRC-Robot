@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 // Neo Motor sparkmax
@@ -27,8 +26,8 @@ public class Hang extends SubsystemBase {
   private DigitalInput hangLimitSwitchUp;
   private DigitalInput hangLimitSwitchBottom;
 
-  private DoubleSolenoid hangDoubleSolenoidLeft;
-  private DoubleSolenoid hangDoubleSolenoidRight;
+  private DoubleSolenoid hangPistonLeft;
+  private DoubleSolenoid hangPistonRight;
 
   public Hang() {
     hangMotor = new CANSparkMax(KHangMotorID, MotorType.kBrushless);
@@ -36,9 +35,11 @@ public class Hang extends SubsystemBase {
     hangLimitSwitchBottom = new DigitalInput(KHangLimitSwitchDown);
     // create constants for the pneumatics
     //figure out motor type
-    // might have to change REVPH
-    hangDoubleSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangDoubleSolenoidLeftInID, KHangDoubleSolenoidLeftOutID);
-    hangDoubleSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangDoubleSolenoidRightInID, KHangDoubleSolenoidRightOutID);
+    // which one REVPH and CTREPCM
+    hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonLeftInID, KHangPistonLeftOutID);
+    hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
+    hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonRightInID, KHangPistonRightOutID);
+    hangPistonRight.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Override
@@ -48,27 +49,6 @@ public class Hang extends SubsystemBase {
 // add two methods on and off for each pneumatic system
 // make them to things in the commands later
 // add pneumatics into methods and commands
-
-  public void hangLeftSolenoidIn(){
-    hangDoubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-  }
-
-  public void hangLeftSolenoidOut(){
-    hangDoubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-  }
-
-  public void hangRightSolenoidIn(){
-    hangDoubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-  }
-
-  public void hangRightSolenoidOut(){
-    hangDoubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
-  }
-  // Do I need this to make it go up and down
-  public void hangSolenoidsMoveUp(){
-    hangDoubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-    hangDoubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
-  }
 
   public void setHangHookPosUp(double hangSpeed){
 
@@ -113,6 +93,12 @@ public class Hang extends SubsystemBase {
         hangMotor.set(0);
       }
     }
+  }
+
+  // Pneumatics
+  public void moveHangPistons(){
+    hangPistonLeft.toggle();
+    hangPistonRight.toggle();
   }
 
   public void hangStop(double hangSpeed){
