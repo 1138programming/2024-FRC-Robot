@@ -23,8 +23,8 @@ public final class Constants {
     public static final double KShooterTiltMotorSpeed = 0.5;
     public static final double KShooterTiltEncoderPreset = 15.0;
 
-    public static final double intakeControllerkP = 0.06;
-    public static final double intakeControllerkI = 0;
-    public static final double intakeControllerkD = 0;
+    public static final double KintakeControllerkP = 0.06;
+    public static final double KintakeControllerkI = 0;
+    public static final double KintakeControllerkD = 0;
   } 
 }
