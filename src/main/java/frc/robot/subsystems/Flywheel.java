@@ -8,12 +8,12 @@ import static frc.robot.Constants.FlywheelConstants.*;
 
 import com.revrobotics.CANSparkFlex;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
+//import com.revrobotics.RelativeEncoder;
+//import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import static frc.robot.Constants.FlywheelConstants;
+//import static frc.robot.Constants.FlywheelConstants;
 //import com.revrobotics.CANSparkFlex.IdleMode;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -24,9 +24,10 @@ public class Flywheel extends SubsystemBase {
   
   private CANSparkFlex flywheelLowerMotor;
 
-  private boolean flywheelMode;
+  //private boolean flywheelMode;
  // private double setSpeed;
   //private double flywheelEncoder;
+  //private double velocity;
 
 
   public Flywheel() {
@@ -34,10 +35,10 @@ public class Flywheel extends SubsystemBase {
 
     flywheelLowerMotor = new CANSparkFlex(KFlywheelLowerMotor, MotorType.kBrushless);
     
-    // flywheelUpperMotor.setInverted(true);
+     flywheelUpperMotor.setInverted(true);
 
   }
-
+//Flywheel Command Methods
 public void shootNote(){
   flywheelUpperMotor.set(KFlywheelSpeedUpper);
   flywheelLowerMotor.set(KFlywheelSpeedLower);
@@ -52,14 +53,6 @@ public void SpinFlywheel(double speed){
   flywheelLowerMotor.set(-speed);
 }
 
-public double getUpperMotorEncoder(){
-  return flywheelUpperMotor.getEncoder().getVelocity();
-}
-
-public double getLowerMotorEncoder(){
-  return flywheelLowerMotor.getEncoder().getVelocity();
-}
-
 public void spinUpperFlywheel(double speed){
   flywheelUpperMotor.set(speed);
 }
@@ -67,12 +60,16 @@ public void spinUpperFlywheel(double speed){
 public void spinLowerFlywheel(double speed){
   flywheelLowerMotor.set(speed);
 }
+// Encoder
+public double getUpperMotorEncoder(){
+  return flywheelUpperMotor.getEncoder().getVelocity();
+}
 
-
+public double getLowerMotorEncoder(){
+  return flywheelLowerMotor.getEncoder().getVelocity();
+}
 @Override
 public void periodic() {
   // This method will be called once per scheduler run
 }
-
-
 }
