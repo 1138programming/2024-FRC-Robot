@@ -74,7 +74,7 @@ public final class Constants {
         public static final int KRightFrontDriveID = 4; // SparkFlex + Vortex
         public static final int KLeftBackDriveID = 6; // SparkFlex + Vortex
         public static final int KRightBackDriveID = 8; // SparkFlex + Vortex
-
+        
         // Angle motors
         public static final int KLeftFrontAngleID = 1; // SparkMax + NEO
         public static final int KRightFrontAngleID = 3; // SparkMax + NEO
@@ -82,10 +82,10 @@ public final class Constants {
         public static final int KRightBackAngleID = 7; // SparkMax + NEO
 
         // CanCoders
-        public static final int KLeftFrontEncoderID = 1;
+        public static final int KLeftFrontEncoderID = 1; //1
         public static final int KRightFrontEncoderID = 2;
         public static final int KLeftBackEncoderID = 3;
-        public static final int KRightBackEncoderID = 4;
+        public static final int KRightBackEncoderID = 4; //4
 
         // Swerve Angle PID
         public static final double KAngleP = 0.006;
@@ -125,10 +125,14 @@ public final class Constants {
         public static final double KMaxAngularSpeed = 3.5;
 
         // Offsets
-        public static final double KFrontLeftOffset = -12.44;
-        public static final double KFrontRightOffset = 311.81;
-        public static final double KBackLeftOffset = 332.5;
-        public static final double KBackRightOffset = -17.75;
+        public static final double KFrontLeftOffset = 3.7;
+        public static final double KFrontRightOffset = 168.08;
+        public static final double KBackLeftOffset = -89.2;
+        public static final double KBackRightOffset = -7.2;
+        // public static final double KFrontLeftOffset = -12.44;
+        // public static final double KFrontRightOffset = 311.81;
+        // public static final double KBackLeftOffset = 332.5;
+        // public static final double KBackRightOffset = -17.75;
         public static final double KGyroOffset = 180;
 
         // Drive Motor Reversals

@@ -38,29 +38,29 @@ public class Base extends SubsystemBase {
 
   public Base() {
     leftFrontModule = new SwerveModule(
+      KLeftFrontAngleID,
         KLeftFrontDriveID,
-        KLeftFrontAngleID,
         KLeftFrontEncoderID,
         KFrontLeftOffset,
         KFrontLeftDriveReversed,
         KFrontLeftAngleReversed);
     rightFrontModule = new SwerveModule(
+      KRightFrontAngleID,
         KRightFrontDriveID,
-        KRightFrontAngleID,
         KRightFrontEncoderID,
         KFrontRightOffset,
         KFrontRightDriveReversed,
         KFrontRightAngleReversed);
     leftBackModule = new SwerveModule(
+      KLeftBackAngleID,
         KLeftBackDriveID,
-        KLeftBackAngleID,
         KLeftBackEncoderID,
         KBackLeftOffset,
         KBackLeftDriveReversed,
         KBackLeftAngleReversed);
     rightBackModule = new SwerveModule(
+      KRightBackAngleID,
         KRightBackDriveID,
-        KRightBackAngleID,
         KRightBackEncoderID,
         KBackRightOffset,
         KBackRightDriveReversed,
@@ -118,6 +118,10 @@ public class Base extends SubsystemBase {
     if (defenseMode) {
       lockWheels();
     } else {
+      SmartDashboard.putNumber("frontLeftState", states[0].speedMetersPerSecond);
+      SmartDashboard.putNumber("frontRightState", states[1].speedMetersPerSecond);
+      SmartDashboard.putNumber("backLeftState", states[2].speedMetersPerSecond);
+      SmartDashboard.putNumber("backRightState", states[3].speedMetersPerSecond);
       // setting module states, aka moving the motors
       leftFrontModule.setDesiredState(states[0]);
       rightFrontModule.setDesiredState(states[1]);
@@ -129,8 +133,7 @@ public class Base extends SubsystemBase {
   public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
     ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
 
-    // feeding parameter speeds into toSwerveModuleStates to get an array of
-    // SwerveModuleState objects
+    // feeding parameter speeds into toSwerveModuleStates to get an array of SwerveModuleState objects
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(targetSpeeds);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
@@ -260,14 +263,13 @@ public class Base extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Shuffleboard.getTab("SmartDashboard").add("AnglePID", 1).withWidget(BuiltInWidgets.kPIDController).getEntry();
+    // Shuffleboard.getTab("SmartDashboard").add("AnglePID", 1).withWidget(BuiltInWidgets.kPIDController).getEntry();
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
     SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
     SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
-
     
     odometry.update(getHeading(), getPositions());
     pose = odometry.getPoseMeters();

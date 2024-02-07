@@ -44,6 +44,7 @@ public class SwerveModule extends SubsystemBase {
                       boolean driveMotorReversed, boolean angleMotorReversed) {
     angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
     driveMotor = new CANSparkFlex(driveMotorID, MotorType.kBrushless);
+    // driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
 
     angleMotor.setIdleMode(IdleMode.kBrake);
     driveMotor.setIdleMode(IdleMode.kBrake);
@@ -54,6 +55,16 @@ public class SwerveModule extends SubsystemBase {
     this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit);
     this.angleMotor.setSmartCurrentLimit(KAngleMotorCurrentLimit);
 
+    canCoder = new CANcoder(encoderPort);
+
+    MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
+
+    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    canCoderConfig.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+    canCoderConfig.MagnetOffset = offset;
+    canCoder.getConfigurator().apply(canCoderConfig);
+
+    // driveEncoder = driveMotor.getEncoder();
     driveEncoder = driveMotor.getExternalEncoder(KVortexEncoderTicksPerRevolution);
     
     driveEncoder.setPositionConversionFactor(KDriveMotorRotToMeter);
@@ -62,12 +73,6 @@ public class SwerveModule extends SubsystemBase {
     angleController = new PIDController(KAngleP, KAngleI, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
     
-    MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
-    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    canCoderConfig.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-    canCoderConfig.MagnetOffset = offset;
-    canCoder = new CANcoder(encoderPort);
-    canCoder.getConfigurator().apply(canCoderConfig);
     SmartDashboard.putData("Angle PID", PIDController);
   }
   
@@ -127,7 +132,7 @@ public class SwerveModule extends SubsystemBase {
   
   // Angle Encoder getters
   public double getMagDegRaw() {
-    double pos = canCoder.getAbsolutePosition().getValueAsDouble();
+    double pos = canCoder.getAbsolutePosition().getValueAsDouble() * 360;
     return pos;
   }
   public double getAngleDeg() {
