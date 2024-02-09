@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+//import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -158,12 +158,14 @@ public final class Constants {
         public static final double KBaseRotMaxPercent = 1.5;
 
         // Auton Config
+        /* 
         public static final HolonomicPathFollowerConfig KPathFollowerConfig = new HolonomicPathFollowerConfig(
                 new PIDConstants(5.0, 0, 0), // Translation constants
                 new PIDConstants(5.0, 0, 0), // Rotation constants
                 KPhysicalMaxDriveSpeedMPS,
                 KWheelRadialDistanceFromCenter, // Drive base radius (distance from center to furthest module)
                 new ReplanningConfig());
+                */
 
         // Possibly Unused
         public static final TrajectoryConfig KtrajectoryConfig = new TrajectoryConfig(KPhysicalMaxDriveSpeedMPS,

@@ -80,12 +80,12 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("X and Y PID", 0);
     SmartDashboard.putNumber("rot P", 0);
 
-    AutoBuilder.configureHolonomic(
+/*  //  AutoBuilder.configureHolonomic(
         this::getPose,
         this::resetPose,
         this::getSpeeds,
         this::driveRobotRelative,
-        KPathFollowerConfig,
+       // KPathFollowerConfig,
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red
           // alliance
@@ -100,6 +100,7 @@ public class Base extends SubsystemBase {
         },
         this
       );
+      */
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS) {
