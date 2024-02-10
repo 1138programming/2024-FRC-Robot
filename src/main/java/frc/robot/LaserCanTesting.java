@@ -27,6 +27,7 @@ public class LaserCanTesting extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LaserCanDistance", laserCanDistance());
     SmartDashboard.getString("LaserCanDisStatus", laserCanDisStatus());
+    laserCanDisStatus();
   }
 
   public double laserCanDistance(){
