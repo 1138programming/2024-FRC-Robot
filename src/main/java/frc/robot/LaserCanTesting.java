@@ -36,6 +36,12 @@ public class LaserCanTesting extends SubsystemBase {
     return distance;
   }
 
+  public void hangstop(){
+    if(laserCanDistance() <= 5){
+      // hang.motor stop
+    }
+  }
+
   public String laserCanDisStatus(){
     LaserCan.Measurement measurement = laserCan.getMeasurement();
     if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
