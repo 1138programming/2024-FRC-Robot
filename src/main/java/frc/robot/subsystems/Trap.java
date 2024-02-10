@@ -12,6 +12,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -38,7 +40,10 @@ public class Trap extends SubsystemBase {
     trapRollerMotor = new TalonFX(KTrapRollerMotorID);
     trapNoteSensor = new DigitalInput(KTrapIRSensorID);
     trapWristMotor = new CANSparkMax(KTrapWristMotorID,MotorType.kBrushless);
-    trapPotentiometer = new AnalogPotentiometer(25, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
+    
+    //trapPotentiometer = new AnalogPotentiometer(25, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
+
+    
 
     swivelController = new PIDController(trapControllerkP, trapControllerkI, trapControllerkD);
   }
@@ -48,10 +53,12 @@ public class Trap extends SubsystemBase {
 // 775 or 550 but i programmed 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("sensorstate", getTrapNoteSensor());
     // This method will be called once per scheduler run
   }
   public boolean getTrapNoteSensor(){
-    return trapNoteSensor.get();
+
+    return !trapNoteSensor.get();
   }
 
   public void moveTrapRollersBackward(){

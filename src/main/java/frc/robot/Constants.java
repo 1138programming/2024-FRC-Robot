@@ -22,7 +22,7 @@ public final class Constants {
   }
   public static class TrapConstants{
     public static final int KTrapRollerMotorID = 1;
-    public static final int KTrapIRSensorID = 2;
+    public static final int KTrapIRSensorID = 6;
     public static final int KTrapWristMotorID = 3;
 
     public static final double KTrapRollersForwardSpeed = 0.5;
