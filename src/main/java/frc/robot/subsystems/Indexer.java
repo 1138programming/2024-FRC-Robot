@@ -38,9 +38,6 @@ public void IndexerSpin(double speed){
     indexerMotor.set(KIndexerMotorSpeedForward);
     indexerMotor.set(speed);
   //create a speed constant
-  }
-public void indexerSpin(double speed){
-  indexerMotor.set(speed);
 }
 
 public void IndexerStop(){
