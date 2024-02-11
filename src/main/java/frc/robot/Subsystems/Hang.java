@@ -9,10 +9,14 @@ import static frc.robot.Constants.Hang.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // Neo Motor sparkmax
 // 2 piston pneumatics double solenoid
@@ -28,6 +32,7 @@ public class Hang extends SubsystemBase {
 
   private DoubleSolenoid hangPistonLeft;
   private DoubleSolenoid hangPistonRight;
+  private LaserCan laserCan;
 
   public Hang() {
     hangMotor = new CANSparkMax(KHangMotorID, MotorType.kBrushless);
@@ -40,11 +45,45 @@ public class Hang extends SubsystemBase {
     hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
     hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonRightInID, KHangPistonRightOutID);
     hangPistonRight.set(DoubleSolenoid.Value.kReverse);
+
+    laserCan = new LaserCan(5);
+    try {
+    laserCan.setRangingMode(LaserCan.RangingMode.SHORT);
+    laserCan.setRegionOfInterest(new LaserCan.RegionOfInterest(6, 6, 16, 16));
+    laserCan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+    } catch (ConfigurationFailedException e){
+      System.out.println("Configuration failed! " + e);
+    }
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("LaserCanDistanceMM", laserCanDistanceMM());
+    SmartDashboard.putNumber("LaserCanDistanceInch", laserCanDistanceInch());
+    SmartDashboard.getString("LaserCanDisStatus", laserCanDisStatus());
+    laserCanDisStatus();
     // This method will be called once per scheduler run
+  }
+
+public double laserCanDistanceMM(){
+    LaserCan.Measurement measurement = laserCan.getMeasurement();
+    double distance = measurement.distance_mm;
+    return distance;
+  }
+
+  public double laserCanDistanceInch(){
+    LaserCan.Measurement measurement = laserCan.getMeasurement();
+    double distance = measurement.distance_mm;
+    return distance/25.4;
+  }
+
+  public String laserCanDisStatus(){
+    LaserCan.Measurement measurement = laserCan.getMeasurement();
+    if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+      return "The target is " + measurement.distance_mm + "mm away!";
+    } else {
+      return "Oh no! The target is out of range, or we can't get a reliable measurement!";
+    }
   }
 // add two methods on and off for each pneumatic system
 // make them to things in the commands later
