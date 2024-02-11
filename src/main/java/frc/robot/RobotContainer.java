@@ -15,7 +15,7 @@ import static frc.robot.Constants.SwerveDriveConstants.*;
 import static frc.robot.Constants.OperatorConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -86,7 +86,7 @@ public class RobotContainer {
     base.setDefaultCommand(drivewithJoysticks);
 
     // Auton Chooser
-    autonChooser = AutoBuilder.buildAutoChooser("New New Auto");
+    autonChooser = AutoBuilder.buildAutoChooser("ExampleAuto");
     SmartDashboard.putData("Auton Chooser", autonChooser);
 
     // Configure the trigger bindings
@@ -186,8 +186,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     logitechBtnY.onTrue(resetGyro);
-
-    // logitechBtnA.whileTrue(moveVortex);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnRB.onTrue(toggleLowSpeed);
 

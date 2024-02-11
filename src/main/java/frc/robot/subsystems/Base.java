@@ -29,7 +29,6 @@ public class Base extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
-  private Pose2d pose;
 
   private double driveSpeedFactor;
   private double rotSpeedFactor;
@@ -103,8 +102,8 @@ public class Base extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS) {
-    xSpeed *= maxDriveSpeedMPS;
-    ySpeed *= maxDriveSpeedMPS;
+    xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
+    ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     rot *= KMaxAngularSpeed * getRotSpeedFactor();
 
     // feeding parameter speeds into toSwerveModuleStates to get an array of
@@ -214,15 +213,9 @@ public class Base extends SubsystemBase {
     return positions;
   }
 
-  public void resetPose() {
-    resetAllRelEncoders();
-    pose = new Pose2d();
-
-    odometry.resetPosition(getHeading(), getPositions(), pose);
-  }
-
   public Rotation2d getHeading() {
-    return Rotation2d.fromDegrees(getHeadingDeg());
+    // return Rotation2d.fromDegrees(getHeadingDeg());
+    return gyro.getRotation2d(); //TEST
   }
 
   public double getHeadingDeg() {
@@ -263,15 +256,13 @@ public class Base extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // Shuffleboard.getTab("SmartDashboard").add("AnglePID", 1).withWidget(BuiltInWidgets.kPIDController).getEntry();
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
+    SmartDashboard.putNumber("Speed", leftFrontModule.getDriveEncoderVel());
     SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
     SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
-    
     odometry.update(getHeading(), getPositions());
-    pose = odometry.getPoseMeters();
   }
 }

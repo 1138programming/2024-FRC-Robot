@@ -102,7 +102,7 @@ public final class Constants {
         public static final int KVortexEncoderTicksPerRevolution = 7168;
 
         // Robot Specs
-        public static final double KDriveMotorGearRatio = 1 / 4.41;
+        public static final double KDriveMotorGearRatio = 1 / 5.51; //Double Check
         public static final double KWheelDiameterMeters = 0.1016;
         public static final double KDriveMotorRotToMeter = KDriveMotorGearRatio * KWheelDiameterMeters * Math.PI;
         public static final double KDriveMotorRPMToMetersPerSec = KDriveMotorRotToMeter / 60;
@@ -121,19 +121,19 @@ public final class Constants {
                 -KWheelDistanceFromCenter, -KWheelDistanceFromCenter);
 
         // Max Speeds
-        public static final double KMaxAcceleration = 8;
+        public static final double KMaxAcceleration = 3.5;
         public static final double KMaxAngularSpeed = 3.5;
 
         // Offsets
-        public static final double KFrontLeftOffset = 3.7;
-        public static final double KFrontRightOffset = 168.08;
-        public static final double KBackLeftOffset = -89.2;
-        public static final double KBackRightOffset = -7.2;
-        // public static final double KFrontLeftOffset = -12.44;
-        // public static final double KFrontRightOffset = 311.81;
-        // public static final double KBackLeftOffset = 332.5;
-        // public static final double KBackRightOffset = -17.75;
-        public static final double KGyroOffset = 180;
+        public static final double KFrontLeftOffset = -121.90;
+        public static final double KFrontRightOffset = -103.71;
+        public static final double KBackLeftOffset = 96.94;
+        public static final double KBackRightOffset = 136.8;
+        // public static final double KFrontLeftOffset = 0;
+        // public static final double KFrontRightOffset = 0;
+        // public static final double KBackLeftOffset = 0;
+        // public static final double KBackRightOffset = 0;
+        // public static final double KGyroOffset = 180;
 
         // Drive Motor Reversals
         public static final boolean KFrontLeftDriveReversed = false;
@@ -164,14 +164,10 @@ public final class Constants {
 
         // Auton Config
         public static final HolonomicPathFollowerConfig KPathFollowerConfig = new HolonomicPathFollowerConfig(
-                new PIDConstants(5.0, 0, 0), // Translation constants
-                new PIDConstants(5.0, 0, 0), // Rotation constants
+                new PIDConstants(20.0, 1.5, 0), // Translation constants
+                new PIDConstants(3.0, 0, 0), // Rotation constants
                 KPhysicalMaxDriveSpeedMPS,
                 KWheelRadialDistanceFromCenter, // Drive base radius (distance from center to furthest module)
                 new ReplanningConfig());
-
-        // Possibly Unused
-        public static final TrajectoryConfig KtrajectoryConfig = new TrajectoryConfig(KPhysicalMaxDriveSpeedMPS,
-                KMaxAcceleration);
     }
 }

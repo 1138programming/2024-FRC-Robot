@@ -9,8 +9,10 @@ import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkFlexExternalEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkFlexExternalEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -59,21 +61,22 @@ public class SwerveModule extends SubsystemBase {
 
     MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
 
+    double offsetToRotations = offset/360;
+
     canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     canCoderConfig.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-    canCoderConfig.MagnetOffset = offset;
+    canCoderConfig.MagnetOffset = offsetToRotations;
     canCoder.getConfigurator().apply(canCoderConfig);
 
-    // driveEncoder = driveMotor.getEncoder();
-    driveEncoder = driveMotor.getExternalEncoder(KVortexEncoderTicksPerRevolution);
+    // driveEncoder = driveMotor.getExternalEncoder(Type.kQuadrature, 1);
+    driveEncoder = driveMotor.getEncoder();
     
     driveEncoder.setPositionConversionFactor(KDriveMotorRotToMeter);
     driveEncoder.setVelocityConversionFactor(KDriveMotorRPMToMetersPerSec);
 
     angleController = new PIDController(KAngleP, KAngleI, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
-    
-    SmartDashboard.putData("Angle PID", PIDController);
+    // SmartDashboard.putData("Angle PID", PIDController);
   }
   
   
@@ -145,6 +148,6 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    angleController = PIDController.getSelected();
+    SmartDashboard.putNumber("DriveSpeed " + driveMotor.getDeviceId(), driveEncoder.getVelocity());
   }
 }
