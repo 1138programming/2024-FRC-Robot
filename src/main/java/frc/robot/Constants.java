@@ -29,6 +29,12 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class LimelightConstants {
+    public static final double KlimelightMountAngleDegrees = 25.0; //Neeeds to be changed 
+    public static final double KlimelightMountHight = 20.0; //Inches (Needs to be changed)
+    public static final double KspeakerHight = 60; //Inches (needs to be changed)
+    public static final double[] KspeakerCoordinates = new double[] {0,0}; //(X,Y)
+  }
   public static class SwerveDriveConstants {
     public static final int KFrontLeftAngleMotorID = 1; // SparkMax + NEO
     public static final int KFrontLeftDriveMotorID = 2; // SparkMax + NEO

@@ -212,10 +212,13 @@ public class Base extends SubsystemBase {
   public void resetPose() {
     resetAllRelEncoders();
     pose = new Pose2d();
-
     odometry.resetPosition(getHeading(), getPositions(), pose);
   }
-
+  public void updatePose(Double x, Double y) {
+    pose = new Pose2d(x, y, gyro.getRotation2d());
+    odometry.resetPosition(getHeading(), getPositions(), pose);
+  }
+  
   public Rotation2d getHeading() {
     return Rotation2d.fromDegrees(getHeadingDeg());
   }
