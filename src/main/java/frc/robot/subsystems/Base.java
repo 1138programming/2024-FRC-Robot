@@ -2,9 +2,12 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.SwerveDriveConstants.*;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.SwerveDriveBrake;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -18,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Limelight;
 
 public class Base extends SubsystemBase {
   private SwerveModule leftFrontModule;
@@ -34,6 +38,9 @@ public class Base extends SubsystemBase {
   private double rotSpeedFactor;
 
   private boolean defenseMode = false;
+  private Pose2d pose;
+
+  private SwerveDrivePoseEstimator poseEstimate;
 
   public Base() {
     leftFrontModule = new SwerveModule(
@@ -213,6 +220,16 @@ public class Base extends SubsystemBase {
     return positions;
   }
 
+  public void resetPose() {
+    resetAllRelEncoders();
+    pose = new Pose2d();
+    odometry.resetPosition(getHeading(), getPositions(), pose);
+  }
+  public void updatePose(Double x, Double y) {
+    pose = new Pose2d(x, y, gyro.getRotation2d());
+    odometry.resetPosition(getHeading(), getPositions(), pose);
+  }
+  
   public Rotation2d getHeading() {
     // return Rotation2d.fromDegrees(getHeadingDeg());
     return gyro.getRotation2d(); //TEST
@@ -263,6 +280,7 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
+        
     odometry.update(getHeading(), getPositions());
   }
 }

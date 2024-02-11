@@ -24,7 +24,8 @@ import com.pathplanner.lib.util.ReplanningConfig;
  */
 public final class Constants {
     public static class OperatorConstants {
-        // Controller Ports (check in Driver Station, IDs may be different for each compStreamDeckuter)
+        // Controller Ports (check in Driver Station, IDs may be different for each
+        // compStreamDeckuter)
         public static final int KLogitechPort = 0;
         public static final int KXboxPort = 1;
         public static final int KStreamDeckPort = 2;
@@ -68,13 +69,21 @@ public final class Constants {
         public static final int KXboxLeftTrigger = 2;
         public static final int KXboxRightTrigger = 3;
     }
+
+    public static class LimelightConstants {
+        public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
+        public static final double KlimelightMountHight = 20.0; // Inches (Needs to be changed)
+        public static final double KspeakerHight = 60; // Inches (needs to be changed)
+        public static final double[] KspeakerCoordinates = new double[] { 0, 0 }; // (X,Y)
+    }
+
     public static class SwerveDriveConstants {
         // Drive motors
         public static final int KLeftFrontDriveID = 2; // SparkFlex + Vortex
         public static final int KRightFrontDriveID = 4; // SparkFlex + Vortex
         public static final int KLeftBackDriveID = 6; // SparkFlex + Vortex
         public static final int KRightBackDriveID = 8; // SparkFlex + Vortex
-        
+
         // Angle motors
         public static final int KLeftFrontAngleID = 1; // SparkMax + NEO
         public static final int KRightFrontAngleID = 3; // SparkMax + NEO
@@ -82,10 +91,10 @@ public final class Constants {
         public static final int KRightBackAngleID = 7; // SparkMax + NEO
 
         // CanCoders
-        public static final int KLeftFrontEncoderID = 1; //1
+        public static final int KLeftFrontEncoderID = 1; // 1
         public static final int KRightFrontEncoderID = 2;
         public static final int KLeftBackEncoderID = 3;
-        public static final int KRightBackEncoderID = 4; //4
+        public static final int KRightBackEncoderID = 4; // 4
 
         // Swerve Angle PID
         public static final double KAngleP = 0.006;
@@ -102,7 +111,7 @@ public final class Constants {
         public static final int KVortexEncoderTicksPerRevolution = 7168;
 
         // Robot Specs
-        public static final double KDriveMotorGearRatio = 1 / 5.51; //Double Check
+        public static final double KDriveMotorGearRatio = 1 / 5.51; // Double Check
         public static final double KWheelDiameterMeters = 0.1016;
         public static final double KDriveMotorRotToMeter = KDriveMotorGearRatio * KWheelDiameterMeters * Math.PI;
         public static final double KDriveMotorRPMToMetersPerSec = KDriveMotorRotToMeter / 60;
