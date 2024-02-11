@@ -2,6 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/* 
+ * This code is for LaserCan Testing and is not official Hang code.
+ * Hang code that is unrelated to the LaserCan may not be fully updated Hang code.
+ */
+
 package frc.robot.Subsystems;
 
 import static frc.robot.Constants.Hang.*;
@@ -18,14 +23,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-// Neo Motor sparkmax
-// 2 piston pneumatics double solenoid
-// an built in encoder and 2 limit switches
-// pneumatics are entirely seperate but have the same function
-// make sure to add speed constants - don't just name it speed -> scope issues
-
 public class Hang extends SubsystemBase {
-  /** Creates a new Hang. */
   private CANSparkMax hangMotor;
   private DigitalInput hangLimitSwitchUp;
   private DigitalInput hangLimitSwitchBottom;
@@ -38,9 +36,6 @@ public class Hang extends SubsystemBase {
     hangMotor = new CANSparkMax(KHangMotorID, MotorType.kBrushless);
     hangLimitSwitchUp = new DigitalInput(KHangLimitSwitchUp);
     hangLimitSwitchBottom = new DigitalInput(KHangLimitSwitchDown);
-    // create constants for the pneumatics
-    //figure out motor type
-    // which one REVPH and CTREPCM
     hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonLeftInID, KHangPistonLeftOutID);
     hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
     hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonRightInID, KHangPistonRightOutID);
@@ -62,7 +57,6 @@ public class Hang extends SubsystemBase {
     SmartDashboard.putNumber("LaserCanDistanceInch", laserCanDistanceInch());
     SmartDashboard.getString("LaserCanDisStatus", laserCanDisStatus());
     laserCanDisStatus();
-    // This method will be called once per scheduler run
   }
 
 public double laserCanDistanceMM(){
@@ -85,9 +79,6 @@ public double laserCanDistanceMM(){
       return "Oh no! The target is out of range, or we can't get a reliable measurement!";
     }
   }
-// add two methods on and off for each pneumatic system
-// make them to things in the commands later
-// add pneumatics into methods and commands
 
   public void setHangHookPosUp(double hangSpeed){
 
@@ -97,9 +88,6 @@ public double laserCanDistanceMM(){
     }
     hangMotor.set(0);
   } 
-  
-
-// Moves hang to a set position
 
   public void setHangHookPosDown(double hangSpeed){
     if (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
@@ -134,7 +122,6 @@ public double laserCanDistanceMM(){
     }
   }
 
-  // Pneumatics
   public void moveHangPistons(){
     hangPistonLeft.toggle();
     hangPistonRight.toggle();
