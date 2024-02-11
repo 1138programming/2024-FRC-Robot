@@ -58,7 +58,7 @@ public class Limelight extends SubsystemBase {
       z = aprilTagsTable.getEntry("tz").getDouble(0);
       area = aprilTagsTable.getEntry("ta").getDouble(0);
       id = aprilTagsTable.getEntry("tid").getDouble(0);
-      botPose = aprilTagsTable.getEntry("botpose").getDoubleArray(new double[6]);
+      botPose = aprilTagsTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]); //Right Side of Blue Driver Station
     
     if (botPose.length != 0) {
       botPoseX = botPose[0];
