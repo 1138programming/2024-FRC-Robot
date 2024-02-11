@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import static frc.robot.Constants.LEDConstants.*;
 public class LEDs extends SubsystemBase {
   /** Creates a new LED. */
-  AddressableLED light;
+  AddressableLED LEDStrip;
   public LEDs()
   {
-    light = new AddressableLED(KLEDPort);
+    LEDStrip = new AddressableLED(KLEDPort);
   }
 
   @Override
