@@ -91,10 +91,10 @@ public final class Constants {
         public static final int KRightBackAngleID = 7; // SparkMax + NEO
 
         // CanCoders
-        public static final int KLeftFrontEncoderID = 1; // 1
+        public static final int KLeftFrontEncoderID = 1; 
         public static final int KRightFrontEncoderID = 2;
         public static final int KLeftBackEncoderID = 3;
-        public static final int KRightBackEncoderID = 4; // 4
+        public static final int KRightBackEncoderID = 4; 
 
         // Swerve Angle PID
         public static final double KAngleP = 0.006;

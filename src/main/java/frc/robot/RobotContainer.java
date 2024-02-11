@@ -39,13 +39,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // Subsystems
   private final Base base = new Base();
-  
+
   // Commands
   private final DriveWithJoysticks drivewithJoysticks = new DriveWithJoysticks(base);
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
-  
+
   // Resets
   private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
   private final ResetEncoders resetEncoders = new ResetEncoders(base);
@@ -65,17 +65,22 @@ public class RobotContainer {
 
   public Trigger xboxBtnRT, xboxBtnLT;
 
-  public JoystickButton compStreamDeck1, compStreamDeck2, compStreamDeck3, compStreamDeck4, compStreamDeck5, compStreamDeck6, compStreamDeck7, compStreamDeck8, compStreamDeck9, compStreamDeck10, compStreamDeck11, compStreamDeck12, compStreamDeck13,
+  public JoystickButton compStreamDeck1, compStreamDeck2, compStreamDeck3, compStreamDeck4, compStreamDeck5,
+      compStreamDeck6, compStreamDeck7, compStreamDeck8, compStreamDeck9, compStreamDeck10, compStreamDeck11,
+      compStreamDeck12, compStreamDeck13,
       compStreamDeck14;
 
   // Top Left SD = 1, numbered from left to right
-  public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5, testStreamDeck6, testStreamDeck7,
+  public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5,
+      testStreamDeck6, testStreamDeck7,
       testStreamDeck8, testStreamDeck9, // Vjoy 2
       testStreamDeck10, testStreamDeck11, testStreamDeck12, testStreamDeck13, testStreamDeck14, testStreamDeck15;
-      
-  public JoystickButton autonTestStreamDeck1, autonTestStreamDeck2, autonTestStreamDeck3, autonTestStreamDeck4, autonTestStreamDeck5, autonTestStreamDeck6, autonTestStreamDeck7,
+
+  public JoystickButton autonTestStreamDeck1, autonTestStreamDeck2, autonTestStreamDeck3, autonTestStreamDeck4,
+      autonTestStreamDeck5, autonTestStreamDeck6, autonTestStreamDeck7,
       autonTestStreamDeck8, autonTestStreamDeck9, // Vjoy 2
-      autonTestStreamDeck10, autonTestStreamDeck11, autonTestStreamDeck12, autonTestStreamDeck13, autonTestStreamDeck14, autonTestStreamDeck15;
+      autonTestStreamDeck10, autonTestStreamDeck11, autonTestStreamDeck12, autonTestStreamDeck13, autonTestStreamDeck14,
+      autonTestStreamDeck15;
 
   private final SendableChooser<Command> autonChooser;
 
