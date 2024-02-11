@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,32 +41,35 @@ public class Base extends SubsystemBase {
   private boolean defenseMode = false;
   private Pose2d pose;
 
+  private Limelight limelight;
+
   private SwerveDrivePoseEstimator poseEstimate;
 
   public Base() {
+
     leftFrontModule = new SwerveModule(
-      KLeftFrontAngleID,
+        KLeftFrontAngleID,
         KLeftFrontDriveID,
         KLeftFrontEncoderID,
         KFrontLeftOffset,
         KFrontLeftDriveReversed,
         KFrontLeftAngleReversed);
     rightFrontModule = new SwerveModule(
-      KRightFrontAngleID,
+        KRightFrontAngleID,
         KRightFrontDriveID,
         KRightFrontEncoderID,
         KFrontRightOffset,
         KFrontRightDriveReversed,
         KFrontRightAngleReversed);
     leftBackModule = new SwerveModule(
-      KLeftBackAngleID,
+        KLeftBackAngleID,
         KLeftBackDriveID,
         KLeftBackEncoderID,
         KBackLeftOffset,
         KBackLeftDriveReversed,
         KBackLeftAngleReversed);
     rightBackModule = new SwerveModule(
-      KRightBackAngleID,
+        KRightBackAngleID,
         KRightBackDriveID,
         KRightBackEncoderID,
         KBackRightOffset,
@@ -79,6 +83,8 @@ public class Base extends SubsystemBase {
         KFrontLeftLocation, KFrontRightLocation,
         KBackLeftLocation, KBackRightLocation);
     odometry = new SwerveDriveOdometry(kinematics, getHeading(), getPositions());
+    pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    poseEstimate = new SwerveDrivePoseEstimator(kinematics, getHeading(), getPositions(), pose);
 
     driveSpeedFactor = KBaseDriveMidPercent;
     rotSpeedFactor = KBaseRotMidPercent;
@@ -104,8 +110,7 @@ public class Base extends SubsystemBase {
           }
           return false;
         },
-        this
-      );
+        this);
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS) {
@@ -139,7 +144,8 @@ public class Base extends SubsystemBase {
   public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
     ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
 
-    // feeding parameter speeds into toSwerveModuleStates to get an array of SwerveModuleState objects
+    // feeding parameter speeds into toSwerveModuleStates to get an array of
+    // SwerveModuleState objects
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(targetSpeeds);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
@@ -158,11 +164,15 @@ public class Base extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
+    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
     odometry.resetPosition(getHeading(), getPositions(), pose);
   }
 
   public Pose2d getPose() {
     return odometry.getPoseMeters();
+  }
+  public Pose2d getPoseEstimate() {
+    return poseEstimate.getEstimatedPosition();
   }
 
   public ChassisSpeeds getSpeeds() {
@@ -224,15 +234,18 @@ public class Base extends SubsystemBase {
     resetAllRelEncoders();
     pose = new Pose2d();
     odometry.resetPosition(getHeading(), getPositions(), pose);
+    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
   }
+
   public void updatePose(Double x, Double y) {
     pose = new Pose2d(x, y, gyro.getRotation2d());
     odometry.resetPosition(getHeading(), getPositions(), pose);
+    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
   }
-  
+
   public Rotation2d getHeading() {
     // return Rotation2d.fromDegrees(getHeadingDeg());
-    return gyro.getRotation2d(); //TEST
+    return gyro.getRotation2d(); // TEST
   }
 
   public double getHeadingDeg() {
@@ -276,11 +289,18 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
     SmartDashboard.putNumber("Speed", leftFrontModule.getDriveEncoderVel());
     SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
+    SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
     SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
-        
+
     odometry.update(getHeading(), getPositions());
+
+    pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    if (limelight.getTargetFound()) {
+    poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(6) / 1000));
+    }
+    poseEstimate.update(getHeading(), getPositions());
   }
 }

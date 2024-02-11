@@ -96,6 +96,9 @@ public class Limelight extends SubsystemBase {
   public double getBotPoseY() {
     return botPoseY;
   }
+  public double getBotPose(int i) {
+    return botPose[i];
+  }
 
   public double getBotPoseX() {
     return botPoseX;
