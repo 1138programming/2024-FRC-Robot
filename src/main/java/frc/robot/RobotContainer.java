@@ -12,6 +12,10 @@ import frc.robot.commands.Base.Resets.ResetGyro;
 import frc.robot.commands.Intake.IntakeSpinIn;
 import frc.robot.commands.Intake.IntakeSpinOut;
 import frc.robot.commands.Intake.IntakeSpinStop;
+import frc.robot.commands.ShooterTilt.MoveShooterTiltToPos;
+import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
+import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
+import frc.robot.commands.ShooterTilt.ShooterTiltStop;
 import frc.robot.subsystems.Base;
 
 import static frc.robot.Constants.SwerveDriveConstants.*;
@@ -23,6 +27,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.TiltConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -49,6 +55,13 @@ public class RobotContainer {
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
+  private final ShooterTilt shooterTilt = new ShooterTilt();
+
+  // Commands
+  private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
+  private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
+  private final ShooterTiltSpinDown shooterTiltSpinDown = new ShooterTiltSpinDown(shooterTilt);
+  private final ShooterTiltSpinUp shooterTiltSpinUp = new ShooterTiltSpinUp(shooterTilt);
 
   // Intake Commands
   private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
@@ -160,6 +173,9 @@ public class RobotContainer {
     // Configure the button bindings
 
     // set default command for each subsystem
+    
+    // Configure the trigger bindings
+    shooterTilt.setDefaultCommand(shooterTiltStop);
     configureBindings();
   }
 
