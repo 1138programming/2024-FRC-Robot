@@ -35,16 +35,16 @@ public class Indexer extends SubsystemBase {
   }
 
   //Indexer Methods
-public void IndexerSpin(double speed){
+public void indexerSpin(double speed){
     indexerMotor.set(speed);
   //create a speed constant
 }
 
-public void IndexerStop(){
+public void indexerStop(){
     indexerMotor.set(0);
   }
 
-public void IndexerNoteLoaded(double speed){
+public void indexerNoteLoaded(double speed){
     indexerMotor.set(speed);
 }
 
@@ -54,11 +54,11 @@ public void IndexerNoteLoaded(double speed){
     return indexerLimitSwitchNoteMaxPos.get();
  }
 
-public void KIndexerLimitSwitchNoteMaxPosID(double indexerSpeed){
+public void IndexerSpinToLS(double indexerSpeed){
     if (indexerSpeed >= 0 && getIndexerIDLimitSwitch()) {
         indexerMotor.set(0);
     }
-     else if(indexerSpeed <= 0 && getIndexerIDLimitSwitch()){
+     else {
       indexerMotor.set(0);
     }
   }

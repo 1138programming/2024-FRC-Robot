@@ -23,8 +23,6 @@ public final class Constants {
     public static final double KIndexerMotorSpeedForward = 1;
     public static final int KIndexerLimitSwitchNoteMaxPosID = 10;
     public static final int KIndexerMotorID = 13;
-    public static final int KIndexerMotor = 12;
-    public static final int KIndexerNoteLoaded = 9;
     public static final double KgetIndexerIDLimitSwitch = 8;
 
     }
