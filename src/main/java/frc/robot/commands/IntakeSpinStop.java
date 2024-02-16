@@ -10,7 +10,7 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 public class IntakeSpinStop extends Command {
 
-  Intake intake;
+  private Intake intake;
 
   public IntakeSpinStop(Intake intake) {
     this.intake = intake;
