@@ -20,7 +20,7 @@ import frc.robot.subsystems.ShooterTilt;
  */
 public class RobotContainer {
   // Subsystems
-  ShooterTilt shooterTilt = new ShooterTilt();
+  private final ShooterTilt shooterTilt = new ShooterTilt();
 
   // Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
