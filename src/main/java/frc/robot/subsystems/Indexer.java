@@ -15,7 +15,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 
-
 public class Indexer extends SubsystemBase {
   /** Creates a new Indexer. */
  
@@ -37,16 +36,15 @@ public class Indexer extends SubsystemBase {
   //Indexer Methods
 public void indexerSpin(double speed){
     indexerMotor.set(speed);
-  //create a speed constant
 }
-
-public void indexerStop(){
-    indexerMotor.set(0);
-  }
 
 public void indexerNoteLoaded(double speed){
     indexerMotor.set(speed);
+
 }
+public void indexerStop(){
+    indexerMotor.set(0);
+  }
 
 //Limit Switch Methods
 
@@ -59,7 +57,7 @@ public void IndexerSpinToLS(double indexerSpeed){
         indexerMotor.set(0);
     }
      else {
-      indexerMotor.set(0);
+      indexerMotor.set(indexerSpeed);
     }
   }
 }

@@ -27,7 +27,7 @@ public class IndexerNoteLoaded extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerSpin(speed);
+    indexer.indexerNoteLoaded(speed);
 
   }
 
@@ -40,6 +40,6 @@ public class IndexerNoteLoaded extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
