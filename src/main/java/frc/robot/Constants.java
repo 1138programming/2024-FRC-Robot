@@ -16,12 +16,16 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-public static class IndexerConstants {
-    public static final int KIndexerMotorID = 3;
-    public static final double KIndexerMotorSpeedForward = 0.5;
-    public static final double KIndexerMotorSpeedUp = 0.7;
-   //LS
-    public static final int KIndexerLimitSwitchNoteMaxPosID = 6;
-    public static final int KIndexerLimitSwitchNoteMaxPos = 6;
-} 
-}
+
+
+
+  public static class IndexerConstants{
+    public static final double KIndexerMotorSpeedForward = 1;
+    public static final int KIndexerLimitSwitchNoteMaxPosID = 10;
+    public static final int KIndexerMotorID = 13;
+    public static final int KIndexerMotor = 12;
+    public static final int KIndexerNoteLoaded = 9;
+    public static final double KgetIndexerIDLimitSwitch = 8;
+
+    }
+  }

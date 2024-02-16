@@ -5,9 +5,15 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.IndexerNoteLoaded;
+import frc.robot.commands.IndexerSpin;
+import frc.robot.commands.IndexerStop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants;
+import frc.robot.subsystems.Indexer;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,13 +22,21 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+ 
   // Subsystems
+private final Indexer indexer = new Indexer();
 
   // Commands
+    //Indexer
+  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer, 0);
+  private final IndexerSpin indexerspin = new IndexerSpin(indexer, 0);
+  private final IndexerStop indexerStop = new IndexerStop(indexer);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+ 
   public RobotContainer() {
     // Configure the trigger bindings
+    indexer.setDefaultCommand(indexerStop);
     configureBindings();
   }
 

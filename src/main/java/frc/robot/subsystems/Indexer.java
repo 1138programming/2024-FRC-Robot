@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.IndexerConstants.*;
 
+
 //import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -35,7 +36,6 @@ public class Indexer extends SubsystemBase {
 
   //Indexer Methods
 public void IndexerSpin(double speed){
-    indexerMotor.set(KIndexerMotorSpeedForward);
     indexerMotor.set(speed);
   //create a speed constant
 }
@@ -44,20 +44,24 @@ public void IndexerStop(){
     indexerMotor.set(0);
   }
 
+public void IndexerNoteLoaded(double speed){
+    indexerMotor.set(speed);
+}
 
 //Limit Switch Methods
-  public boolean getIndexerLimitSwitchNoteMaxPos(){
-    return indexerLimitSwitchNoteMaxPos.get();
-  }
 
  public boolean getIndexerIDLimitSwitch(){
     return indexerLimitSwitchNoteMaxPos.get();
  }
-public void notesLoaded(double indexerSpeed){
+
+public void KIndexerLimitSwitchNoteMaxPosID(double indexerSpeed){
     if (indexerSpeed >= 0 && getIndexerIDLimitSwitch()) {
         indexerMotor.set(0);
     }
+     else if(indexerSpeed <= 0 && getIndexerIDLimitSwitch()){
+      indexerMotor.set(0);
+    }
   }
-
 }
+
 
