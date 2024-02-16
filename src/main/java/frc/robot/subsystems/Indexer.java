@@ -38,10 +38,6 @@ public void indexerSpin(double speed){
     indexerMotor.set(speed);
 }
 
-public void indexerNoteLoaded(double speed){
-    indexerMotor.set(speed);
-
-}
 public void indexerStop(){
     indexerMotor.set(0);
   }
@@ -52,7 +48,7 @@ public void indexerStop(){
     return indexerLimitSwitchNoteMaxPos.get();
  }
 
-public void IndexerSpinToLS(double indexerSpeed){
+public void indexerNoteLoaded(double indexerSpeed){
     if (indexerSpeed >= 0 && getIndexerIDLimitSwitch()) {
         indexerMotor.set(0);
     }
@@ -61,5 +57,3 @@ public void IndexerSpinToLS(double indexerSpeed){
     }
   }
 }
-
-

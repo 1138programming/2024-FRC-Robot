@@ -28,7 +28,6 @@ public class IndexerNoteLoaded extends Command {
   @Override
   public void execute() {
     indexer.indexerNoteLoaded(speed);
-
   }
 
   // Called once the command ends or is interrupted.
