@@ -14,7 +14,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
-import com.ctre.phoenix6.hardware.TalonFX;
 public class Intake extends SubsystemBase {
   private CANSparkMax intakeMotor;
   /** Creates a new Intake. */
