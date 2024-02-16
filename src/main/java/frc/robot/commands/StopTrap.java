@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trap;
 import frc.robot.Constants;
 
-public class MoveWristForward extends Command {
-  /** Creates a new MoveWristUp. */
+public class StopTrap extends Command {
+  /** Creates a new Stop. */
   private Trap trap;
-  
-  public MoveWristForward(Trap trap) {
+  public StopTrap(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,18 +24,17 @@ public class MoveWristForward extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.swivelToPos(210);
+    trap.stopRollers();
+    trap.stopWrist();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    trap.stopWrist();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return trap.getPotentiometer() >= 210;
+    return false;
   }
 }

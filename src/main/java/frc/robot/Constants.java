@@ -29,6 +29,7 @@ public final class Constants {
     public static final double KTrapRollersBackwardSpeed = -0.5;
     public static final double KTrapWristUpSpeed = 0.5;
     public static final double KTrapWristDownSpeed = -0.5;
+    
     public static final double KAnalogPotentiometerSensorRange  = 270;
     public static final double KAnalogPotentiometerSensorOffset  = 30;
 
