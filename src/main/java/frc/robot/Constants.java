@@ -169,4 +169,8 @@ public final class Constants {
         public static final TrajectoryConfig KtrajectoryConfig = new TrajectoryConfig(KPhysicalMaxDriveSpeedMPS,
                 KMaxAcceleration);
     }
+      public static class IntakeConstants {
+    public static final int KIntakeMotorID = 12; 
+    public static final double KIntakeMotorSpeed = 0.5; 
+  }
 }

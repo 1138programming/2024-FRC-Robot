@@ -16,7 +16,6 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -25,6 +24,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.*;
+import frc.robot.commands.IntakeSpinIn;
+import frc.robot.commands.IntakeSpinOut;
+import frc.robot.commands.IntakeSpinStop;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -39,13 +42,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // Subsystems
   private final Base base = new Base();
-  
+  private final Intake intake = new Intake();
+
   // Commands
   private final DriveWithJoysticks drivewithJoysticks = new DriveWithJoysticks(base);
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
-  
+  private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
+  private final IntakeSpinIn intakeSpinIn = new IntakeSpinIn(intake);
+  private final IntakeSpinOut intakeSpinOut = new IntakeSpinOut(intake);
+
   // Resets
   private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
   private final ResetEncoders resetEncoders = new ResetEncoders(base);
@@ -64,11 +71,14 @@ public class RobotContainer {
 
   public Trigger xboxBtnRT, xboxBtnLT;
 
-  public JoystickButton compStreamDeck1, compStreamDeck2, compStreamDeck3, compStreamDeck4, compStreamDeck5, compStreamDeck6, compStreamDeck7, compStreamDeck8, compStreamDeck9, compStreamDeck10, compStreamDeck11, compStreamDeck12, compStreamDeck13,
+  public JoystickButton compStreamDeck1, compStreamDeck2, compStreamDeck3, compStreamDeck4, compStreamDeck5,
+      compStreamDeck6, compStreamDeck7, compStreamDeck8, compStreamDeck9, compStreamDeck10, compStreamDeck11,
+      compStreamDeck12, compStreamDeck13,
       compStreamDeck14;
 
   // Top Left SD = 1, numbered from left to right
-  public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5, testStreamDeck6, testStreamDeck7,
+  public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5,
+      testStreamDeck6, testStreamDeck7,
       testStreamDeck8, testStreamDeck9, // Vjoy 2
       testStreamDeck10, testStreamDeck11, testStreamDeck12, testStreamDeck13, testStreamDeck14, testStreamDeck15;
 
@@ -79,6 +89,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     base.setDefaultCommand(drivewithJoysticks);
+    intake.setDefaultCommand(intakeSpinStop);
 
     // Auton Chooser
     autonChooser = AutoBuilder.buildAutoChooser("New New Auto");
@@ -145,6 +156,7 @@ public class RobotContainer {
 
     // Configure the button bindings
 
+    // set default command for each subsystem
     configureBindings();
   }
 
