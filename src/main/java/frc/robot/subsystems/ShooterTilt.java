@@ -27,13 +27,11 @@ public class ShooterTilt extends SubsystemBase {
   private PIDController swivelController;
 
   public ShooterTilt() {
-    shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); // IDs not workings even after import
-    
+    shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); 
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
-    shooterTiltCANcoder.setPosition(KShooterTiltEncoderPreset);
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
     
-    swivelController = new PIDController(KintakeControllerkP, KintakeControllerkI, KintakeControllerkD);
+    swivelController = new PIDController(KshooterTiltControllerkP, KshooterTiltControllerkI, KshooterTiltControllerkD);
   }
 
   @Override

@@ -18,13 +18,13 @@ public final class Constants {
   }
 
   public static class TiltConstants {
-    public static final int KShooterTiltMotorID = 1;
-    public static final int KShooterTiltEncoderID = 2;
+    public static final int KShooterTiltMotorID = 16;
+    public static final int KShooterTiltEncoderID = 5;
     public static final double KShooterTiltMotorSpeed = 0.5;
-    public static final double KShooterTiltEncoderPreset = 15.0;
+    //public static final double KShooterTiltEncoderPreset = 15.0;
 
-    public static final double KintakeControllerkP = 0.06;
-    public static final double KintakeControllerkI = 0;
-    public static final double KintakeControllerkD = 0;
+    public static final double KshooterTiltControllerkP = 0.06;
+    public static final double KshooterTiltControllerkI = 0;
+    public static final double KshooterTiltControllerkD = 0;
   } 
 }
