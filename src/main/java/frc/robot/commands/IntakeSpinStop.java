@@ -2,17 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.UnderIntake;
-import static frc.robot.Constants.UnderIntakeConstants.*;
+import frc.robot.subsystems.Intake;
+import static frc.robot.Constants.IntakeConstants.*;
 
-public class UnderIntakeSpinOut extends Command {
-  UnderIntake underIntake;
-  public UnderIntakeSpinOut() {
-    underIntake = new UnderIntake();
-    addRequirements(underIntake);
+public class IntakeSpinStop extends Command {
+
+  Intake intake;
+
+  public IntakeSpinStop(Intake intake) {
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +24,7 @@ public class UnderIntakeSpinOut extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    underIntake.underIntakeSpinMotor(KUnderIntakeMotorSpeed);
+    intake.intakeSpinStop();
   }
 
   // Called once the command ends or is interrupted.

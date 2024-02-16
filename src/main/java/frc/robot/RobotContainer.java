@@ -8,10 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Subsystems.*;
-import frc.robot.Commands.UnderIntakeStop;
-import frc.robot.Commands.UnderIntakeSpinIn;
-import frc.robot.Commands.UnderIntakeSpinOut;
+import frc.robot.subsystems.*;
+import frc.robot.commands.IntakeSpinIn;
+import frc.robot.commands.IntakeSpinOut;
+import frc.robot.commands.IntakeSpinStop;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,17 +21,17 @@ import frc.robot.Commands.UnderIntakeSpinOut;
  */
 public class RobotContainer {
   // Subsystems
-  private final UnderIntake underIntake = new UnderIntake();
+  private final Intake intake = new Intake();
 
   // Commands
-  private final UnderIntakeStop underIntakeStop = new UnderIntakeStop();
-  private final UnderIntakeSpinIn underIntakeSpinIn = new UnderIntakeSpinIn();
-  private final UnderIntakeSpinOut underIntakeSpinOut = new UnderIntakeSpinOut();
+  private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
+  private final IntakeSpinIn intakeSpinIn = new IntakeSpinIn(intake);
+  private final IntakeSpinOut intakeSpinOut = new IntakeSpinOut(intake);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // set default command for each subsystem
-    underIntake.setDefaultCommand(underIntakeStop);
+    intake.setDefaultCommand(intakeSpinStop);
     configureBindings();
   }
 
