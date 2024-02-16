@@ -31,9 +31,9 @@ public class Flywheel extends SubsystemBase {
 
 
   public Flywheel() {
-    flywheelUpperMotor = new CANSparkFlex(KFlywheelUpperMotor, MotorType.kBrushless);
+    flywheelUpperMotor = new CANSparkFlex(KShooterUpperMotor, MotorType.kBrushless);
 
-    flywheelLowerMotor = new CANSparkFlex(KFlywheelLowerMotor, MotorType.kBrushless);
+    flywheelLowerMotor = new CANSparkFlex(KShooterLowerMotor, MotorType.kBrushless);
     
      flywheelUpperMotor.setInverted(true);
 
@@ -48,7 +48,7 @@ public void stopMotors(){
   flywheelUpperMotor.set(0);
   flywheelLowerMotor.set(0);
 }
-public void SpinFlywheel(double speed){
+public void spinFlywheel(double speed){
   flywheelUpperMotor.set(speed);
   flywheelLowerMotor.set(-speed);
 }

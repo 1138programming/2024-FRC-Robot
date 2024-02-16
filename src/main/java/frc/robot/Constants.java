@@ -19,8 +19,9 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
 
     //Motors
-    public static final int KFlywheelUpperMotor = 6;
-    public static final int KFlywheelLowerMotor = 9;
+    public static final int KShooterUpperMotor = 14;
+    public static final int KShooterLowerMotor = 15;
+    
 
     //Motor speeds
     public static final double KFlywheelSpeedUpper = 0.8;
