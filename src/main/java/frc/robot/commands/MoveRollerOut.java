@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trap;
 import frc.robot.Constants;
 
-public class MoveRollersForward extends Command {
-  /** Creates a new MoveRollersForward. */
+public class MoveRollerOut extends Command {
+  /** Creates a new MoveRollersBackwards. */
   private Trap trap;
-  public MoveRollersForward(Trap trap) {
+  public MoveRollerOut(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +24,7 @@ public class MoveRollersForward extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.moveTrapRollers(0.5);
+    trap.moveTrapRollers(-0.5);
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +36,6 @@ public class MoveRollersForward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !trap.getTrapNoteSensor();
   }
 }

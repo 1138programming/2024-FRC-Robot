@@ -26,12 +26,13 @@ public class RobotContainer {
 
 
   // Trap Commands
-  private final MoveRollersBackwards moveRollersBackwards = new MoveRollersBackwards(trap);
-  private final MoveRollersForward moveRollersForward = new MoveRollersForward(trap);
+  private final MoveRollerOut moveRollersBackwards = new MoveRollerOut(trap);
+  private final MoveRollerIn moveRollersForward = new MoveRollerIn(trap);
   private final MoveWristForward moveWristForward = new MoveWristForward(trap);
   private final MoveWristMotorBack moveWristMotorBack = new MoveWristMotorBack(trap);
   private final StopRollers stopRollers = new StopRollers(trap);
   private final StopWrist stopWrist = new StopWrist(trap);
+  private final StopTrap stopTrap = new StopTrap(trap);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
