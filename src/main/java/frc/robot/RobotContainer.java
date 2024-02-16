@@ -9,6 +9,9 @@ import frc.robot.commands.Base.ToggleSpeed;
 import frc.robot.commands.Base.Resets.ResetAllButGyro;
 import frc.robot.commands.Base.Resets.ResetEncoders;
 import frc.robot.commands.Base.Resets.ResetGyro;
+import frc.robot.commands.Intake.IntakeSpinIn;
+import frc.robot.commands.Intake.IntakeSpinOut;
+import frc.robot.commands.Intake.IntakeSpinStop;
 import frc.robot.subsystems.Base;
 
 import static frc.robot.Constants.SwerveDriveConstants.*;
@@ -25,9 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.*;
-import frc.robot.commands.IntakeSpinIn;
-import frc.robot.commands.IntakeSpinOut;
-import frc.robot.commands.IntakeSpinStop;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -44,11 +44,13 @@ public class RobotContainer {
   private final Base base = new Base();
   private final Intake intake = new Intake();
 
-  // Commands
+  // Base Commands
   private final DriveWithJoysticks drivewithJoysticks = new DriveWithJoysticks(base);
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
+
+  // Intake Commands
   private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
   private final IntakeSpinIn intakeSpinIn = new IntakeSpinIn(intake);
   private final IntakeSpinOut intakeSpinOut = new IntakeSpinOut(intake);
@@ -63,6 +65,7 @@ public class RobotContainer {
   public static Joystick compStreamDeck;
   public static Joystick testStreamDeck;
   public static XboxController xbox;
+  
   // Controller Buttons/Triggers
   public JoystickButton logitechBtnX, logitechBtnA, logitechBtnB, logitechBtnY, logitechBtnLB, logitechBtnRB,
       logitechBtnLT, logitechBtnRT; // Logitech Button
