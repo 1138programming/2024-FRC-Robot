@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
@@ -16,7 +17,7 @@ public class Limelight extends SubsystemBase {
   private NetworkTable aprilTagsTable;
   private NetworkTable defaultTable;
   private String aprilTagsPipeline = "AprilTags";
- 
+
   private double targetFound;
   private double x;
   private double y;
@@ -29,16 +30,14 @@ public class Limelight extends SubsystemBase {
   private double botPoseX;
   private double botPoseY;
 
-
-
   public Limelight() {
     aprilTagsTable = NetworkTableInstance.getDefault().getTable(aprilTagsPipeline);
 
     targetFound = 0;
     x = 0;
     y = 0;
-    z = 0; 
- 
+    z = 0;
+
     id = 0;
     area = 0;
     skew = 0;
@@ -52,14 +51,15 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     // getting limelight networktable values
 
-      targetFound = aprilTagsTable.getEntry("tv").getDouble(0);
-      x = aprilTagsTable.getEntry("tx").getDouble(0);
-      y = aprilTagsTable.getEntry("ty").getDouble(0);
-      z = aprilTagsTable.getEntry("tz").getDouble(0);
-      area = aprilTagsTable.getEntry("ta").getDouble(0);
-      id = aprilTagsTable.getEntry("tid").getDouble(0);
-      botPose = aprilTagsTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]); //Right Side of Blue Driver Station
-    
+    targetFound = aprilTagsTable.getEntry("tv").getDouble(0);
+    x = aprilTagsTable.getEntry("tx").getDouble(0);
+    y = aprilTagsTable.getEntry("ty").getDouble(0);
+    z = aprilTagsTable.getEntry("tz").getDouble(0);
+    area = aprilTagsTable.getEntry("ta").getDouble(0);
+    id = aprilTagsTable.getEntry("tid").getDouble(0);
+    botPose = aprilTagsTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]); // Right Side of Blue Driver
+                                                                                        // Station
+
     if (botPose.length != 0) {
       botPoseX = botPose[0];
       botPoseY = botPose[1];
@@ -81,8 +81,6 @@ public class Limelight extends SubsystemBase {
     getTable().getEntry("ledMode").setNumber(2); // (blinks limelight)
   }
 
-  
-
   public boolean getTargetFound() {
     if (targetFound == 0) {
       return false;
@@ -96,8 +94,13 @@ public class Limelight extends SubsystemBase {
   public double getBotPoseY() {
     return botPoseY;
   }
+
   public double getBotPose(int i) {
     return botPose[i];
+  }
+
+  public double[] getBotPose() {
+    return botPose;
   }
 
   public double getBotPoseX() {
@@ -107,6 +110,7 @@ public class Limelight extends SubsystemBase {
   public double getXAngle() {
     return x;
   }
+
   public double getYAngle() {
     return y;
   }
@@ -129,38 +133,41 @@ public class Limelight extends SubsystemBase {
   public double getPipeline() {
     return pipeline;
   }
+
   public void setPipeline(int pipeline) {
     this.pipeline = pipeline;
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline); //(turns limelight on)
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline); // (turns
+                                                                                                      // limelight on)
   }
 
-
   /**
-  * Get ID of nearest AprilTag
-  */
+   * Get ID of nearest AprilTag
+   */
   public double getTID() {
     return id;
   }
+
   public double getSkew() {
-    return skew; 
+    return skew;
   }
 
   public double getDistanceFromSpeaker() {
-    // double angleToGoalDegrees = KlimelightMountAngleDegrees + y;
-
-    // double angleToGoalRadians = angleToGoalDegrees * (Math.PI/ 180.0);
-
-    // double distanceFromLimelightToGoalInches = (KspeakerHight - KlimelightMountHight) / Math.tan(angleToGoalRadians);
-
-    // return distanceFromLimelightToGoalInches;
-    double botPoseXOffsetFromSpeaker = Math.abs(botPoseX - KspeakerCoordinates[0]);
-    double botPoseYOffsetFromSpeaker = Math.abs(botPoseY - KspeakerCoordinates[1]);
-    double distanceFromSpeaker = Math.sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
-    return distanceFromSpeaker;
-
+    if (DriverStation.getAlliance().toString() == "blue") {
+      double botPoseXOffsetFromSpeaker = Math.abs(botPoseX - KspeakerCoordinatesBlue[0]);
+      double botPoseYOffsetFromSpeaker = Math.abs(botPoseY - KspeakerCoordinatesBlue[1]);
+      double distanceFromSpeaker = Math
+          .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
+      return distanceFromSpeaker;
+    } else {
+      double botPoseXOffsetFromSpeaker = Math.abs(botPoseX - KspeakerCoordinatesRed[0]);
+      double botPoseYOffsetFromSpeaker = Math.abs(botPoseY - KspeakerCoordinatesRed[1]);
+      double distanceFromSpeaker = Math
+          .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
+      return distanceFromSpeaker;
+    }
   }
 
   public double getAngleForShooterPivot() {
-    return Math.atan((KspeakerHight - KlimelightMountHight)/getDistanceFromSpeaker());
+    return Math.atan((KspeakerHight - KlimelightMountHight) / getDistanceFromSpeaker());
   }
 }

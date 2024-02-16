@@ -4,11 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -74,7 +75,20 @@ public final class Constants {
         public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
         public static final double KlimelightMountHight = 20.0; // Inches (Needs to be changed)
         public static final double KspeakerHight = 60; // Inches (needs to be changed)
-        public static final double[] KspeakerCoordinates = new double[] { 0, 0 }; // (X,Y)
+        public static final double[] KspeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center aprilTag
+        public static final double[] KspeakerAprilTagsBlue = new double[] { 7, 8 }; // Right To Left
+        public static final double[] KspeakerCoordinatesRed = new double[] {16.618, 5.5474108 }; // (X,Y) of the center aprilTag  
+        public static final double[] KspeakerAprilTagsRed = new double[] { 9, 10 }; // Right To Left
+        public static final double KlimeLightRotP = 0;
+        public static final double KlimeLightRotI = 0;
+        public static final double KlimeLightRotD = 0;
+        public static final double KlimeLightDriveP = 0;
+        public static final double KlimeLightDriveI = 0;
+        public static final double KlimeLightDriveD = 0;
+        public static final double KDistanceMoveOffset = 1;
+        public static final double KaprilTagOffset = 20; 
+        public static final PIDController KlimelightrotControl = new PIDController(KlimeLightRotP, KlimeLightRotI, KlimeLightRotD); 
+        public static final PIDController BaseController = new PIDController(KlimeLightDriveP, KlimeLightDriveI, KlimeLightDriveD);
     }
 
     public static class SwerveDriveConstants {
