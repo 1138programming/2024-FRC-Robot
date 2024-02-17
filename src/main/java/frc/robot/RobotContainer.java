@@ -9,6 +9,10 @@ import frc.robot.commands.Base.ToggleSpeed;
 import frc.robot.commands.Base.Resets.ResetAllButGyro;
 import frc.robot.commands.Base.Resets.ResetEncoders;
 import frc.robot.commands.Base.Resets.ResetGyro;
+import frc.robot.commands.Flywheel.SpinFlywheel;
+import frc.robot.commands.Flywheel.SpinLowerFlywheel;
+import frc.robot.commands.Flywheel.SpinUpperFlywheel;
+import frc.robot.commands.Flywheel.StopFlywheel;
 import frc.robot.commands.Intake.IntakeSpinIn;
 import frc.robot.commands.Intake.IntakeSpinOut;
 import frc.robot.commands.Intake.IntakeSpinStop;
@@ -19,6 +23,7 @@ import frc.robot.commands.ShooterTilt.ShooterTiltStop;
 import frc.robot.subsystems.Base;
 
 import static frc.robot.Constants.SwerveDriveConstants.*;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedUpper;
 import static frc.robot.Constants.OperatorConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -32,7 +37,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.*;
-import frc.robot.commands.StopFlywheel;
 import frc.robot.subsystems.Flywheel;
 
 /**
@@ -49,32 +53,33 @@ public class RobotContainer {
   // Subsystems
   private final Base base = new Base();
   private final Intake intake = new Intake();
-
-  // Base Commands
-
+  private final ShooterTilt shooterTilt = new ShooterTilt();
+  private final Flywheel flyWheel = new Flywheel();
+  
   // Commands
+  //  Swerve Drive Commands
   private final DriveWithJoysticks drivewithJoysticks = new DriveWithJoysticks(base);
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
-  private final ShooterTilt shooterTilt = new ShooterTilt();
-  Flywheel flyWheel = new Flywheel();
-  // Commands
+  private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
+  private final ResetEncoders resetEncoders = new ResetEncoders(base);
+  private final ResetGyro resetGyro = new ResetGyro(base);
+  //  Shooter Tilt Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
   private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
   private final ShooterTiltSpinDown shooterTiltSpinDown = new ShooterTiltSpinDown(shooterTilt);
   private final ShooterTiltSpinUp shooterTiltSpinUp = new ShooterTiltSpinUp(shooterTilt);
-
-  // Intake Commands
+  //  Intake Commands
   private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
   private final IntakeSpinIn intakeSpinIn = new IntakeSpinIn(intake);
   private final IntakeSpinOut intakeSpinOut = new IntakeSpinOut(intake);
-
-  // Resets
-  private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
-  private final ResetEncoders resetEncoders = new ResetEncoders(base);
-  private final ResetGyro resetGyro = new ResetGyro(base);
-
+  //  Flywheel Commands
+  private final StopFlywheel stopFlywheel = new StopFlywheel(flyWheel);
+  private final SpinFlywheel spinFlywheel = new SpinFlywheel(flyWheel, KFlywheelSpeedUpper);
+  private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
+  private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
+  
   // Game Controllers
   public static Joystick logitech;
   public static Joystick compStreamDeck;
@@ -108,7 +113,6 @@ public class RobotContainer {
       autonTestStreamDeck15;
 
   private final SendableChooser<Command> autonChooser;
-  StopFlywheel stopFlywheel = new StopFlywheel(flyWheel);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

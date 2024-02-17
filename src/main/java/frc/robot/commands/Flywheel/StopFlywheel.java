@@ -2,20 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Flywheel;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
 
-public class SpinFlywheel extends Command {
+public class StopFlywheel extends Command {
+  /** Creates a new StopFlywheel. */
   private Flywheel flywheel;
-  private double speed;
-  /** Creates a new SpinFlywheel. */
-  public SpinFlywheel(Flywheel flywheel,double speed) {
+  
+  public StopFlywheel(Flywheel flywheel) {
     this.flywheel = flywheel;
-    this.speed = speed;
     addRequirements(flywheel);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,13 +26,15 @@ public class SpinFlywheel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.spinFlywheel(speed);
+    flywheel.stopMotors();
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     flywheel.stopMotors();
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
