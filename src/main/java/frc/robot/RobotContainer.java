@@ -199,6 +199,9 @@ public class RobotContainer {
     // logitechBtnA.whileTrue(moveVortex);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnRB.onTrue(toggleLowSpeed);
+    xboxBtnB.whileTrue(intakeSpinOut);
+    xboxBtnA.whileTrue(intakeSpinIn);
+
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {

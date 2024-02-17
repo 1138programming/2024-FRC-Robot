@@ -71,16 +71,16 @@ public final class Constants {
 
   public static class SwerveDriveConstants {
     // Drive motors
-    public static final int KLeftFrontDriveID = 2; // SparkFlex + Vortex
-    public static final int KRightFrontDriveID = 4; // SparkFlex + Vortex
-    public static final int KLeftBackDriveID = 6; // SparkFlex + Vortex
-    public static final int KRightBackDriveID = 8; // SparkFlex + Vortex
+    public static final int KLeftFrontDriveID = 1; // SparkFlex + Vortex
+    public static final int KRightFrontDriveID = 3; // SparkFlex + Vortex
+    public static final int KLeftBackDriveID = 5; // SparkFlex + Vortex
+    public static final int KRightBackDriveID = 7; // SparkFlex + Vortex
 
     // Angle motors
-    public static final int KLeftFrontAngleID = 1; // SparkMax + NEO
-    public static final int KRightFrontAngleID = 3; // SparkMax + NEO
-    public static final int KLeftBackAngleID = 5; // SparkMax + NEO
-    public static final int KRightBackAngleID = 7; // SparkMax + NEO
+    public static final int KLeftFrontAngleID = 2; // SparkMax + NEO
+    public static final int KRightFrontAngleID = 4; // SparkMax + NEO
+    public static final int KLeftBackAngleID = 6; // SparkMax + NEO
+    public static final int KRightBackAngleID = 8; // SparkMax + NEO
 
     // CanCoders
     public static final int KLeftFrontEncoderID = 1;
