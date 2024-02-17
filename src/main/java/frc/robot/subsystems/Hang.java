@@ -104,7 +104,7 @@ public String laserCanDisStatus(){
         hangMotor.set(0);
       }
       else{
-        hangMotor.set(KHangMotorSpeedDown);
+        hangMotor.set(speed);
       }
     }
     else if(speed > 0){
@@ -112,7 +112,7 @@ public String laserCanDisStatus(){
         hangMotor.set(0);
       }
       else{
-        hangMotor.set(KHangMotorSpeedUp);
+        hangMotor.set(speed);
       }
     }
   }
