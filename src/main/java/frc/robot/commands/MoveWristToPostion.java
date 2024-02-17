@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.TrapConstants.KTrapPotentiometerSetpoint;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trap;
 import frc.robot.Constants;
@@ -26,7 +28,7 @@ public class MoveWristToPostion extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.swivelToPos(40);
+    trap.swivelToPos(KTrapPotentiometerSetpoint);
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +38,6 @@ public class MoveWristToPostion extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return trap.getPotentiometer() >= 40;
+    return trap.getPotentiometer() >= KTrapPotentiometerSetpoint;
   }
 }

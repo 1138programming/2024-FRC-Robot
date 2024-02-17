@@ -32,6 +32,9 @@ public final class Constants {
     
     public static final double KAnalogPotentiometerSensorRange  = 270;
     public static final double KAnalogPotentiometerSensorOffset  = 30;
+    public static final double KTrapPotentiometerSetpointFront = 260;
+    public static final double KTrapPotentiometerSetpointBack = 40;
+    public static final double KTrapPotentiometerSetpoint = 170;
 
     public static final double trapControllerkP = 0.00028;
     public static final double trapControllerkI = 0.000008;
