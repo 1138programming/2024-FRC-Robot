@@ -215,4 +215,8 @@ public final class Constants {
     public static final double KshooterTiltControllerkI = 0;
     public static final double KshooterTiltControllerkD = 0;
   }
+  public static class LEDConstants
+  {
+    public static final int KLEDPort = 9; //placeholder
+  }
 }
