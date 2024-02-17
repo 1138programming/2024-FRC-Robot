@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.*;
-import static frc.robot.Constants.IntakeConstants.KIntakeMotorID;
+import static frc.robot.Constants.IntakeConstants.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,6 +19,10 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
     intakeMotor = new CANSparkMax(KIntakeMotorID, MotorType.kBrushless);
+
+    intakeMotor.setIdleMode(IdleMode.kCoast);
+    intakeMotor.setSmartCurrentLimit(KIntakeMotorCurrentLimit);
+    intakeMotor.setInverted(KIntakeMotorIsInverted);
   }
   
   public void spinIntake(double speed){

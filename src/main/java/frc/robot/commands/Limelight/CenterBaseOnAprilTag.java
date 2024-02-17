@@ -4,15 +4,10 @@
 
 package frc.robot.commands.Limelight;
 
-import static frc.robot.Constants.LimelightConstants.KDistanceMoveOffset;
-import static frc.robot.Constants.LimelightConstants.KaprilTagOffset;
-import static frc.robot.Constants.LimelightConstants.KlimelightrotControl;
-import static frc.robot.Constants.LimelightConstants.KspeakerAprilTagsBlue;
-import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
+import static frc.robot.Constants.LimelightConstants.*;
+import static frc.robot.Constants.SwerveDriveConstants.*;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Base;
 import frc.robot.subsystems.Limelight;
@@ -72,7 +67,7 @@ public class CenterBaseOnAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (1 > Math.abs(xOffsetFromAprilTag - KDistanceMoveOffset)) {
+    if (1 > Math.abs(xOffsetFromAprilTag - KLimelightAngleDeadzone)) {
       return true;
     } else {
       return false;

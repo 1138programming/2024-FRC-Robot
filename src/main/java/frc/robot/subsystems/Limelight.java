@@ -3,15 +3,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.subsystems.Base;
 
 import static frc.robot.Constants.LimelightConstants.*;
-
-import java.util.Arrays;
 
 public class Limelight extends SubsystemBase {
   private NetworkTable aprilTagsTable;
@@ -145,6 +140,21 @@ public class Limelight extends SubsystemBase {
    */
   public double getTID() {
     return id;
+  }
+
+  public boolean isSpeakerAprilTagsSeen() {
+    if (DriverStation.getAlliance().toString() == "blue") {
+      if (getTID() == KspeakerAprilTagsBlue [0] || getTID() == KspeakerAprilTagsBlue[1])
+      return true;
+      else {
+      return false;
+      }
+    } 
+    if (getTID() == KspeakerAprilTagsRed[0] || getTID() == KspeakerAprilTagsRed[1]) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public double getSkew() {
