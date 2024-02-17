@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 //Hang Imports
-import frc.robot.Subsystems.Hang;
+import frc.robot.subsystems.Hang;
 import frc.robot.commands.*;
 
 //Hang Imports
-import frc.robot.Subsystems.Hang;
+import frc.robot.subsystems.Hang;
 import frc.robot.commands.*;
 
 /**
@@ -27,11 +27,10 @@ public class RobotContainer {
   private final Hang hang = new Hang();
   // Commands
   // Hang Commands
-  private final MoveHangHookDown moveHangHookDown = new MoveHangHookDown(hang, 0);
-  private final MoveHangHookDownSetPos moveHangHookDownSetPos = new MoveHangHookDownSetPos(hang, 0);
-  private final MoveHangHookUp moveHangHookUp = new MoveHangHookUp(hang, 0);
-  private final MoveHangHookUpSetPos moveHangHookUpSetPos = new MoveHangHookUpSetPos(hang, 0);
-  private final StopHangHooks stopHangHooks = new StopHangHooks(hang, 0);
+  private final MoveHangHookDown moveHangHookDown = new MoveHangHookDown(hang);
+  private final MoveHangHookUp moveHangHookUp = new MoveHangHookUp(hang);
+  private final StopHangHooks stopHangHooks = new StopHangHooks(hang);
+  private final MoveHangPistons moveHangPistons = new MoveHangPistons(hang);
 
   // Hang Commands
 

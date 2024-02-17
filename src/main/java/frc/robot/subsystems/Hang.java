@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import static frc.robot.Constants.Hang.*;
 
@@ -85,33 +85,6 @@ public String laserCanDisStatus(){
   }
 }
 
-
-
-  public void setHangHookPosUp(double hangSpeed){
-
-    if (hangMotor.getEncoder().getPosition() >=0 && !getHangTopLimitSwitch()){
-      hangMotor.getEncoder().setPosition(KHangSetPositionUp);
-      hangMotor.set(KHangMotorSpeedUp);
-    }
-    hangMotor.set(0);
-  } 
-  
-
-// Moves hang to a set position
-public void setHangHookPosDown(double hangSpeed){
-  if (laserCanDistanceInch() >= 2){
-    hangMotor.getEncoder().setPosition(KHangSetPositionDown);
-    hangMotor.set(KHangMotorSpeedDown);
-  }
-  hangMotor.set(0);
-}
-  /*public void setHangHookPosDown(double hangSpeed){
-    if (hangMotor.getEncoder().getPosition() <= 0 && !getHangBottomLimitSwitch()){
-      hangMotor.getEncoder().setPosition(KHangSetPositionDown);
-      hangMotor.set(KHangMotorSpeedDown);
-     }
-    hangMotor.set(0);
-  }*/
   
   public double getHangPosition(){
     return hangMotor.getEncoder().getPosition();
@@ -125,18 +98,25 @@ public void setHangHookPosDown(double hangSpeed){
    // return hangLimitSwitchBottom.get();
   //}
 // Only moves up and down to the limit switches
-  public void moveHangMotor(double hangSpeed){
-    if(hangSpeed <= 0 ){
+  public void moveHangMotor(double speed){
+    if(speed < 0 ){
       if (laserCanDistanceInch() <= 2){
         hangMotor.set(0);
       }
+      else{
+        hangMotor.set(KHangMotorSpeedDown);
+      }
     }
-    else if(hangSpeed >= 0){
+    else if(speed > 0){
       if (getHangTopLimitSwitch()){
         hangMotor.set(0);
       }
+      else{
+        hangMotor.set(KHangMotorSpeedUp);
+      }
     }
   }
+
 
   // Pneumatics
   public void moveHangPistons(){
@@ -144,7 +124,7 @@ public void setHangHookPosDown(double hangSpeed){
     hangPistonRight.toggle();
   }
 
-  public void hangStop(double hangSpeed){
+  public void hangStop(){
     hangMotor.set(0);
   }
 }
