@@ -14,14 +14,12 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
-    }
-  public static class FlywheelConstants{
     public static final int kDriverControllerPort = 0;
-
+  }
+  public static class FlywheelConstants{
     //Motors
     public static final int KShooterUpperMotor = 14;
     public static final int KShooterLowerMotor = 15;
-    
 
     //Motor speeds
     public static final double KFlywheelSpeedUpper = 0.8;
