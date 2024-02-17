@@ -5,6 +5,7 @@ import static frc.robot.Constants.SwerveDriveConstants.*;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -14,8 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,38 +29,44 @@ public class Base extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
-  private Pose2d pose;
 
   private double driveSpeedFactor;
   private double rotSpeedFactor;
 
   private boolean defenseMode = false;
+  private Pose2d pose;
+
+  private Limelight limelight;
+
+  private SwerveDrivePoseEstimator poseEstimate;
 
   public Base() {
+    limelight = new Limelight();
+
     leftFrontModule = new SwerveModule(
-        KLeftFrontDriveID,
         KLeftFrontAngleID,
+        KLeftFrontDriveID,
         KLeftFrontEncoderID,
         KFrontLeftOffset,
         KFrontLeftDriveReversed,
         KFrontLeftAngleReversed);
     rightFrontModule = new SwerveModule(
-        KRightFrontDriveID,
         KRightFrontAngleID,
+        KRightFrontDriveID,
         KRightFrontEncoderID,
         KFrontRightOffset,
         KFrontRightDriveReversed,
         KFrontRightAngleReversed);
     leftBackModule = new SwerveModule(
-        KLeftBackDriveID,
         KLeftBackAngleID,
+        KLeftBackDriveID,
         KLeftBackEncoderID,
         KBackLeftOffset,
         KBackLeftDriveReversed,
         KBackLeftAngleReversed);
     rightBackModule = new SwerveModule(
-        KRightBackDriveID,
         KRightBackAngleID,
+        KRightBackDriveID,
         KRightBackEncoderID,
         KBackRightOffset,
         KBackRightDriveReversed,
@@ -73,6 +79,7 @@ public class Base extends SubsystemBase {
         KFrontLeftLocation, KFrontRightLocation,
         KBackLeftLocation, KBackRightLocation);
     odometry = new SwerveDriveOdometry(kinematics, getHeading(), getPositions());
+    pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
 
     driveSpeedFactor = KBaseDriveMidPercent;
     rotSpeedFactor = KBaseRotMidPercent;
@@ -98,13 +105,12 @@ public class Base extends SubsystemBase {
           }
           return false;
         },
-        this
-      );
+        this);
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS) {
-    xSpeed *= maxDriveSpeedMPS;
-    ySpeed *= maxDriveSpeedMPS;
+    xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
+    ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     rot *= KMaxAngularSpeed * getRotSpeedFactor();
 
     // feeding parameter speeds into toSwerveModuleStates to get an array of
@@ -118,6 +124,10 @@ public class Base extends SubsystemBase {
     if (defenseMode) {
       lockWheels();
     } else {
+      SmartDashboard.putNumber("frontLeftState", states[0].speedMetersPerSecond);
+      SmartDashboard.putNumber("frontRightState", states[1].speedMetersPerSecond);
+      SmartDashboard.putNumber("backLeftState", states[2].speedMetersPerSecond);
+      SmartDashboard.putNumber("backRightState", states[3].speedMetersPerSecond);
       // setting module states, aka moving the motors
       leftFrontModule.setDesiredState(states[0]);
       rightFrontModule.setDesiredState(states[1]);
@@ -149,11 +159,15 @@ public class Base extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
+    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
     odometry.resetPosition(getHeading(), getPositions(), pose);
   }
 
   public Pose2d getPose() {
     return odometry.getPoseMeters();
+  }
+  public Pose2d getPoseEstimate() {
+    return poseEstimate.getEstimatedPosition();
   }
 
   public ChassisSpeeds getSpeeds() {
@@ -211,15 +225,29 @@ public class Base extends SubsystemBase {
     return positions;
   }
 
+  public double getRobotPoseX() {
+    return poseEstimate.getEstimatedPosition().getX();
+  }
+  public double getRobotPoseY() {
+    return poseEstimate.getEstimatedPosition().getY();
+  }
+
   public void resetPose() {
     resetAllRelEncoders();
     pose = new Pose2d();
-
     odometry.resetPosition(getHeading(), getPositions(), pose);
+    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
+  }
+
+  public void updatePose(Double x, Double y) {
+    pose = new Pose2d(x, y, gyro.getRotation2d());
+    odometry.resetPosition(getHeading(), getPositions(), pose);
+    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
   }
 
   public Rotation2d getHeading() {
-    return Rotation2d.fromDegrees(getHeadingDeg());
+    // return Rotation2d.fromDegrees(getHeadingDeg());
+    return gyro.getRotation2d(); // TEST
   }
 
   public double getHeadingDeg() {
@@ -260,16 +288,21 @@ public class Base extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // Shuffleboard.getTab("SmartDashboard").add("AnglePID", 1).withWidget(BuiltInWidgets.kPIDController).getEntry();
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
+    SmartDashboard.putNumber("Speed", leftFrontModule.getDriveEncoderVel());
     SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
+    SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
     SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
 
-    
     odometry.update(getHeading(), getPositions());
-    pose = odometry.getPoseMeters();
+
+    pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    if (limelight.getTargetFound()) {
+    poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(6) / 1000));
+    }
+    poseEstimate.update(getHeading(), getPositions());
   }
 }

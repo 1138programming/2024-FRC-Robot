@@ -4,11 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -30,6 +31,7 @@ public final class Constants {
     public static final int KXboxPort = 1;
     public static final int KStreamDeckPort = 2;
     public static final int KTestingStreamDeckPort = 3;
+    public static final int KAutonTestingStreamDeckPort = 4;
 
     // Deadzone
     public static final double KDeadZone = 0.05;
@@ -69,6 +71,30 @@ public final class Constants {
     public static final int KXboxRightTrigger = 3;
   }
 
+  public static class LimelightConstants {
+    public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
+    public static final double KlimelightMountHight = 20.0; // Inches (Needs to be changed)
+    public static final double KspeakerHight = 60; // Inches (needs to be changed)
+    public static final double[] KspeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
+                                                                                          // aprilTag
+    public static final double[] KspeakerAprilTagsBlue = new double[] { 7, 8 }; // Right To Left
+    public static final double[] KspeakerCoordinatesRed = new double[] { 16.618, 5.5474108 }; // (X,Y) of the center
+                                                                                              // aprilTag
+    public static final double[] KspeakerAprilTagsRed = new double[] { 9, 10 }; // Right To Left
+    public static final double KlimeLightRotP = 0.0167;
+    public static final double KlimeLightRotI = 0;
+    public static final double KlimeLightRotD = 0;
+    public static final double KlimeLightDriveP = 0;
+    public static final double KlimeLightDriveI = 0;
+    public static final double KlimeLightDriveD = 0;
+    public static final double KLimelightAngleDeadzone = 1;
+    public static final double KaprilTagOffset = 20;
+    public static final PIDController KlimelightrotControl = new PIDController(KlimeLightRotP, KlimeLightRotI,
+        KlimeLightRotD);
+    public static final PIDController KBaseController = new PIDController(KlimeLightDriveP, KlimeLightDriveI,
+        KlimeLightDriveD);
+  }
+
   public static class SwerveDriveConstants {
     // Drive motors
     public static final int KLeftFrontDriveID = 1; // SparkFlex + Vortex
@@ -101,9 +127,8 @@ public final class Constants {
     public static final double KNeoMaxRPM = 5676;
     public static final double KNeoVortexMaxRPM = 6784;
     public static final int KVortexEncoderTicksPerRevolution = 7168;
-
     // Robot Specs
-    public static final double KDriveMotorGearRatio = 1 / 4.41;
+    public static final double KDriveMotorGearRatio = 1 / 5.51; // Double Check
     public static final double KWheelDiameterMeters = 0.1016;
     public static final double KDriveMotorRotToMeter = KDriveMotorGearRatio * KWheelDiameterMeters * Math.PI;
     public static final double KDriveMotorRPMToMetersPerSec = KDriveMotorRotToMeter / 60;
@@ -126,11 +151,14 @@ public final class Constants {
     public static final double KMaxAngularSpeed = 3.5;
 
     // Offsets
-    public static final double KFrontLeftOffset = -12.44;
-    public static final double KFrontRightOffset = 311.81;
-    public static final double KBackLeftOffset = 332.5;
-    public static final double KBackRightOffset = -17.75;
-    public static final double KGyroOffset = 180;
+    // public static final double KFrontLeftOffset = -121.90;
+    // public static final double KFrontRightOffset = -103.71;
+    // public static final double KBackLeftOffset = 96.94;
+    // public static final double KBackRightOffset = 136.8;
+    public static final double KFrontLeftOffset = 58.97;
+    public static final double KFrontRightOffset = -98.43;
+    public static final double KBackLeftOffset = 103.79;
+    public static final double KBackRightOffset = -35.59;
 
     // Drive Motor Reversals
     public static final boolean KFrontLeftDriveReversed = false;
@@ -161,20 +189,20 @@ public final class Constants {
 
     // Auton Config
     public static final HolonomicPathFollowerConfig KPathFollowerConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(5.0, 0, 0), // Translation constants
-        new PIDConstants(5.0, 0, 0), // Rotation constants
+        new PIDConstants(20.0, 1.5, 0), // Translation constants
+        new PIDConstants(3.0, 0, 0), // Rotation constants
         KPhysicalMaxDriveSpeedMPS,
         KWheelRadialDistanceFromCenter, // Drive base radius (distance from center to furthest module)
         new ReplanningConfig());
 
-    // Possibly Unused
-    public static final TrajectoryConfig KtrajectoryConfig = new TrajectoryConfig(KPhysicalMaxDriveSpeedMPS,
-        KMaxAcceleration);
   }
 
   public static class IntakeConstants {
     public static final int KIntakeMotorID = 12;
-    public static final double KIntakeMotorSpeed = 0.5;
+
+    public static final double KIntakeMotorSpeed = 1;
+    public static final boolean KIntakeMotorIsInverted = false;
+    public static final int KIntakeMotorCurrentLimit = 40;
   }
 
   public static class TiltConstants {

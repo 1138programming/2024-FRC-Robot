@@ -27,8 +27,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.TiltConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -51,6 +49,8 @@ public class RobotContainer {
   private final Intake intake = new Intake();
 
   // Base Commands
+
+  // Commands
   private final DriveWithJoysticks drivewithJoysticks = new DriveWithJoysticks(base);
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
@@ -77,6 +77,7 @@ public class RobotContainer {
   public static Joystick logitech;
   public static Joystick compStreamDeck;
   public static Joystick testStreamDeck;
+  public static Joystick autonTestStreamDeck;
   public static XboxController xbox;
   
   // Controller Buttons/Triggers
@@ -98,6 +99,12 @@ public class RobotContainer {
       testStreamDeck8, testStreamDeck9, // Vjoy 2
       testStreamDeck10, testStreamDeck11, testStreamDeck12, testStreamDeck13, testStreamDeck14, testStreamDeck15;
 
+  public JoystickButton autonTestStreamDeck1, autonTestStreamDeck2, autonTestStreamDeck3, autonTestStreamDeck4,
+      autonTestStreamDeck5, autonTestStreamDeck6, autonTestStreamDeck7,
+      autonTestStreamDeck8, autonTestStreamDeck9, // Vjoy 2
+      autonTestStreamDeck10, autonTestStreamDeck11, autonTestStreamDeck12, autonTestStreamDeck13, autonTestStreamDeck14,
+      autonTestStreamDeck15;
+
   private final SendableChooser<Command> autonChooser;
 
   /**
@@ -108,7 +115,7 @@ public class RobotContainer {
     intake.setDefaultCommand(intakeSpinStop);
 
     // Auton Chooser
-    autonChooser = AutoBuilder.buildAutoChooser("New New Auto");
+    autonChooser = AutoBuilder.buildAutoChooser("ExampleAuto");
     SmartDashboard.putData("Auton Chooser", autonChooser);
 
     // Configure the trigger bindings
@@ -116,6 +123,7 @@ public class RobotContainer {
     xbox = new XboxController(KXboxPort); // Xbox 360 for Windows
     compStreamDeck = new Joystick(KStreamDeckPort); // Stream Deck + vjoy
     testStreamDeck = new Joystick(KTestingStreamDeckPort); // Stream Deck + vjoy
+    autonTestStreamDeck = new Joystick(KAutonTestingStreamDeckPort); // Stream Deck + vjoy
 
     // Logitch Buttons
     logitechBtnX = new JoystickButton(logitech, KLogitechButtonX);
@@ -170,6 +178,22 @@ public class RobotContainer {
     testStreamDeck14 = new JoystickButton(testStreamDeck, 14);
     testStreamDeck15 = new JoystickButton(testStreamDeck, 15);
 
+    autonTestStreamDeck1 = new JoystickButton(testStreamDeck, 1);
+    autonTestStreamDeck2 = new JoystickButton(testStreamDeck, 2);
+    autonTestStreamDeck3 = new JoystickButton(testStreamDeck, 3);
+    autonTestStreamDeck4 = new JoystickButton(testStreamDeck, 4);
+    autonTestStreamDeck5 = new JoystickButton(testStreamDeck, 5);
+    autonTestStreamDeck6 = new JoystickButton(testStreamDeck, 6);
+    autonTestStreamDeck7 = new JoystickButton(testStreamDeck, 7);
+    autonTestStreamDeck8 = new JoystickButton(testStreamDeck, 9);
+    autonTestStreamDeck9 = new JoystickButton(testStreamDeck, 9);
+    autonTestStreamDeck10 = new JoystickButton(testStreamDeck, 10);
+    autonTestStreamDeck11 = new JoystickButton(testStreamDeck, 11);
+    autonTestStreamDeck12 = new JoystickButton(testStreamDeck, 12);
+    autonTestStreamDeck13 = new JoystickButton(testStreamDeck, 13);
+    autonTestStreamDeck14 = new JoystickButton(testStreamDeck, 14);
+    autonTestStreamDeck15 = new JoystickButton(testStreamDeck, 15);
+
     // Configure the button bindings
 
     // set default command for each subsystem
@@ -195,12 +219,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
     logitechBtnY.onTrue(resetGyro);
-
-    // logitechBtnA.whileTrue(moveVortex);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnRB.onTrue(toggleLowSpeed);
-    xboxBtnB.whileTrue(intakeSpinOut);
-    xboxBtnA.whileTrue(intakeSpinIn);
+
+    compStreamDeck1.whileTrue(intakeSpinIn);
+    compStreamDeck2.whileTrue(intakeSpinOut);
 
 
     // if LB and RB are held and one is released, go back to previous speed

@@ -9,14 +9,20 @@ import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkFlexExternalEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkFlexExternalEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveModule extends SubsystemBase {
@@ -33,11 +39,14 @@ public class SwerveModule extends SubsystemBase {
   private PIDController angleController;
 
   private double offset;
+  
+  private SendableChooser<PIDController> PIDController;
 
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
                       boolean driveMotorReversed, boolean angleMotorReversed) {
     angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
     driveMotor = new CANSparkFlex(driveMotorID, MotorType.kBrushless);
+    // driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
 
     angleMotor.setIdleMode(IdleMode.kBrake);
     driveMotor.setIdleMode(IdleMode.kBrake);
@@ -48,20 +57,26 @@ public class SwerveModule extends SubsystemBase {
     this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit);
     this.angleMotor.setSmartCurrentLimit(KAngleMotorCurrentLimit);
 
-    driveEncoder = driveMotor.getExternalEncoder(KVortexEncoderTicksPerRevolution);
+    canCoder = new CANcoder(encoderPort);
+
+    MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
+
+    double offsetToRotations = offset/360;
+
+    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    canCoderConfig.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+    canCoderConfig.MagnetOffset = offsetToRotations;
+    canCoder.getConfigurator().apply(canCoderConfig);
+
+    // driveEncoder = driveMotor.getExternalEncoder(Type.kQuadrature, 1);
+    driveEncoder = driveMotor.getEncoder();
     
     driveEncoder.setPositionConversionFactor(KDriveMotorRotToMeter);
     driveEncoder.setVelocityConversionFactor(KDriveMotorRPMToMetersPerSec);
 
     angleController = new PIDController(KAngleP, KAngleI, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
-    
-    MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
-    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    canCoderConfig.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-    canCoderConfig.MagnetOffset = offset;
-    canCoder = new CANcoder(encoderPort);
-    canCoder.getConfigurator().apply(canCoderConfig);
+    // SmartDashboard.putData("Angle PID", PIDController);
   }
   
   
@@ -120,7 +135,7 @@ public class SwerveModule extends SubsystemBase {
   
   // Angle Encoder getters
   public double getMagDegRaw() {
-    double pos = canCoder.getAbsolutePosition().getValueAsDouble();
+    double pos = canCoder.getAbsolutePosition().getValueAsDouble() * 360;
     return pos;
   }
   public double getAngleDeg() {
@@ -133,6 +148,6 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putData("Angle PID", angleController);
+    SmartDashboard.putNumber("DriveSpeed " + driveMotor.getDeviceId(), driveEncoder.getVelocity());
   }
 }
