@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.TiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,20 +18,23 @@ import com.revrobotics.CANSparkMax; // Covers Neo's
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.sim.CANcoderSimState;
 
 public class ShooterTilt extends SubsystemBase {
 
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
-
+  private CANcoderSimState shooterTiltCANcoderSim;
   //PID
   private PIDController swivelController;
 
   public ShooterTilt() {
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); 
-    shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
-    
+    shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
+
+    shooterTiltCANcoderSim = new CANcoderSimState(shooterTiltCANcoder);
+
     swivelController = new PIDController(KshooterTiltControllerkP, KshooterTiltControllerkI, KshooterTiltControllerkD);
   }
 
