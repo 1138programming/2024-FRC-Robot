@@ -17,13 +17,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class TiltConstants{
-    
-  }
   public static class TrapConstants{
-    public static final int KTrapRollerMotorID = 1;
+    public static final int KTrapRollerMotorID = 18;
+    public static final int KTrapWristMotorID = 19;
     public static final int KTrapIRSensorID = 6;
-    public static final int KTrapWristMotorID = 3;
 
     public static final double KTrapRollersForwardSpeed = 0.5;
     public static final double KTrapRollersBackwardSpeed = -0.5;
