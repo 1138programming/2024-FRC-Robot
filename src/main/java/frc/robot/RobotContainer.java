@@ -32,6 +32,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.*;
+import frc.robot.commands.StopFlywheel;
+import frc.robot.subsystems.Flywheel;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -56,7 +58,7 @@ public class RobotContainer {
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
   private final ShooterTilt shooterTilt = new ShooterTilt();
-
+  Flywheel flyWheel = new Flywheel();
   // Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
   private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
@@ -106,7 +108,7 @@ public class RobotContainer {
       autonTestStreamDeck15;
 
   private final SendableChooser<Command> autonChooser;
-
+  StopFlywheel stopFlywheel = new StopFlywheel(flyWheel);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -201,6 +203,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     shooterTilt.setDefaultCommand(shooterTiltStop);
     configureBindings();
+    flyWheel.setDefaultCommand(stopFlywheel);
   }
 
   /**
