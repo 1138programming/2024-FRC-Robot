@@ -231,4 +231,14 @@ public final class Constants {
     //reversed motor 
     public static final boolean KFlywhelUpperMotorReversed = true;
   }
-}
+
+
+
+  public static class IndexerConstants{
+    public static final double KIndexerMotorSpeedForward = 1;
+    public static final int KIndexerLimitSwitchNoteMaxPosID = 10;
+    public static final int KIndexerMotorID = 13;
+    public static final double KgetIndexerIDLimitSwitch = 8;
+
+    }
+  }

@@ -32,12 +32,20 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.IndexerNoteLoaded;
+import frc.robot.commands.IndexerSpin;
+import frc.robot.commands.IndexerStop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.*;
 import frc.robot.subsystems.Flywheel;
+import frc.robot.Constants;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ShooterTilt;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -55,6 +63,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final ShooterTilt shooterTilt = new ShooterTilt();
   private final Flywheel flyWheel = new Flywheel();
+  private final Indexer indexer = new Indexer();
   
   // Commands
   //  Swerve Drive Commands
@@ -79,6 +88,10 @@ public class RobotContainer {
   private final SpinFlywheel spinFlywheel = new SpinFlywheel(flyWheel, KFlywheelSpeedUpper);
   private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
+  //  Indexer Commands
+  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer, 0);
+  private final IndexerSpin indexerspin = new IndexerSpin(indexer, 0);
+  private final IndexerStop indexerStop = new IndexerStop(indexer);
   
   // Game Controllers
   public static Joystick logitech;
@@ -116,9 +129,16 @@ public class RobotContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
+
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+ 
   public RobotContainer() {
     base.setDefaultCommand(drivewithJoysticks);
     intake.setDefaultCommand(intakeSpinStop);
+    shooterTilt.setDefaultCommand(shooterTiltStop);
+    indexer.setDefaultCommand(indexerStop);
+    flyWheel.setDefaultCommand(stopFlywheel);
 
     // Auton Chooser
     autonChooser = AutoBuilder.buildAutoChooser("ExampleAuto");
@@ -200,14 +220,8 @@ public class RobotContainer {
     autonTestStreamDeck14 = new JoystickButton(testStreamDeck, 14);
     autonTestStreamDeck15 = new JoystickButton(testStreamDeck, 15);
 
-    // Configure the button bindings
-
-    // set default command for each subsystem
-    
     // Configure the trigger bindings
-    shooterTilt.setDefaultCommand(shooterTiltStop);
     configureBindings();
-    flyWheel.setDefaultCommand(stopFlywheel);
   }
 
   /**
