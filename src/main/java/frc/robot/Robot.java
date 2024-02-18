@@ -21,6 +21,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 import frc.robot.subsystems.Base;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,7 +35,7 @@ import frc.robot.subsystems.Base;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   public static RobotContainer m_robotContainer;
@@ -50,7 +57,7 @@ public class Robot extends TimedRobot {
     m_trajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
             List.of(new Translation2d(10, 6), new Translation2d(10, 6)),
-            new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+            new Pose2d(3, 5, Rotation2d.fromDegrees(0)),
             new TrajectoryConfig(Units.feetToMeters(2.0), Units.feetToMeters(2.0)));
 
     // Create and push Field2d to SmartDashboard.
