@@ -27,7 +27,7 @@ public class Trap extends SubsystemBase {
 
   public Trap() {
     trapRollerMotor = new TalonSRX(KTrapRollerMotorID);
-    trapNoteSensor = new DigitalInput(KTrapIRSensorID);
+    trapNoteSensor = new DigitalInput(KTrapIRID);
     trapWristMotor = new TalonSRX(KTrapWristMotorID);
     trapPotentiometer = new AnalogPotentiometer(KPotentiometerID, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
     swivelController = new PIDController(trapControllerkP, trapControllerkI, trapControllerkD);
