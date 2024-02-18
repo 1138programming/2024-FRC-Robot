@@ -49,9 +49,9 @@ public class Robot extends TimedRobot {
     // trajectories here to avoid wasting time in autonomous.
     m_trajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+            List.of(new Translation2d(10, 6), new Translation2d(10, 6)),
             new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-            new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
+            new TrajectoryConfig(Units.feetToMeters(2.0), Units.feetToMeters(2.0)));
 
     // Create and push Field2d to SmartDashboard.
     SmartDashboard.putData(m_field);
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
+  public void robotPeriodic() {   
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
