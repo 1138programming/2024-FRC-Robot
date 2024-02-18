@@ -18,7 +18,7 @@ public final class Constants {
   }
 
   public static class Hang {
-    public static final int KHangMotorID = 1;
+    public static final int KHangMotorID = 17;
     public static final double KHangMotorSpeedUp = 0.5;
     public static final double KHangMotorSpeedDown = -0.5;
     public static final int KHangLimitSwitchDown = 2;
@@ -26,9 +26,9 @@ public final class Constants {
     public static final int KHangSetPositionUp = 10;
     public static final int KHangSetPositionDown = -10;
     // Piston Pneumatics double Constants
-    public static final int KHangPistonLeftInID = 4;
-    public static final int KHangPistonLeftOutID = 5;
-    public static final int KHangPistonRightInID = 6;
-    public static final int KHangPistonRightOutID = 7;
+    public static final int KHangPistonLeftInID = 1;
+    public static final int KHangPistonLeftOutID = 2;
+    public static final int KHangPistonRightInID = 3;
+    public static final int KHangPistonRightOutID = 4;
   }
 }
