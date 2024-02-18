@@ -21,9 +21,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import edu.wpi.math.DifferentialDrivertrainSim;
 
 public class Base extends SubsystemBase {
   private SwerveModule leftFrontModule;
@@ -51,6 +53,13 @@ public class Base extends SubsystemBase {
 
   private double driveSpeedFactor;
   private double rotSpeedFactor;
+
+  private EncoderSim rightSim;
+  private EncoderSim leftSim;
+  private AHRS gyroSim;
+  // private DifferentialDrivertrainSim sim;
+  private Field2d field;
+
 
   private boolean defenseMode = false;
 
