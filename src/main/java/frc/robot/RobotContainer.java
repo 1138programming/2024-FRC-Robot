@@ -6,8 +6,8 @@ package frc.robot;
 
 import frc.robot.commands.Base.DriveWithJoysticks;
 import frc.robot.commands.Base.ToggleSpeed;
-import frc.robot.commands.Base.Resets.ResetAllButGyro;
-import frc.robot.commands.Base.Resets.ResetEncoders;
+// import frc.robot.commands.Base.Resets.ResetAllButGyro;
+// import frc.robot.commands.Base.Resets.ResetEncoders;
 import frc.robot.commands.Base.Resets.ResetGyro;
 import frc.robot.commands.Flywheel.SpinFlywheel;
 import frc.robot.commands.Flywheel.SpinLowerFlywheel;
@@ -71,8 +71,8 @@ public class RobotContainer {
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
-  private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
-  private final ResetEncoders resetEncoders = new ResetEncoders(base);
+  // private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
+  // private final ResetEncoders resetEncoders = new ResetEncoders(base);
   private final ResetGyro resetGyro = new ResetGyro(base);
   //  Shooter Tilt Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
