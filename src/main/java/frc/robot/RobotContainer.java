@@ -11,7 +11,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //Hang Imports
 import frc.robot.subsystems.Hang;
 import frc.robot.commands.*;
-
+import frc.robot.commands.Hang.MoveHangHookDown;
+import frc.robot.commands.Hang.MoveHangHookUp;
+import frc.robot.commands.Hang.MoveHangPistons;
+import frc.robot.commands.Hang.StopHangHooks;
 //Hang Imports
 import frc.robot.subsystems.Hang;
 import frc.robot.commands.*;

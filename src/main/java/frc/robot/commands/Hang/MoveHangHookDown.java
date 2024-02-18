@@ -2,19 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Hang;
 
-import static frc.robot.Constants.Hang.KHangMotorSpeedUp;
-
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.*;
 import frc.robot.Constants;
 
-public class MoveHangHookUp extends Command {
-  /** Creates a new MoveHangUp. */
+import static frc.robot.Constants.Hang.KHangMotorSpeedDown;
+
+import edu.wpi.first.wpilibj2.command.Command;
+
+public class MoveHangHookDown extends Command {
+  /** Creates a new MoveHangDown. */
   private Hang hang;
 
-  public MoveHangHookUp(Hang hang) {
+  public MoveHangHookDown(Hang hang) {
     this.hang = hang;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,7 +28,7 @@ public class MoveHangHookUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hang.moveHangMotor(KHangMotorSpeedUp);
+    hang.moveHangMotor(KHangMotorSpeedDown);
   }
 
   // Called once the command ends or is interrupted.
