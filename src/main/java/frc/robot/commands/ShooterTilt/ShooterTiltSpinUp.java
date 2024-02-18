@@ -4,7 +4,7 @@
 
 package frc.robot.commands.ShooterTilt;
 
-import static frc.robot.Constants.TiltConstants.*;
+import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterTilt;

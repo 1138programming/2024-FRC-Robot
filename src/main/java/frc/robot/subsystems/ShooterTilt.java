@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.TiltConstants.*;
+import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

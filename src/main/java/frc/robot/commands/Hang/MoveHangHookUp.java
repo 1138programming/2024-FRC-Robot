@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Hang;
 
-import static frc.robot.Constants.Hang.KHangMotorSpeedUp;
+import static frc.robot.Constants.HangConstants.KHangMotorSpeedUp;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.*;
