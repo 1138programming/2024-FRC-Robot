@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 
@@ -25,6 +26,7 @@ public class Indexer extends SubsystemBase {
   
   public Indexer() {
     indexerMotor = new CANSparkMax(KIndexerMotorID, MotorType.kBrushless);
+    indexerMotor.setIdleMode(IdleMode.kBrake);
     indexerBeamBreakerNoteMaxPos = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
   }
 

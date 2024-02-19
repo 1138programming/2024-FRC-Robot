@@ -90,7 +90,7 @@ public class RobotContainer {
   private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
   //  Indexer Commands
-  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer, 0);
+  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer, KIndexerMotorSpeed);
   private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
   
@@ -250,7 +250,7 @@ public class RobotContainer {
     compStreamDeck4.whileTrue(indexerSpin);
     compStreamDeck5.whileTrue(spinUpperFlywheel);
     compStreamDeck6.whileTrue(spinLowerFlywheel);
-    compStreamDeck7.whileTrue(indexerNoteLoaded);
+    compStreamDeck7.onTrue(indexerNoteLoaded);
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {
