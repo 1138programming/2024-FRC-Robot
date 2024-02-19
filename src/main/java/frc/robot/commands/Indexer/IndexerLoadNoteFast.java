@@ -4,17 +4,16 @@
 
 package frc.robot.commands.Indexer;
 
-import static frc.robot.Constants.IndexerConstants.KIndexerMotorSpeed;
+import static frc.robot.Constants.IndexerConstants.KIndexerFastSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
 
 
-public class IndexerNoteLoaded extends Command {
+public class IndexerLoadNoteFast extends Command {
   private Indexer indexer;
 /** Creates a new IndexerNoteLoaded. */
-  public IndexerNoteLoaded(Indexer indexer) {
-
+  public IndexerLoadNoteFast(Indexer indexer) {
     this.indexer = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,7 +24,7 @@ public class IndexerNoteLoaded extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerNoteLoaded(KIndexerMotorSpeed);
+    indexer.indexerSpin(KIndexerFastSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +36,6 @@ public class IndexerNoteLoaded extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.getIndexerBBreaker();
+    return indexer.getIndexerBBreakerBottom();
   }
 }

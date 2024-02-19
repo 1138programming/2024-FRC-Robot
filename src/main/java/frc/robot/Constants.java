@@ -239,8 +239,11 @@ public final class Constants {
 
   public static class IndexerConstants{
     public static final double KIndexerMotorSpeed = 0.6;
+    public static final double KIndexerSlowSpeed = 0.35;
+    public static final double KIndexerFastSpeed = 0.9;
 
     public static final int KIndexerBBreakerNoteMaxPosID = 2;
+    public static final int KIndexerBBreakerNoteSlowID = 1;
 
     public static final int KIndexerMotorID = 13;
   }

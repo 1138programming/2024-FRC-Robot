@@ -21,7 +21,7 @@ import frc.robot.commands.Flywheel.SpinLowerFlywheel;
 import frc.robot.commands.Flywheel.SpinUpperFlywheel;
 import frc.robot.commands.Flywheel.StopFlywheel;
 
-import frc.robot.commands.Indexer.IndexerNoteLoaded;
+import frc.robot.commands.Indexer.IndexerLoadNoteSlow;
 import frc.robot.commands.Indexer.IndexerSpin;
 import frc.robot.commands.Indexer.IndexerStop;
 
@@ -37,6 +37,7 @@ import frc.robot.commands.ShooterTilt.ShooterTiltStop;
 // Command Groups
 import frc.robot.CommandGroups.IntakeAndIndex;
 import frc.robot.CommandGroups.IntakeAndIndexOut;
+import frc.robot.CommandGroups.IntakeAndIndexToStop;
 
 // Constants
 import static frc.robot.Constants.SwerveDriveConstants.*;
@@ -95,13 +96,14 @@ public class RobotContainer {
   private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
   //  Indexer Commands
-  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer);
+  private final IndexerLoadNoteSlow indexerNoteLoaded = new IndexerLoadNoteSlow(indexer);
   private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
   
   // Command Groups
   private final IntakeAndIndex intakeAndIndex = new IntakeAndIndex(intake, indexer);
   private final IntakeAndIndexOut intakeAndIndexOut = new IntakeAndIndexOut(intake, indexer);
+  private final IntakeAndIndexToStop intakeAndIndexToStop = new IntakeAndIndexToStop(intake, indexer);
   
   // Shuffleboard AutonChooser
   private final SendableChooser<Command> autonChooser;
@@ -251,7 +253,7 @@ public class RobotContainer {
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(toggleLowSpeed);
 
-    logitechBtnRB.whileTrue(intakeAndIndex);
+    logitechBtnRB.whileTrue(intakeAndIndexToStop);
     logitechBtnRT.whileTrue(intakeAndIndexOut);
 
     compStreamDeck1.whileTrue(indexerSpin);

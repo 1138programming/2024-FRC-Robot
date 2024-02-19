@@ -20,19 +20,22 @@ public class Indexer extends SubsystemBase {
   /** Creates a new Indexer. */
   private CANSparkMax indexerMotor;
 
-  private DigitalInput indexerBeamBreakerNoteMaxPos;
+  private DigitalInput indexerBeamBreakerTop;
+  private DigitalInput indexerBeamBreakerBottom;
   
   public Indexer() {
     indexerMotor = new CANSparkMax(KIndexerMotorID, MotorType.kBrushless);
 
     indexerMotor.setIdleMode(IdleMode.kBrake);
-    indexerBeamBreakerNoteMaxPos = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
+    indexerBeamBreakerTop = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
+    indexerBeamBreakerBottom = new DigitalInput(KIndexerBBreakerNoteSlowID);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Indexer Beam Breaker", getIndexerBBreaker());
+    SmartDashboard.putBoolean("Indexer Beam Breaker", getIndexerBBreakerTop());
     // This method will be called once per scheduler run
+
   }
 
   //Indexer Methods
@@ -45,7 +48,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void indexerNoteLoaded(double indexerSpeed){
-    if (indexerSpeed >= 0 && getIndexerBBreaker()) {
+    if (indexerSpeed >= 0 && getIndexerBBreakerTop()) {
         indexerMotor.set(0);
     }
      else {
@@ -54,7 +57,11 @@ public class Indexer extends SubsystemBase {
   }
 
   //Limit Switch Methods
-  public boolean getIndexerBBreaker(){
-    return !indexerBeamBreakerNoteMaxPos.get();
+  public boolean getIndexerBBreakerTop(){
+    return !indexerBeamBreakerTop.get();
+  }
+
+  public boolean getIndexerBBreakerBottom(){
+    return !indexerBeamBreakerBottom.get();
   }
 }
