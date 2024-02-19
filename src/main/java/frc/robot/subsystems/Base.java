@@ -80,6 +80,7 @@ public class Base extends SubsystemBase {
         KBackLeftLocation, KBackRightLocation);
     odometry = new SwerveDriveOdometry(kinematics, getHeading(), getPositions());
     pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    poseEstimate = new SwerveDrivePoseEstimator(kinematics, getHeading(), getPositions(), pose);
 
     driveSpeedFactor = KBaseDriveMidPercent;
     rotSpeedFactor = KBaseRotMidPercent;
@@ -121,9 +122,9 @@ public class Base extends SubsystemBase {
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
 
-    if (defenseMode) {
-      lockWheels();
-    } else {
+    // if (defenseMode) {
+    //   lockWheels();
+    // } else {
       SmartDashboard.putNumber("frontLeftState", states[0].speedMetersPerSecond);
       SmartDashboard.putNumber("frontRightState", states[1].speedMetersPerSecond);
       SmartDashboard.putNumber("backLeftState", states[2].speedMetersPerSecond);
@@ -133,7 +134,7 @@ public class Base extends SubsystemBase {
       rightFrontModule.setDesiredState(states[1]);
       leftBackModule.setDesiredState(states[2]);
       rightBackModule.setDesiredState(states[3]);
-    }
+    // }
   }
 
   public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {

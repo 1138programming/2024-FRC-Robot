@@ -241,21 +241,21 @@ public class RobotContainer {
   private void configureBindings() {
     logitechBtnY.onTrue(resetGyro);
     logitechBtnLB.onTrue(toggleMaxSpeed);
-    logitechBtnRB.onTrue(toggleLowSpeed);
+    logitechBtnLT.onTrue(toggleLowSpeed);
 
-    compStreamDeck1.whileTrue(intakeSpinIn);
-    compStreamDeck2.whileTrue(intakeSpinOut);
+    logitechBtnRB.whileTrue(intakeSpinIn);
+    logitechBtnRT.whileTrue(intakeSpinOut);
 
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {
-      logitechBtnRB.onFalse(toggleMidSpeed);
+      logitechBtnLT.onFalse(toggleMidSpeed);
     } else {
-      logitechBtnRB.onFalse(toggleMaxSpeed);
+      logitechBtnLT.onFalse(toggleMaxSpeed);
     }
 
     // if LB and RB are held and one is released, go back to previous speed
-    if (!logitechBtnRB.getAsBoolean()) {
+    if (!logitechBtnLT.getAsBoolean()) {
       logitechBtnLB.onFalse(toggleMidSpeed);
     } else {
       logitechBtnLB.onFalse(toggleLowSpeed);
