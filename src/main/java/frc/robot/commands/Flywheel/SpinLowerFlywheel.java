@@ -26,7 +26,7 @@ public class SpinLowerFlywheel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.spinLowerFlywheel(KFlywheelSpeedLower);
+    flywheel.spinLowerFlywheel(-KFlywheelSpeedUpper);
 
   }
   // Called once the command ends or is interrupted.

@@ -28,6 +28,7 @@ import frc.robot.subsystems.Base;
 import static frc.robot.Constants.SwerveDriveConstants.*;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedUpper;
 import static frc.robot.Constants.OperatorConstants.*;
+import static frc.robot.Constants.IndexerConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -42,6 +43,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Flywheel;
 import frc.robot.Constants;
+import frc.robot.CommandGroups.IntakeAndIndex;
+import frc.robot.CommandGroups.IntakeAndIndexOut;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ShooterTilt;
@@ -89,9 +92,13 @@ public class RobotContainer {
   private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
   //  Indexer Commands
-  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer, 0);
-  private final IndexerSpin indexerspin = new IndexerSpin(indexer, 0);
+  private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer);
+  private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
+
+  // Command Groups
+  private final IntakeAndIndex intakeAndIndex = new IntakeAndIndex(intake, indexer);
+  private final IntakeAndIndexOut intakeAndIndexOut = new IntakeAndIndexOut(intake, indexer);
   
   // Game Controllers
   public static Joystick logitech;
@@ -243,9 +250,23 @@ public class RobotContainer {
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(toggleLowSpeed);
 
-    logitechBtnRB.whileTrue(intakeSpinIn);
-    logitechBtnRT.whileTrue(intakeSpinOut);
+    logitechBtnRB.whileTrue(intakeAndIndex);
+    logitechBtnRT.whileTrue(intakeAndIndexOut);
 
+    compStreamDeck1.whileTrue(indexerSpin);
+
+    compStreamDeck5.onTrue(spinFlywheel);
+    compStreamDeck14.onTrue(stopFlywheel);
+
+    // compStreamDeck1.whileTrue(intakeSpinIn);
+    // compStreamDeck2.whileTrue(intakeSpinOut);
+    // compStreamDeck3.onTrue(spinFlywheel);
+    // compStreamDeck4.whileTrue(indexerSpin);
+    // compStreamDeck5.whileTrue(spinUpperFlywheel);
+    // compStreamDeck6.whileTrue(spinLowerFlywheel);
+    // compStreamDeck7.onTrue(indexerNoteLoaded);
+    // compStreamDeck8.onTrue(intakeAndIndex);
+    // compStreamDeck9.onTrue(stopFlywheel);
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {

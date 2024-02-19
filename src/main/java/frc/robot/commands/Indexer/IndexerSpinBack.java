@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
 import static frc.robot.Constants.IndexerConstants.*;
 
-public class IndexerSpin extends Command {
+public class IndexerSpinBack extends Command {
   private Indexer indexer;
 
   /** Creates a new IndexerSpin. */
-  public IndexerSpin(Indexer indexer) {
+  public IndexerSpinBack(Indexer indexer) {
     this.indexer = indexer;
     addRequirements(indexer); 
     
@@ -26,7 +26,7 @@ public class IndexerSpin extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerSpin(KIndexerMotorSpeed);
+    indexer.indexerSpin(-KIndexerMotorSpeed);
     }
 
   // Called once the command ends or is interrupted.
