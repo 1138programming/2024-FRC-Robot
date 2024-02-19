@@ -221,18 +221,19 @@ public final class Constants {
     public static final int KShooterLowerMotor = 15;
 
     //Motor speeds
-    public static final double KFlywheelSpeedUpper = 0.8;
-    public static final double KFlywheelSpeedLower = -0.8;  
+    public static final double KFlywheelSpeedUpper = 0.7;
+    // public static final double KFlywheelSpeedLower = -0.5;  
 
     //reversed motor 
     public static final boolean KFlywhelUpperMotorReversed = true;
   }
 
   public static class IndexerConstants{
-    public static final double KIndexerMotorSpeedForward = 1;
-    public static final int KIndexerLimitSwitchNoteMaxPosID = 10;
+    public static final double KIndexerMotorSpeed = 0.6;
+
+    public static final int KIndexerBBreakerNoteMaxPosID = 2;
+
     public static final int KIndexerMotorID = 13;
-    public static final double KgetIndexerIDLimitSwitch = 8;
   }
 
   public static class HangConstants {

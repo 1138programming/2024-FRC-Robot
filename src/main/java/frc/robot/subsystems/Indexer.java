@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.IndexerConstants.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 //import com.revrobotics.CANSparkFlex;
@@ -20,16 +21,17 @@ public class Indexer extends SubsystemBase {
  
   private CANSparkMax indexerMotor;
   // private double setSpeed;
-  private DigitalInput indexerLimitSwitchNoteMaxPos;
+  private DigitalInput indexerBeamBreakerNoteMaxPos;
   
   public Indexer() {
     indexerMotor = new CANSparkMax(KIndexerMotorID, MotorType.kBrushless);
-    indexerLimitSwitchNoteMaxPos = new DigitalInput(KIndexerLimitSwitchNoteMaxPosID);
+    indexerBeamBreakerNoteMaxPos = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
   }
 
   @Override
   public void periodic(
   ) {
+    SmartDashboard.putBoolean("Indexer Beam Breaker", getIndexerBBreaker());
     // This method will be called once per scheduler run
   }
 
@@ -44,12 +46,12 @@ public void indexerStop(){
 
 //Limit Switch Methods
 
- public boolean getIndexerIDLimitSwitch(){
-    return indexerLimitSwitchNoteMaxPos.get();
+ public boolean getIndexerBBreaker(){
+    return !indexerBeamBreakerNoteMaxPos.get();
  }
 
 public void indexerNoteLoaded(double indexerSpeed){
-    if (indexerSpeed >= 0 && getIndexerIDLimitSwitch()) {
+    if (indexerSpeed >= 0 && getIndexerBBreaker()) {
         indexerMotor.set(0);
     }
      else {

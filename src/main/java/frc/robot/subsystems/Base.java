@@ -5,6 +5,7 @@ import static frc.robot.Constants.SwerveDriveConstants.*;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -42,7 +43,9 @@ public class Base extends SubsystemBase {
 
   public Base() {
     limelight = new Limelight();
-
+    // poseEstimate = new PoseEstimator<>(kinematics, odometry, 
+    // poseEstimate = new SwerveDrivePoseEstimator
+    
     leftFrontModule = new SwerveModule(
         KLeftFrontAngleID,
         KLeftFrontDriveID,
@@ -76,10 +79,11 @@ public class Base extends SubsystemBase {
     gyro.reset();
 
     kinematics = new SwerveDriveKinematics(
-        KFrontLeftLocation, KFrontRightLocation,
+      KFrontLeftLocation, KFrontRightLocation,
         KBackLeftLocation, KBackRightLocation);
     odometry = new SwerveDriveOdometry(kinematics, getHeading(), getPositions());
     pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    poseEstimate = new SwerveDrivePoseEstimator(kinematics, getHeading(), getPositions(), pose);
 
     driveSpeedFactor = KBaseDriveMidPercent;
     rotSpeedFactor = KBaseRotMidPercent;

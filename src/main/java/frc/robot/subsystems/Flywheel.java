@@ -36,13 +36,14 @@ public class Flywheel extends SubsystemBase {
     flywheelLowerMotor = new CANSparkFlex(KShooterLowerMotor, MotorType.kBrushless);
     
      flywheelUpperMotor.setInverted(true);
+    flywheelLowerMotor.setInverted(true);
 
   }
 //Flywheel Command Methods
-public void shootNote(){
-  flywheelUpperMotor.set(KFlywheelSpeedUpper);
-  flywheelLowerMotor.set(KFlywheelSpeedLower);
-}
+// public void shootNote(){
+//   flywheelUpperMotor.set(KFlywheelSpeedUpper);
+//   flywheelLowerMotor.set(KFlywheelSpeedLower);
+// }
 
 public void stopMotors(){
   flywheelUpperMotor.set(0);

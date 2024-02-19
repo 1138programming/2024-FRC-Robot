@@ -28,6 +28,7 @@ import frc.robot.subsystems.Base;
 import static frc.robot.Constants.SwerveDriveConstants.*;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedUpper;
 import static frc.robot.Constants.OperatorConstants.*;
+import static frc.robot.Constants.IndexerConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -90,7 +91,7 @@ public class RobotContainer {
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
   //  Indexer Commands
   private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer, 0);
-  private final IndexerSpin indexerspin = new IndexerSpin(indexer, 0);
+  private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
   
   // Game Controllers
@@ -245,7 +246,11 @@ public class RobotContainer {
 
     compStreamDeck1.whileTrue(intakeSpinIn);
     compStreamDeck2.whileTrue(intakeSpinOut);
-
+    compStreamDeck3.whileTrue(spinFlywheel);
+    compStreamDeck4.whileTrue(indexerSpin);
+    compStreamDeck5.whileTrue(spinUpperFlywheel);
+    compStreamDeck6.whileTrue(spinLowerFlywheel);
+    compStreamDeck7.whileTrue(indexerNoteLoaded);
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {
