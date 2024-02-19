@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.FlywheelConstants.*;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.CANSparkBase.IdleMode;
@@ -37,6 +39,9 @@ public class Flywheel extends SubsystemBase {
     
      flywheelUpperMotor.setInverted(true);
     flywheelLowerMotor.setInverted(true);
+
+    flywheelUpperMotor.setIdleMode(IdleMode.kCoast);
+    flywheelLowerMotor.setIdleMode(IdleMode.kCoast);
 
   }
 //Flywheel Command Methods
