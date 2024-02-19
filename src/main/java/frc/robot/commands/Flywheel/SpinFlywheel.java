@@ -4,17 +4,19 @@
 
 package frc.robot.commands.Flywheel;
 
+import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
 
 public class SpinFlywheel extends Command {
   private Flywheel flywheel;
-  private double speed;
+
   /** Creates a new SpinFlywheel. */
-  public SpinFlywheel(Flywheel flywheel,double speed) {
+  public SpinFlywheel(Flywheel flywheel) {
     this.flywheel = flywheel;
-    this.speed = speed;
+    
     addRequirements(flywheel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,7 +28,7 @@ public class SpinFlywheel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.spinFlywheel(speed);
+    flywheel.spinFlywheel(KFlywheelSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

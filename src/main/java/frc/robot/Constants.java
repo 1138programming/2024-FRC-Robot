@@ -25,7 +25,7 @@ public final class Constants {
     // compStreamDeckuter)
     public static final int KLogitechPort = 0;
     public static final int KXboxPort = 1;
-    public static final int KStreamDeckPort = 2;
+    public static final int KCompStreamDeckPort = 2;
     public static final int KTestingStreamDeckPort = 3;
     public static final int KAutonTestingStreamDeckPort = 4;
 
@@ -69,8 +69,8 @@ public final class Constants {
 
   public static class LimelightConstants {
     public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
-    public static final double KlimelightMountHight = 20.0; // Inches (Needs to be changed)
-    public static final double KspeakerHight = 60; // Inches (needs to be changed)
+    public static final double KlimelightMountHeight = 20.0; // Inches (Needs to be changed)
+    public static final double KspeakerHeight = 60; // Inches (needs to be changed)
     public static final double[] KspeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
                                                                                           // aprilTag
     public static final double[] KspeakerAprilTagsBlue = new double[] { 7, 8 }; // Right To Left
@@ -86,9 +86,14 @@ public final class Constants {
     public static final double KLimelightAngleDeadzone = 1;
     public static final double KaprilTagOffset = 20;
     public static final PIDController KlimelightrotControl = new PIDController(KlimeLightRotP, KlimeLightRotI,
-        KlimeLightRotD);
+    KlimeLightRotD);
     public static final PIDController KBaseController = new PIDController(KlimeLightDriveP, KlimeLightDriveI,
-        KlimeLightDriveD);
+    KlimeLightDriveD);
+  }
+
+  public static class LEDConstants
+  {
+    public static final int KLEDPort = 9; //placeholder
   }
 
   public static class SwerveDriveConstants {
@@ -147,10 +152,7 @@ public final class Constants {
     public static final double KMaxAngularSpeed = 3.5;
 
     // Offsets
-    // public static final double KFrontLeftOffset = -121.90;
-    // public static final double KFrontRightOffset = -103.71;
-    // public static final double KBackLeftOffset = 96.94;
-    // public static final double KBackRightOffset = 136.8;
+    //  Meow (Gray Bot)
     public static final double KFrontLeftOffset = 58.97;
     public static final double KFrontRightOffset = -98.43;
     public static final double KBackLeftOffset = 103.79;
@@ -178,54 +180,61 @@ public final class Constants {
     public static final double KBaseDriveLowPercent = 0.25;
     public static final double KBaseDriveMidPercent = 0.5;
     public static final double KBaseDriveMaxPercent = 1;
-
+    
     public static final double KBaseRotLowPercent = 0.75;
     public static final double KBaseRotMidPercent = 1;
     public static final double KBaseRotMaxPercent = 1.5;
-
+    
     // Auton Config
     public static final HolonomicPathFollowerConfig KPathFollowerConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(20.0, 1.5, 0), // Translation constants
-        new PIDConstants(3.0, 0, 0), // Rotation constants
-        KPhysicalMaxDriveSpeedMPS,
-        KWheelRadialDistanceFromCenter, // Drive base radius (distance from center to furthest module)
-        new ReplanningConfig());
-
+      new PIDConstants(20.0, 1.5, 0), // Translation constants
+      new PIDConstants(3.0, 0, 0), // Rotation constants
+      KPhysicalMaxDriveSpeedMPS,
+      KWheelRadialDistanceFromCenter, // Drive base radius (distance from center to furthest module)
+      new ReplanningConfig()
+    );
   }
 
   public static class IntakeConstants {
+    // Motor ID
     public static final int KIntakeMotorID = 12;
 
-    public static final double KIntakeMotorSpeed = 1;
+    // Motor setup
     public static final boolean KIntakeMotorIsInverted = false;
     public static final int KIntakeMotorCurrentLimit = 40;
+
+    // Motor speed
+    public static final double KIntakeMotorSpeed = 1;
   }
 
   public static class ShooterTiltConstants {
+    // Motor ID
     public static final int KShooterTiltMotorID = 16;
+    // CANCoder ID
     public static final int KShooterTiltEncoderID = 5;
-    public static final double KShooterTiltMotorSpeed = 0.5;
-    // public static final double KShooterTiltEncoderPreset = 15.0;
+    
+    // CANCoder offset
+    public static final double KShooterTiltEncoderOffset = 0;
 
-    public static final double KshooterTiltControllerkP = 0.06;
-    public static final double KshooterTiltControllerkI = 0;
-    public static final double KshooterTiltControllerkD = 0;
+    // Motor Speed
+    public static final double KShooterTiltMotorSpeed = 0.5;
+
+    // Untuned - PID Constants
+    public static final double KShooterTiltControllerP = 0;
+    public static final double KShooterTiltControllerI = 0;
+    public static final double KShooterTiltControllerD = 0;
   }
-  public static class LEDConstants
-  {
-    public static final int KLEDPort = 9; //placeholder
-  }
+  
   public static class FlywheelConstants{
-    //Motors
+    // Motor IDs
     public static final int KShooterUpperMotor = 14;
     public static final int KShooterLowerMotor = 15;
 
-    //Motor speeds
-    public static final double KFlywheelSpeedUpper = 0.7;
-    // public static final double KFlywheelSpeedLower = -0.5;  
-
-    //reversed motor 
+    // reversed motor
     public static final boolean KFlywhelUpperMotorReversed = true;
+
+    //Motor speeds
+    public static final double KFlywheelSpeed = 0.7; 
   }
 
   public static class IndexerConstants{
@@ -238,12 +247,18 @@ public final class Constants {
 
   public static class HangConstants {
     public static final int KHangMotorID = 17;
+
+    public static final int KLaserCanID = 5;
+
     public static final double KHangMotorSpeedUp = 0.5;
     public static final double KHangMotorSpeedDown = -0.5;
+
     public static final int KHangLimitSwitchDown = 2;
     public static final int KHangLimitSwitchUp = 3;
+
     public static final int KHangSetPositionUp = 10;
     public static final int KHangSetPositionDown = -10;
+
     // Piston Pneumatics double Constants
     public static final int KHangPistonLeftInID = 1;
     public static final int KHangPistonLeftOutID = 2;

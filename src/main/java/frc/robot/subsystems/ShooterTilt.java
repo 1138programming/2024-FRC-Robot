@@ -4,12 +4,14 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.LimelightConstants.KlimelightMountHeight;
+import static frc.robot.Constants.LimelightConstants.KspeakerHeight;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.BaseUtil;
 
 //import frc.robot.subsystems.Limelight; *SPEAK TO THOMAS!!!*
 
@@ -19,7 +21,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 public class ShooterTilt extends SubsystemBase {
-
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
 
@@ -31,14 +32,14 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
     
-    swivelController = new PIDController(KshooterTiltControllerkP, KshooterTiltControllerkI, KshooterTiltControllerkD);
+    swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Shooter Tilt CanCoder", getTiltEncoder());
-        SmartDashboard.putNumber("Shooter Tilt Raw CanCoder", getTiltEncoderRaw());
+      SmartDashboard.putNumber("Shooter Tilt CanCoder", getTiltEncoder());
+      SmartDashboard.putNumber("Shooter Tilt Raw CanCoder", getTiltEncoderRaw());
   }
 
   public void spinTiltMotor(double speed){ // spins up
@@ -57,10 +58,14 @@ public class ShooterTilt extends SubsystemBase {
 
   // PID
   public void moveSwivel(double speed){
-    shooterTiltMotor.set(speed);;
+    shooterTiltMotor.set(speed);
   }
 
-public void swiveToPos(double setPoint){
-  moveSwivel(swivelController.calculate(getTiltEncoderRaw(), setPoint));
-}
+  public void swivelToPos(double setPoint){
+    moveSwivel(swivelController.calculate(getTiltEncoderRaw(), setPoint));
+  }
+
+  public double getAngleForShooterPivot() {
+    return Math.atan((KspeakerHeight - KlimelightMountHeight) / BaseUtil.getDistanceFromSpeaker());
+  }
 }

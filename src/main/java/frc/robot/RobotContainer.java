@@ -4,51 +4,56 @@
 
 package frc.robot;
 
-import frc.robot.commands.Base.DriveWithJoysticks;
-import frc.robot.commands.Base.ToggleSpeed;
-// import frc.robot.commands.Base.Resets.ResetAllButGyro;
-// import frc.robot.commands.Base.Resets.ResetEncoders;
-import frc.robot.commands.Base.Resets.ResetGyro;
-import frc.robot.commands.Flywheel.SpinFlywheel;
-import frc.robot.commands.Flywheel.SpinLowerFlywheel;
-import frc.robot.commands.Flywheel.SpinUpperFlywheel;
-import frc.robot.commands.Flywheel.StopFlywheel;
-import frc.robot.commands.Indexer.IndexerNoteLoaded;
-import frc.robot.commands.Indexer.IndexerSpin;
-import frc.robot.commands.Indexer.IndexerStop;
-import frc.robot.commands.Intake.IntakeSpinIn;
-import frc.robot.commands.Intake.IntakeSpinOut;
-import frc.robot.commands.Intake.IntakeSpinStop;
-import frc.robot.commands.ShooterTilt.MoveShooterTiltToPos;
-import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
-import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
-import frc.robot.commands.ShooterTilt.ShooterTiltStop;
+// Subsystems
 import frc.robot.subsystems.Base;
-
-import static frc.robot.Constants.SwerveDriveConstants.*;
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeedUpper;
-import static frc.robot.Constants.OperatorConstants.*;
-import static frc.robot.Constants.IndexerConstants.*;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.OperatorConstants;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Flywheel;
-import frc.robot.Constants;
-import frc.robot.CommandGroups.IntakeAndIndex;
-import frc.robot.CommandGroups.IntakeAndIndexOut;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ShooterTilt;
 
+// Commands
+import frc.robot.commands.Base.DriveWithJoysticks;
+import frc.robot.commands.Base.ToggleSpeed;
+import frc.robot.commands.Base.Resets.ResetGyro;
+
+import frc.robot.commands.Flywheel.SpinFlywheel;
+import frc.robot.commands.Flywheel.SpinLowerFlywheel;
+import frc.robot.commands.Flywheel.SpinUpperFlywheel;
+import frc.robot.commands.Flywheel.StopFlywheel;
+
+import frc.robot.commands.Indexer.IndexerNoteLoaded;
+import frc.robot.commands.Indexer.IndexerSpin;
+import frc.robot.commands.Indexer.IndexerStop;
+
+import frc.robot.commands.Intake.IntakeSpinIn;
+import frc.robot.commands.Intake.IntakeSpinOut;
+import frc.robot.commands.Intake.IntakeSpinStop;
+
+import frc.robot.commands.ShooterTilt.MoveShooterTiltToPos;
+import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
+import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
+import frc.robot.commands.ShooterTilt.ShooterTiltStop;
+
+// Command Groups
+import frc.robot.CommandGroups.IntakeAndIndex;
+import frc.robot.CommandGroups.IntakeAndIndexOut;
+
+// Constants
+import static frc.robot.Constants.SwerveDriveConstants.*;
+import static frc.robot.Constants.OperatorConstants.*;
+
+//WPILib
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+// Pathplanner
+import com.pathplanner.lib.auto.AutoBuilder;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -74,8 +79,6 @@ public class RobotContainer {
   private final ToggleSpeed toggleMaxSpeed = new ToggleSpeed(base, KBaseDriveMaxPercent, KBaseRotMaxPercent);
   private final ToggleSpeed toggleMidSpeed = new ToggleSpeed(base, KBaseDriveMidPercent, KBaseRotMidPercent);
   private final ToggleSpeed toggleLowSpeed = new ToggleSpeed(base, KBaseDriveLowPercent, KBaseRotLowPercent);
-  // private final ResetAllButGyro resetAllButGyro = new ResetAllButGyro(base);
-  // private final ResetEncoders resetEncoders = new ResetEncoders(base);
   private final ResetGyro resetGyro = new ResetGyro(base);
   //  Shooter Tilt Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
@@ -88,18 +91,21 @@ public class RobotContainer {
   private final IntakeSpinOut intakeSpinOut = new IntakeSpinOut(intake);
   //  Flywheel Commands
   private final StopFlywheel stopFlywheel = new StopFlywheel(flyWheel);
-  private final SpinFlywheel spinFlywheel = new SpinFlywheel(flyWheel, KFlywheelSpeedUpper);
+  private final SpinFlywheel spinFlywheel = new SpinFlywheel(flyWheel);
   private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
   //  Indexer Commands
   private final IndexerNoteLoaded indexerNoteLoaded = new IndexerNoteLoaded(indexer);
   private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
-
+  
   // Command Groups
   private final IntakeAndIndex intakeAndIndex = new IntakeAndIndex(intake, indexer);
   private final IntakeAndIndexOut intakeAndIndexOut = new IntakeAndIndexOut(intake, indexer);
   
+  // Shuffleboard AutonChooser
+  private final SendableChooser<Command> autonChooser;
+
   // Game Controllers
   public static Joystick logitech;
   public static Joystick compStreamDeck;
@@ -132,14 +138,9 @@ public class RobotContainer {
       autonTestStreamDeck10, autonTestStreamDeck11, autonTestStreamDeck12, autonTestStreamDeck13, autonTestStreamDeck14,
       autonTestStreamDeck15;
 
-  private final SendableChooser<Command> autonChooser;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
- 
   public RobotContainer() {
     base.setDefaultCommand(drivewithJoysticks);
     intake.setDefaultCommand(intakeSpinStop);
@@ -154,7 +155,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     logitech = new Joystick(KLogitechPort); // Logitech Dual Action
     xbox = new XboxController(KXboxPort); // Xbox 360 for Windows
-    compStreamDeck = new Joystick(KStreamDeckPort); // Stream Deck + vjoy
+    compStreamDeck = new Joystick(KCompStreamDeckPort); // Stream Deck + vjoy
     testStreamDeck = new Joystick(KTestingStreamDeckPort); // Stream Deck + vjoy
     autonTestStreamDeck = new Joystick(KAutonTestingStreamDeckPort); // Stream Deck + vjoy
 
@@ -257,16 +258,6 @@ public class RobotContainer {
 
     compStreamDeck5.onTrue(spinFlywheel);
     compStreamDeck14.onTrue(stopFlywheel);
-
-    // compStreamDeck1.whileTrue(intakeSpinIn);
-    // compStreamDeck2.whileTrue(intakeSpinOut);
-    // compStreamDeck3.onTrue(spinFlywheel);
-    // compStreamDeck4.whileTrue(indexerSpin);
-    // compStreamDeck5.whileTrue(spinUpperFlywheel);
-    // compStreamDeck6.whileTrue(spinLowerFlywheel);
-    // compStreamDeck7.onTrue(indexerNoteLoaded);
-    // compStreamDeck8.onTrue(intakeAndIndex);
-    // compStreamDeck9.onTrue(stopFlywheel);
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {

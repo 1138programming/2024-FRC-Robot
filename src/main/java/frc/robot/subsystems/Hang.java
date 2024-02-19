@@ -20,7 +20,6 @@ import au.grapplerobotics.LaserCan;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 // Neo Motor sparkmax
 // 2 piston pneumatics double solenoid
 // an built in encoder and 2 limit switches
@@ -32,7 +31,6 @@ public class Hang extends SubsystemBase {
   /** Creates a new Hang. */
   private CANSparkFlex hangMotor;
   private DigitalInput hangLimitSwitchUp;
-  //private DigitalInput hangLimitSwitchBottom;
 
   private DoubleSolenoid hangPistonLeft;
   private DoubleSolenoid hangPistonRight;
@@ -40,91 +38,89 @@ public class Hang extends SubsystemBase {
 
   public Hang() {
     hangMotor = new CANSparkFlex(KHangMotorID, MotorType.kBrushless);
+
     hangLimitSwitchUp = new DigitalInput(KHangLimitSwitchUp);
-    //hangLimitSwitchBottom = new DigitalInput(KHangLimitSwitchDown);
+
     hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonLeftInID, KHangPistonLeftOutID);
     hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
     hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, KHangPistonRightInID, KHangPistonRightOutID);
     hangPistonRight.set(DoubleSolenoid.Value.kReverse);
 
-    hangLaserCanBottom = new LaserCan(5);
+    hangLaserCanBottom = new LaserCan(KLaserCanID);
     try {
-    hangLaserCanBottom.setRangingMode(LaserCan.RangingMode.SHORT);
-    hangLaserCanBottom.setRegionOfInterest(new LaserCan.RegionOfInterest(6, 6, 16, 16));
-    hangLaserCanBottom.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+      hangLaserCanBottom.setRangingMode(LaserCan.RangingMode.SHORT);
+      hangLaserCanBottom.setRegionOfInterest(new LaserCan.RegionOfInterest(6, 6, 16, 16));
+      hangLaserCanBottom.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
     } catch (ConfigurationFailedException e){
       System.out.println("Configuration failed! " + e);
     }
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-// add two methods on and off for each pneumatic system
-// make them to things in the commands later
-// add pneumatics into methods and commands
-public double laserCanDistanceMM(){
-  LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
-  double distance = measurement.distance_mm;
-  return distance;
-}
 
-public double laserCanDistanceInch(){
-  LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
-  double distance = measurement.distance_mm;
-  return distance/25.4;
-}
+  // add two methods on and off for each pneumatic system
+  // make them to things in the commands later
+  // add pneumatics into methods and commands
 
-public String laserCanDisStatus(){
-  LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
-  if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
-    return "The target is " + measurement.distance_mm + "mm away!";
-  } else {
-    return "Oh no! The target is out of range, or we can't get a reliable measurement!";
+ // Only moves up and down to the limit switches
+   public void moveHangMotor(double speed){
+     if(speed < 0 ){
+       if (laserCanDistanceInch() <= 2){
+         hangMotor.set(0);
+       }
+       else{
+         hangMotor.set(speed);
+       }
+     }
+     else if(speed > 0){
+       if (getHangTopLimitSwitch()){
+         hangMotor.set(0);
+       }
+       else{
+         hangMotor.set(speed);
+       }
+     }
+   }
+ 
+   // Pneumatics
+   public void moveHangPistons(){
+     hangPistonLeft.toggle();
+     hangPistonRight.toggle();
+   }
+
+   public double getHangPosition(){
+     return hangMotor.getEncoder().getPosition();
+   }
+ 
+   public boolean getHangTopLimitSwitch(){
+     return hangLimitSwitchUp.get();
+   }
+ 
+   public void hangStop(){
+     hangMotor.set(0);
+   }
+
+  public double laserCanDistanceMM(){
+    LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
+    double distance = measurement.distance_mm;
+    return distance;
   }
-}
 
-  
-  public double getHangPosition(){
-    return hangMotor.getEncoder().getPosition();
+  public double laserCanDistanceInch(){
+    LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
+    double distance = measurement.distance_mm;
+    return distance/25.4;
   }
 
-  public boolean getHangTopLimitSwitch(){
-    return hangLimitSwitchUp.get();
-  }
-
- // public boolean getHangBottomLimitSwitch(){
-   // return hangLimitSwitchBottom.get();
-  //}
-// Only moves up and down to the limit switches
-  public void moveHangMotor(double speed){
-    if(speed < 0 ){
-      if (laserCanDistanceInch() <= 2){
-        hangMotor.set(0);
-      }
-      else{
-        hangMotor.set(speed);
-      }
+  public String laserCanDisStatus(){
+    LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
+    if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+      return "The target is " + measurement.distance_mm + "mm away!";
+    } else {
+      return "Oh no! The target is out of range, or we can't get a reliable measurement!";
     }
-    else if(speed > 0){
-      if (getHangTopLimitSwitch()){
-        hangMotor.set(0);
-      }
-      else{
-        hangMotor.set(speed);
-      }
-    }
-  }
-
-
-  // Pneumatics
-  public void moveHangPistons(){
-    hangPistonLeft.toggle();
-    hangPistonRight.toggle();
-  }
-
-  public void hangStop(){
-    hangMotor.set(0);
   }
 }

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.LimelightConstants.KspeakerCoordinatesBlue;
+import static frc.robot.Constants.LimelightConstants.KspeakerCoordinatesRed;
 import static frc.robot.Constants.SwerveDriveConstants.*;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.BaseUtil;
 
 public class Base extends SubsystemBase {
   private SwerveModule leftFrontModule;
@@ -289,6 +292,21 @@ public class Base extends SubsystemBase {
   public void setDefenseMode(boolean defenseMode) {
     this.defenseMode = defenseMode;
   }
+  public double getDistanceFromSpeaker() {
+    if (DriverStation.getAlliance().toString() == "blue") {
+      double botPoseXOffsetFromSpeaker = Math.abs(poseEstimate.getEstimatedPosition().getX() - KspeakerCoordinatesBlue[0]);
+      double botPoseYOffsetFromSpeaker = Math.abs(poseEstimate.getEstimatedPosition().getY() - KspeakerCoordinatesBlue[1]);
+      double distanceFromSpeaker = Math
+          .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
+      return distanceFromSpeaker;
+    } else {
+      double botPoseXOffsetFromSpeaker = Math.abs(poseEstimate.getEstimatedPosition().getX() - KspeakerCoordinatesRed[0]);
+      double botPoseYOffsetFromSpeaker = Math.abs(poseEstimate.getEstimatedPosition().getY() - KspeakerCoordinatesRed[1]);
+      double distanceFromSpeaker = Math
+          .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
+      return distanceFromSpeaker;
+    }
+  }
 
   @Override
   public void periodic() {
@@ -305,8 +323,11 @@ public class Base extends SubsystemBase {
 
     pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
     if (limelight.getTargetFound()) {
-    poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(6) / 1000));
+      poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(6) / 1000));
     }
     poseEstimate.update(getHeading(), getPositions());
+
+    SmartDashboard.putNumber("DISTANCE From Speaker", getDistanceFromSpeaker());
+    BaseUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
   }
 }

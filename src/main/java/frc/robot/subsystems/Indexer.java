@@ -12,52 +12,49 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 
 public class Indexer extends SubsystemBase {
   /** Creates a new Indexer. */
- 
   private CANSparkMax indexerMotor;
-  // private double setSpeed;
+
   private DigitalInput indexerBeamBreakerNoteMaxPos;
   
   public Indexer() {
     indexerMotor = new CANSparkMax(KIndexerMotorID, MotorType.kBrushless);
+
     indexerMotor.setIdleMode(IdleMode.kBrake);
     indexerBeamBreakerNoteMaxPos = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
   }
 
   @Override
-  public void periodic(
-  ) {
+  public void periodic() {
     SmartDashboard.putBoolean("Indexer Beam Breaker", getIndexerBBreaker());
     // This method will be called once per scheduler run
   }
 
   //Indexer Methods
-public void indexerSpin(double speed){
+  public void indexerSpin(double speed){
     indexerMotor.set(speed);
-}
+  }
 
-public void indexerStop(){
+  public void indexerStop(){
     indexerMotor.set(0);
   }
 
-//Limit Switch Methods
-
- public boolean getIndexerBBreaker(){
-    return !indexerBeamBreakerNoteMaxPos.get();
- }
-
-public void indexerNoteLoaded(double indexerSpeed){
+  public void indexerNoteLoaded(double indexerSpeed){
     if (indexerSpeed >= 0 && getIndexerBBreaker()) {
         indexerMotor.set(0);
     }
      else {
       indexerMotor.set(indexerSpeed);
     }
+  }
+
+  //Limit Switch Methods
+  public boolean getIndexerBBreaker(){
+    return !indexerBeamBreakerNoteMaxPos.get();
   }
 }

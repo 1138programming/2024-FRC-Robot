@@ -59,7 +59,6 @@ public class Limelight extends SubsystemBase {
       botPoseX = botPose[0];
       botPoseY = botPose[1];
     }
-    SmartDashboard.putNumber("DISTANCE From Speaker", getDistanceFromSpeaker());
   }
 
   public void LEDOn() {
@@ -159,25 +158,5 @@ public class Limelight extends SubsystemBase {
 
   public double getSkew() {
     return skew;
-  }
-
-  public double getDistanceFromSpeaker() {
-    if (DriverStation.getAlliance().toString() == "blue") {
-      double botPoseXOffsetFromSpeaker = Math.abs(botPoseX - KspeakerCoordinatesBlue[0]);
-      double botPoseYOffsetFromSpeaker = Math.abs(botPoseY - KspeakerCoordinatesBlue[1]);
-      double distanceFromSpeaker = Math
-          .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
-      return distanceFromSpeaker;
-    } else {
-      double botPoseXOffsetFromSpeaker = Math.abs(botPoseX - KspeakerCoordinatesRed[0]);
-      double botPoseYOffsetFromSpeaker = Math.abs(botPoseY - KspeakerCoordinatesRed[1]);
-      double distanceFromSpeaker = Math
-          .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
-      return distanceFromSpeaker;
-    }
-  }
-
-  public double getAngleForShooterPivot() {
-    return Math.atan((KspeakerHight - KlimelightMountHight) / getDistanceFromSpeaker());
   }
 }

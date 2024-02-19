@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.FlywheelConstants.*;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,56 +27,50 @@ public class Flywheel extends SubsystemBase {
   
   private CANSparkFlex flywheelLowerMotor;
 
-  //private boolean flywheelMode;
- // private double setSpeed;
-  //private double flywheelEncoder;
-  //private double velocity;
-
+  private RelativeEncoder upperFlywheelEncoder;
+  private RelativeEncoder lowerFlywheelEncoder;
 
   public Flywheel() {
     flywheelUpperMotor = new CANSparkFlex(KShooterUpperMotor, MotorType.kBrushless);
-
     flywheelLowerMotor = new CANSparkFlex(KShooterLowerMotor, MotorType.kBrushless);
     
-     flywheelUpperMotor.setInverted(true);
+    flywheelUpperMotor.setInverted(true);
     flywheelLowerMotor.setInverted(true);
 
     flywheelUpperMotor.setIdleMode(IdleMode.kCoast);
     flywheelLowerMotor.setIdleMode(IdleMode.kCoast);
 
+    upperFlywheelEncoder = flywheelUpperMotor.getEncoder();
+    lowerFlywheelEncoder = flywheelLowerMotor.getEncoder();
   }
-//Flywheel Command Methods
-// public void shootNote(){
-//   flywheelUpperMotor.set(KFlywheelSpeedUpper);
-//   flywheelLowerMotor.set(KFlywheelSpeedLower);
-// }
 
-public void stopMotors(){
-  flywheelUpperMotor.set(0);
-  flywheelLowerMotor.set(0);
-}
-public void spinFlywheel(double speed){
-  flywheelUpperMotor.set(speed);
-  flywheelLowerMotor.set(-speed);
-}
+  public void stopMotors(){
+    flywheelUpperMotor.set(0);
+    flywheelLowerMotor.set(0);
+  }
+  public void spinFlywheel(double speed){
+    flywheelUpperMotor.set(speed);
+    flywheelLowerMotor.set(-speed);
+  }
 
-public void spinUpperFlywheel(double speed){
-  flywheelUpperMotor.set(speed);
-}
+  public void spinUpperFlywheel(double speed){
+    flywheelUpperMotor.set(speed);
+  }
 
-public void spinLowerFlywheel(double speed){
-  flywheelLowerMotor.set(speed);
-}
-// Encoder
-public double getUpperMotorEncoder(){
-  return flywheelUpperMotor.getEncoder().getVelocity();
-}
+  public void spinLowerFlywheel(double speed){
+    flywheelLowerMotor.set(speed);
+  }
+  // Encoder
+  public double getUpperMotorEncoder(){
+    return upperFlywheelEncoder.getVelocity();
+  }
 
-public double getLowerMotorEncoder(){
-  return flywheelLowerMotor.getEncoder().getVelocity();
-}
-@Override
-public void periodic() {
-  // This method will be called once per scheduler run
-}
+  public double getLowerMotorEncoder(){
+    return lowerFlywheelEncoder.getVelocity();
+  }
+  
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 }
