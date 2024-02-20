@@ -234,7 +234,9 @@ public final class Constants {
     public static final boolean KFlywhelUpperMotorReversed = true;
 
     //Motor speeds
+    public static final double KFlywheelFullSpeed = 1; 
     public static final double KFlywheelSpeed = 0.7; 
+    public static final double KFlywheelLowSpeed = 0.171; 
   }
 
   public static class IndexerConstants{

@@ -26,7 +26,7 @@ public class ShooterTiltSpinDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.spinTiltMotor(-KShooterTiltMotorSpeed);
+    shooterTilt.moveSwivel(-KShooterTiltMotorSpeed);
   }
 
   // Called once the command ends or is interrupted.

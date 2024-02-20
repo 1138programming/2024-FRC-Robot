@@ -25,7 +25,7 @@ public class ShooterTiltStop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.spinTiltMotor(0);
+    shooterTilt.moveSwivel(0);
   }
 
   // Called once the command ends or is interrupted.

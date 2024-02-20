@@ -5,7 +5,9 @@
 package frc.robot.CommandGroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import frc.robot.commands.Indexer.IndexerLoadNoteFast;
 import frc.robot.commands.Indexer.IndexerLoadNoteSlow;
+import frc.robot.commands.Indexer.IndexerSpin;
 import frc.robot.commands.Intake.IntakeSpinIn;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -19,8 +21,10 @@ public class IntakeAndIndex extends ParallelRaceGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      // new IntakeSpinIn(intake),
+      // new IndexerLoadNoteSlow(indexer)
       new IntakeSpinIn(intake),
-      new IndexerLoadNoteSlow(indexer)
+      new IndexerSpin(indexer)
     );
   }
 }
