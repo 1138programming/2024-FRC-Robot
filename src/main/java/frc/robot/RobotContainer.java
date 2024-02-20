@@ -12,23 +12,24 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ShooterTilt;
 
 // Commands
+//  Base
 import frc.robot.commands.Base.DriveWithJoysticks;
 import frc.robot.commands.Base.ToggleSpeed;
 import frc.robot.commands.Base.Resets.ResetGyro;
-
+//  Flywheel
 import frc.robot.commands.Flywheel.SpinFlywheel;
 import frc.robot.commands.Flywheel.SpinLowerFlywheel;
 import frc.robot.commands.Flywheel.SpinUpperFlywheel;
 import frc.robot.commands.Flywheel.StopFlywheel;
-
+import frc.robot.commands.Indexer.IndexerLoadNoteFast;
 import frc.robot.commands.Indexer.IndexerLoadNoteSlow;
 import frc.robot.commands.Indexer.IndexerSpin;
 import frc.robot.commands.Indexer.IndexerStop;
-
+//  Intake
 import frc.robot.commands.Intake.IntakeSpinIn;
 import frc.robot.commands.Intake.IntakeSpinOut;
 import frc.robot.commands.Intake.IntakeSpinStop;
-
+//  ShooterTilt
 import frc.robot.commands.ShooterTilt.MoveShooterTiltToPos;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
@@ -96,7 +97,8 @@ public class RobotContainer {
   private final SpinUpperFlywheel spinUpperFlywheel = new SpinUpperFlywheel(flyWheel);
   private final SpinLowerFlywheel spinLowerFlywheel = new SpinLowerFlywheel(flyWheel);
   //  Indexer Commands
-  private final IndexerLoadNoteSlow indexerNoteLoaded = new IndexerLoadNoteSlow(indexer);
+  private final IndexerLoadNoteSlow indexerLoadNoteSlow = new IndexerLoadNoteSlow(indexer);
+  private final IndexerLoadNoteFast indexerLoadNoteFast = new IndexerLoadNoteFast(indexer);
   private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
   
@@ -260,6 +262,9 @@ public class RobotContainer {
 
     compStreamDeck5.onTrue(spinFlywheel);
     compStreamDeck14.onTrue(stopFlywheel);
+
+    testStreamDeck1.whileTrue(shooterTiltSpinUp);
+    testStreamDeck1.whileTrue(shooterTiltSpinDown);
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {
