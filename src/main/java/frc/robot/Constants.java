@@ -20,6 +20,17 @@ import edu.wpi.first.math.geometry.Translation2d;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final Mode currentMode = Mode.REAL;
+  public static enum Mode{
+    /** Running on a real robot. */
+    REAL,
+
+    /** Running a physics simulator. */
+    SIM,
+
+    /** Replaying from a log file. */
+    REPLAY
+  }
   public static class OperatorConstants {
     // Controller Ports (check in Driver Station, IDs may be different for each
     // compStreamDeckuter)

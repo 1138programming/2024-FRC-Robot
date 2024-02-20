@@ -9,6 +9,7 @@ import static frc.robot.Constants.LimelightConstants.KspeakerHeight;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BaseUtil;
@@ -26,7 +27,6 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
-
   //PID
   private PIDController swivelController;
 

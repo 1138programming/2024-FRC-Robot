@@ -11,17 +11,29 @@ import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BaseUtil;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import edu.wpi.math.DifferentialDrivertrainSim;
 
 public class Base extends SubsystemBase {
   private SwerveModule leftFrontModule;
@@ -34,8 +46,27 @@ public class Base extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
 
+  Pose2d pose2A = new Pose2d();
+  Pose2d pose2B = new Pose2d();
+  StructPublisher<Pose2d> publisher2d = NetworkTableInstance.getDefault().getStructTopic("MyPose2d", Pose2d.struct).publish();
+  StructArrayPublisher<Pose2d> arrayPublisher2d = NetworkTableInstance.getDefault().getStructArrayTopic("MyPoseArray2d", Pose2d.struct).publish();
+
+  private Pose3d pose3A = new Pose3d();
+  private Pose3d pose3B = new Pose3d();
+  StructPublisher<Pose3d> publisher3d = NetworkTableInstance.getDefault().getStructTopic("MyPose3d", Pose3d.struct).publish();
+  StructArrayPublisher<Pose3d> arrayPublisher3d = NetworkTableInstance.getDefault().getStructArrayTopic("MyPoseArray3d", Pose3d.struct).publish();
+
+  // public final Field2d m_field2d = new Field2d();
+
   private double driveSpeedFactor;
   private double rotSpeedFactor;
+
+  private EncoderSim rightSim;
+  private EncoderSim leftSim;
+  private AHRS gyroSim;
+  // private DifferentialDrivertrainSim sim;
+  private Field2d field;
+
 
   private boolean defenseMode = false;
   private Pose2d pose;
@@ -93,6 +124,7 @@ public class Base extends SubsystemBase {
 
     SmartDashboard.putNumber("X and Y PID", 0);
     SmartDashboard.putNumber("rot P", 0);
+    
 
     AutoBuilder.configureHolonomic(
         this::getPose,
@@ -242,6 +274,10 @@ public class Base extends SubsystemBase {
   public void resetPose() {
     resetAllRelEncoders();
     pose = new Pose2d();
+    pose2A = new Pose2d();
+    pose2B = new Pose2d();
+    pose3A = new Pose3d();
+    pose3B = new Pose3d();
     odometry.resetPosition(getHeading(), getPositions(), pose);
     poseEstimate.resetPosition(getHeading(), getPositions(), pose);
   }
@@ -318,6 +354,8 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
     SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
+    SmartDashboard.putString("pose3A", pose3A.toString());
+    SmartDashboard.putString("pose3B", pose3B.toString());
 
     odometry.update(getHeading(), getPositions());
 
@@ -330,4 +368,5 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("DISTANCE From Speaker", getDistanceFromSpeaker());
     BaseUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
   }
+
 }
