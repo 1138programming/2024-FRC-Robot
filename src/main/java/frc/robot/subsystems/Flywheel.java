@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.CANSparkBase.IdleMode;
@@ -42,6 +43,8 @@ public class Flywheel extends SubsystemBase {
 
     upperFlywheelEncoder = flywheelUpperMotor.getEncoder();
     lowerFlywheelEncoder = flywheelLowerMotor.getEncoder();
+
+    SmartDashboard.putNumber("AMP Speed", 0);
   }
 
   public void stopMotors(){
@@ -71,6 +74,8 @@ public class Flywheel extends SubsystemBase {
   
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("flywheel upper speed", getUpperMotorEncoder());
+    SmartDashboard.putNumber("flywheel lower speed", getLowerMotorEncoder());
     // This method will be called once per scheduler run
   }
 }

@@ -17,12 +17,15 @@ import frc.robot.commands.Base.ToggleSpeed;
 import frc.robot.commands.Base.Resets.ResetGyro;
 
 import frc.robot.commands.Flywheel.SpinFlywheel;
+import frc.robot.commands.Flywheel.SpinFlywheelAmp;
+import frc.robot.commands.Flywheel.SpinFlywheelFullSpeed;
 import frc.robot.commands.Flywheel.SpinLowerFlywheel;
 import frc.robot.commands.Flywheel.SpinUpperFlywheel;
 import frc.robot.commands.Flywheel.StopFlywheel;
 
 import frc.robot.commands.Indexer.IndexerLoadNoteSlow;
 import frc.robot.commands.Indexer.IndexerSpin;
+import frc.robot.commands.Indexer.IndexerSpinBack;
 import frc.robot.commands.Indexer.IndexerStop;
 
 import frc.robot.commands.Intake.IntakeSpinIn;
@@ -249,26 +252,37 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    // Comp Arms and Lifts Controls
+    compStreamDeck1.whileTrue(indexerSpin);
+    compStreamDeck2.onTrue(spinFlywheel);
+    compStreamDeck3.onTrue(new SpinFlywheelAmp(flyWheel));
+    compStreamDeck4.onTrue(new SpinFlywheelFullSpeed(flyWheel));
+    compStreamDeck5.whileTrue(shooterTiltSpinUp);
+    
+    compStreamDeck6.whileTrue(new IndexerSpinBack(indexer));
+    compStreamDeck7.onTrue(stopFlywheel);
+    compStreamDeck10.whileTrue(shooterTiltSpinDown);
+    
+
+
+    // Testing Arms and Lifts Controls
+    // testStreamDeck7.whileTrue(new IndexerSpinBack(indexer));
+
+
+    // Swerve Controls
     logitechBtnY.onTrue(resetGyro);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(toggleLowSpeed);
 
-    logitechBtnRB.whileTrue(intakeAndIndexToStop);
+    logitechBtnRB.whileTrue(intakeAndIndex);
     logitechBtnRT.whileTrue(intakeAndIndexOut);
 
-    compStreamDeck1.whileTrue(indexerSpin);
-
-    compStreamDeck5.onTrue(spinFlywheel);
-    compStreamDeck14.onTrue(stopFlywheel);
-
-    // if LB and RB are held and one is released, go back to previous speed
+    //  if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {
       logitechBtnLT.onFalse(toggleMidSpeed);
     } else {
       logitechBtnLT.onFalse(toggleMaxSpeed);
     }
-
-    // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLT.getAsBoolean()) {
       logitechBtnLB.onFalse(toggleMidSpeed);
     } else {

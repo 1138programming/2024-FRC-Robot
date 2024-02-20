@@ -2,20 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Indexer;
+package frc.robot.commands.Flywheel;
+
+import static frc.robot.Constants.FlywheelConstants.KFlywheelFullSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Indexer;
-import static frc.robot.Constants.IndexerConstants.*;
+import frc.robot.subsystems.Flywheel;
+//import static frc.robot.Constants.FlywheelConstants.*;
 
-public class IndexerSpinBack extends Command {
-  private Indexer indexer;
+public class SpinFlywheelFullSpeed extends Command {
+  private Flywheel flywheel;
 
-  /** Creates a new IndexerSpin. */
-  public IndexerSpinBack(Indexer indexer) {
-    this.indexer = indexer;
-    addRequirements(indexer); 
+  /** Creates a new SpinFlywheel. */
+  public SpinFlywheelFullSpeed(Flywheel flywheel) {
+    this.flywheel = flywheel;
     
+    addRequirements(flywheel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,14 +28,12 @@ public class IndexerSpinBack extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerSpin(-0.2);
-    }
-
+    flywheel.spinFlywheel(KFlywheelFullSpeed);
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexer.indexerStop();
-
+    flywheel.stopMotors();
   }
   // Returns true when the command should end.
   @Override
