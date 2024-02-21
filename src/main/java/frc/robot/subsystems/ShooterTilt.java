@@ -41,6 +41,8 @@ public class ShooterTilt extends SubsystemBase {
 
     double offsetToRotations = KShooterTiltEncoderOffset/360;
 
+    
+
     MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
     canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     canCoderConfig.SensorDirection = SensorDirectionValue.Clockwise_Positive;

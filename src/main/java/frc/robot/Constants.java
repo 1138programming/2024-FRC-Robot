@@ -237,6 +237,11 @@ public final class Constants {
     public static final double KFlywheelFullSpeed = 1; 
     public static final double KFlywheelSpeed = 0.7; 
     public static final double KFlywheelLowSpeed = 0.171; 
+    
+    // PID Controller
+    public static final double KFlywheelP = 0; 
+    public static final double KFlywheelI = 0; 
+    public static final double KFlywheelD = 0; 
   }
 
   public static class IndexerConstants{

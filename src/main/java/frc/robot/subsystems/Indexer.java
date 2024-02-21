@@ -29,6 +29,8 @@ public class Indexer extends SubsystemBase {
     indexerMotor.setIdleMode(IdleMode.kBrake);
     indexerBeamBreakerTop = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
     indexerBeamBreakerBottom = new DigitalInput(KIndexerBBreakerNoteSlowID);
+
+    
   }
 
   @Override

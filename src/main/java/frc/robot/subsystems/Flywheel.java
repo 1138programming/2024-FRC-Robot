@@ -8,6 +8,8 @@ import static frc.robot.Constants.FlywheelConstants.*;
 
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,15 +20,18 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 //import static frc.robot.Constants.FlywheelConstants;
 //import com.revrobotics.CANSparkFlex.IdleMode;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import com.revrobotics.CANSparkLowLevel.FollowConfig.Config;
 
 
 
 public class Flywheel extends SubsystemBase {
   /** Creates a new Flywheel. */
-  
   private CANSparkFlex flywheelUpperMotor;
-  
   private CANSparkFlex flywheelLowerMotor;
+
+  private SparkPIDController flywheelUpperController;
+  private SparkPIDController flywheelLowerController;
+  
 
   private RelativeEncoder upperFlywheelEncoder;
   private RelativeEncoder lowerFlywheelEncoder;
@@ -34,15 +39,21 @@ public class Flywheel extends SubsystemBase {
   public Flywheel() {
     flywheelUpperMotor = new CANSparkFlex(KShooterUpperMotor, MotorType.kBrushless);
     flywheelLowerMotor = new CANSparkFlex(KShooterLowerMotor, MotorType.kBrushless);
+
     
     flywheelUpperMotor.setInverted(true);
     flywheelLowerMotor.setInverted(true);
-
+    
     flywheelUpperMotor.setIdleMode(IdleMode.kCoast);
     flywheelLowerMotor.setIdleMode(IdleMode.kCoast);
-
+    
     upperFlywheelEncoder = flywheelUpperMotor.getEncoder();
     lowerFlywheelEncoder = flywheelLowerMotor.getEncoder();
+
+    flywheelUpperController = flywheelUpperMotor.getPIDController();
+    flywheelUpperController.setP(KFlywheelP);
+    flywheelUpperController.setI(KFlywheelI);
+    flywheelUpperController.setD(KFlywheelD);
 
     SmartDashboard.putNumber("AMP Speed", 0);
   }
@@ -54,6 +65,8 @@ public class Flywheel extends SubsystemBase {
   public void spinFlywheel(double speed){
     flywheelUpperMotor.set(speed);
     flywheelLowerMotor.set(-speed);
+
+    
   }
 
   public void spinUpperFlywheel(double speed){
@@ -63,6 +76,12 @@ public class Flywheel extends SubsystemBase {
   public void spinLowerFlywheel(double speed){
     flywheelLowerMotor.set(speed);
   }
+
+  public void setFlywheelVelocity(double velocity) {
+    flywheelUpperMotor.getPIDController().setReference(velocity, ControlType.kVelocity);
+    flywheelUpperMotor.set(velocity);
+  }
+
   // Encoder
   public double getUpperMotorEncoder(){
     return upperFlywheelEncoder.getVelocity();
