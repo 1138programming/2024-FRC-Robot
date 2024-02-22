@@ -35,6 +35,7 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless); 
     
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
+    shooterTiltMotor.setInverted(true);
     
     // CANCoder Setup
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
@@ -42,19 +43,26 @@ public class ShooterTilt extends SubsystemBase {
     double offsetToRotations = KShooterTiltEncoderOffset/360;
 
     MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
-    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    
+    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
     canCoderConfig.SensorDirection = SensorDirectionValue.Clockwise_Positive;
     canCoderConfig.MagnetOffset = offsetToRotations;
     shooterTiltCANcoder.getConfigurator().apply(canCoderConfig);
     
-    // PID Controller Setup
+    // PID Controller Setups
     swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
+    SmartDashboard.putNumber("TilterP", 0);
+    SmartDashboard.putNumber("TilterI", 0);
+    SmartDashboard.putNumber("TilterD", 0);
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-      SmartDashboard.putNumber("Shooter Tilt CanCoder", getTiltEncoder());
+    SmartDashboard.putNumber("Shooter Tilt CanCoder", getTiltEncoder());
+    swivelController.setP(SmartDashboard.getNumber("TilterP", 0));
+    swivelController.setI(SmartDashboard.getNumber("TilterI", 0));
+    swivelController.setD(SmartDashboard.getNumber("TilterD", 0));
   }
 
   public void moveSwivel(double speed){

@@ -27,13 +27,15 @@ public class Indexer extends SubsystemBase {
     indexerMotor = new CANSparkMax(KIndexerMotorID, MotorType.kBrushless);
 
     indexerMotor.setIdleMode(IdleMode.kBrake);
-    indexerBeamBreakerTop = new DigitalInput(KIndexerBBreakerNoteMaxPosID);
-    indexerBeamBreakerBottom = new DigitalInput(KIndexerBBreakerNoteSlowID);
+    indexerBeamBreakerTop = new DigitalInput(KIndexerBBreakerTopID);
+    indexerBeamBreakerBottom = new DigitalInput(KIndexerBBreakerBottomID);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Indexer Beam Breaker", getIndexerBBreakerTop());
+    SmartDashboard.putBoolean("Indexer Top Beam Breaker", getIndexerBBreakerTop());
+    SmartDashboard.putBoolean("Indexer Bottom Beam Breaker", getIndexerBBreakerBottom());
+
     // This method will be called once per scheduler run
 
   }

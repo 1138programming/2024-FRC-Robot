@@ -34,9 +34,11 @@ import frc.robot.commands.Intake.IntakeSpinOut;
 import frc.robot.commands.Intake.IntakeSpinStop;
 //  ShooterTilt
 import frc.robot.commands.ShooterTilt.MoveShooterTiltToPos;
+import frc.robot.commands.ShooterTilt.MoveShooterTiltTop;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
 import frc.robot.commands.ShooterTilt.ShooterTiltStop;
+import frc.robot.commands.ShooterTilt.MoveShooterTiltTop;
 
 // Command Groups
 import frc.robot.CommandGroups.IntakeAndIndex;
@@ -87,9 +89,11 @@ public class RobotContainer {
   private final ResetGyro resetGyro = new ResetGyro(base);
   //  Shooter Tilt Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
-  private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
+  private final MoveShooterTiltToPos moveShooterTiltTo90 = new MoveShooterTiltToPos(shooterTilt, 90);
+  private final MoveShooterTiltToPos moveShooterTiltToBottom = new MoveShooterTiltToPos(shooterTilt, 0);
   private final ShooterTiltSpinDown shooterTiltSpinDown = new ShooterTiltSpinDown(shooterTilt);
   private final ShooterTiltSpinUp shooterTiltSpinUp = new ShooterTiltSpinUp(shooterTilt);
+  private final MoveShooterTiltTop moveShooterTiltTop = new MoveShooterTiltTop(shooterTilt);
   //  Intake Commands
   private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
   private final IntakeSpinIn intakeSpinIn = new IntakeSpinIn(intake);
@@ -263,29 +267,22 @@ public class RobotContainer {
     
     compStreamDeck6.whileTrue(new IndexerSpinBack(indexer));
     compStreamDeck7.onTrue(stopFlywheel);
-    compStreamDeck10.whileTrue(shooterTiltSpinDown);
-    
 
+    compStreamDeck8.whileTrue(moveShooterTiltTo90);
+    compStreamDeck9.whileTrue(moveShooterTiltToBottom);
+
+    compStreamDeck10.whileTrue(shooterTiltSpinDown);
+    compStreamDeck12.onTrue(moveShooterTiltTop);
 
     // Testing Arms and Lifts Controls
     // testStreamDeck7.whileTrue(new IndexerSpinBack(indexer));
 
 
+    logitechBtnRB.whileTrue(intakeAndIndex);
     // Swerve Controls
     logitechBtnY.onTrue(resetGyro);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(toggleLowSpeed);
-
-    logitechBtnRB.whileTrue(intakeAndIndex);
-    logitechBtnRT.whileTrue(intakeAndIndexOut);
-
-    compStreamDeck1.whileTrue(indexerSpin);
-
-    compStreamDeck5.onTrue(spinFlywheel);
-    compStreamDeck14.onTrue(stopFlywheel);
-
-    testStreamDeck1.whileTrue(shooterTiltSpinUp);
-    testStreamDeck1.whileTrue(shooterTiltSpinDown);
 
     // if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {

@@ -134,8 +134,8 @@ public final class Constants {
     public static final double KDriveMotorRotToMeter = KDriveMotorGearRatio * KWheelDiameterMeters * Math.PI;
     public static final double KDriveMotorRPMToMetersPerSec = KDriveMotorRotToMeter / 60;
     public static final double KPhysicalMaxDriveSpeedMPS = KNeoVortexMaxRPM * KDriveMotorRPMToMetersPerSec;
-    public static final double KWheelRadialDistanceFromCenter = 0.381635;
-    public static final double KWheelDistanceFromCenter = 0.269875;
+    public static final double KWheelRadialDistanceFromCenter = 0.377;
+    public static final double KWheelDistanceFromCenter = 0.267;
 
     // Swerve Wheel X and Y Coordinates for Driving
     public static final Translation2d KFrontLeftLocation = new Translation2d(
@@ -214,15 +214,19 @@ public final class Constants {
     public static final int KShooterTiltEncoderID = 5;
     
     // CANCoder offset
-    public static final double KShooterTiltEncoderOffset = 0;
+    public static final double KShooterTiltEncoderOffset = -107.841796875;
 
     // Motor Speed
-    public static final double KShooterTiltMotorSpeed = 0.5;
+    public static final double KShooterTiltMotorSpeed = 0.25;
 
     // Untuned - PID Constants
     public static final double KShooterTiltControllerP = 0;
     public static final double KShooterTiltControllerI = 0;
     public static final double KShooterTiltControllerD = 0;
+
+    // Testing
+    public static final double kShooterTiltDeadZone = 5.0;
+    public static final double kShooterTiltUpPos = 180;
   }
   
   public static class FlywheelConstants{
@@ -244,8 +248,8 @@ public final class Constants {
     public static final double KIndexerSlowSpeed = 0.35;
     public static final double KIndexerFastSpeed = 0.9;
 
-    public static final int KIndexerBBreakerNoteMaxPosID = 2;
-    public static final int KIndexerBBreakerNoteSlowID = 1;
+    public static final int KIndexerBBreakerTopID = 0;
+    public static final int KIndexerBBreakerBottomID = 9;
 
     public static final int KIndexerMotorID = 13;
   }
