@@ -94,6 +94,7 @@ public final class Constants {
   public static class LEDConstants
   {
     public static final int KLEDPort = 9; //placeholder
+    public static final int KLEDBuffer = 6;
   }
 
   public static class SwerveDriveConstants {
