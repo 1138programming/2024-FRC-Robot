@@ -13,7 +13,6 @@ public class SpinUpperFlywheel extends Command {
   /** Creates a new SpinUpperFlywheel. */
   
   public SpinUpperFlywheel(Flywheel flywheel) {
-    
     this.flywheel = flywheel;
     addRequirements(flywheel);
     

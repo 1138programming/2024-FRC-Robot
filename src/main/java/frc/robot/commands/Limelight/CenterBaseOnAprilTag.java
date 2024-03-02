@@ -56,7 +56,7 @@ public class CenterBaseOnAprilTag extends Command {
 
     double rotSpeed = KlimelightrotControl.calculate(xOffsetFromAprilTag, 0);
 
-    base.drive(0, 0, rotSpeed, false, KPhysicalMaxDriveSpeedMPS);
+    base.drive(0, 0, rotSpeed, false, KPhysicalMaxDriveSpeedMPS, KMaxAngularSpeed * KBaseRotMaxPercent);
   }
 
   // Called once the command ends or is interrupted.

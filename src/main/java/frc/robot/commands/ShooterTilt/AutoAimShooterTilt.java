@@ -6,19 +6,19 @@ package frc.robot.commands.ShooterTilt;
 
 import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltDeadZone;
 import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltUpPos;
-import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltUpPos;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 //import static frc.robot.Constants.TiltConstants.*;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.SubsystemUtil;
 import frc.robot.subsystems.ShooterTilt;
 
-public class MoveShooterTiltTop extends Command {
+public class AutoAimShooterTilt extends Command {
   /** Creates a new MoveShooterTiltTop. */
   private ShooterTilt shooterTilt;
-  public MoveShooterTiltTop(ShooterTilt shooterTilt) {
+
+  public AutoAimShooterTilt(ShooterTilt shooterTilt) {
     this.shooterTilt = shooterTilt;
     addRequirements(shooterTilt);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,21 +26,25 @@ public class MoveShooterTiltTop extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPosUp(kShooterTiltUpPos);
+    if (SubsystemUtil.getIsNoteIndexed()) {
+      shooterTilt.swivelToPosShoot(shooterTilt.getAngleForShooterPivot());
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(shooterTilt.getTiltEncoder() - kShooterTiltUpPos) < kShooterTiltDeadZone);
+    return (Math.abs(shooterTilt.getTiltEncoder() - kShooterTiltUpPos) < kShooterTiltDeadZone && !SubsystemUtil.getIsNoteIndexed());
   }
 }

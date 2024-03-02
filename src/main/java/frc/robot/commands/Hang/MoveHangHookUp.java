@@ -4,11 +4,11 @@
 
 package frc.robot.commands.Hang;
 
-import static frc.robot.Constants.HangConstants.KHangMotorSpeedUp;
+import frc.robot.subsystems.Hang;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.*;
-import frc.robot.Constants;
+
+import static frc.robot.Constants.HangConstants.KHangMotorSpeedUp;
 
 public class MoveHangHookUp extends Command {
   /** Creates a new MoveHangUp. */

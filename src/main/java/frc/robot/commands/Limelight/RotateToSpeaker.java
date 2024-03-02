@@ -8,6 +8,8 @@ import static frc.robot.Constants.LimelightConstants.KLimelightAngleDeadzone;
 import static frc.robot.Constants.LimelightConstants.KlimelightrotControl;
 import static frc.robot.Constants.LimelightConstants.KspeakerCoordinatesBlue;
 import static frc.robot.Constants.LimelightConstants.KspeakerCoordinatesRed;
+import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
+import static frc.robot.Constants.SwerveDriveConstants.KMaxAngularSpeed;
 import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -41,7 +43,7 @@ public class RotateToSpeaker extends Command {
       offset = Math.atan(Math.abs(KspeakerCoordinatesRed[1]-base.getRobotPoseY()) / Math.abs(KspeakerCoordinatesRed[0]-base.getRobotPoseX()));
       rotSpeed = KlimelightrotControl.calculate(base.getHeadingDeg(), offset);
     }
-    base.drive(0, 0, rotSpeed, true, KPhysicalMaxDriveSpeedMPS);
+    base.drive(0, 0, rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KMaxAngularSpeed * KBaseRotMaxPercent);
   }
 
 

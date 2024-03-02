@@ -68,7 +68,6 @@ public class SwerveModule extends SubsystemBase {
 
     angleController = new PIDController(KAngleP, KAngleI, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
-    // SmartDashboard.putData("Angle PID", PIDController);
   }
   
   
@@ -81,7 +80,6 @@ public class SwerveModule extends SubsystemBase {
     angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
     
     driveMotorOutput = desiredState.speedMetersPerSecond / KPhysicalMaxDriveSpeedMPS;
-    SmartDashboard.putNumber("drivemotoroutput " + driveMotor.getDeviceId(), driveMotorOutput);
     
     angleMotor.set(angleMotorOutput);
     driveMotor.set(driveMotorOutput); 
@@ -141,6 +139,5 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("DriveSpeed " + driveMotor.getDeviceId(), driveEncoder.getVelocity());
   }
 }

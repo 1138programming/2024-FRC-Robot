@@ -4,8 +4,7 @@
 
 package frc.robot.commands.Hang;
 
-import frc.robot.subsystems.*;
-import frc.robot.Constants;
+import frc.robot.subsystems.Hang;
 
 import static frc.robot.Constants.HangConstants.KHangMotorSpeedDown;
 

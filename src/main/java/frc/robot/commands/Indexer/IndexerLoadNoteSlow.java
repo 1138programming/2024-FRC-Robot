@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Indexer;
 
+import static frc.robot.Constants.IndexerConstants.KIndexerFastSpeed;
 import static frc.robot.Constants.IndexerConstants.KIndexerSlowSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;

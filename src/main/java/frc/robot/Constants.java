@@ -128,6 +128,7 @@ public final class Constants {
     public static final double KNeoMaxRPM = 5676;
     public static final double KNeoVortexMaxRPM = 6784;
     public static final int KVortexEncoderTicksPerRevolution = 7168;
+
     // Robot Specs
     public static final double KDriveMotorGearRatio = 1 / 5.51; // Double Check
     public static final double KWheelDiameterMeters = 0.1016;
@@ -153,10 +154,10 @@ public final class Constants {
 
     // Offsets
     //  Meow (Gray Bot)
-    public static final double KFrontLeftOffset = 58.97;
-    public static final double KFrontRightOffset = -98.43;
-    public static final double KBackLeftOffset = 103.79;
-    public static final double KBackRightOffset = -35.59;
+    public static final double KFrontLeftOffset = -177.68+60 + 180;
+    public static final double KFrontRightOffset = 79.01 +180;
+    public static final double KBackLeftOffset = -75.67+180;
+    public static final double KBackRightOffset = 144.75+180;
 
     // Drive Motor Reversals
     public static final boolean KFrontLeftDriveReversed = false;
@@ -184,6 +185,10 @@ public final class Constants {
     public static final double KBaseRotLowPercent = 0.75;
     public static final double KBaseRotMidPercent = 1;
     public static final double KBaseRotMaxPercent = 1.5;
+
+    public static final double KRotationP = 0;
+    public static final double KRotationI = 0;
+    public static final double KRotationD = 0;
     
     // Auton Config
     public static final HolonomicPathFollowerConfig KPathFollowerConfig = new HolonomicPathFollowerConfig(
@@ -220,13 +225,20 @@ public final class Constants {
     public static final double KShooterTiltMotorSpeed = 0.25;
 
     // Untuned - PID Constants
-    public static final double KShooterTiltControllerP = 0;
+    public static final double KShooterTiltControllerP = 0.004;
     public static final double KShooterTiltControllerI = 0;
     public static final double KShooterTiltControllerD = 0;
-
+    
+    public static final double KShooterTiltControllerPUp = 0.01; 
+    public static final double KShooterTiltControllerShootP = 0.018; // holds tilt in place while shooting
     // Testing
-    public static final double kShooterTiltDeadZone = 5.0;
-    public static final double kShooterTiltUpPos = 180;
+    public static final double kShooterTiltDeadZone = 1.5;
+    public static final double kShooterTiltUpPos = 135.17578125;
+    public static final double KShooterTiltAmpAngle = 115;
+    public static final double KShooterTiltSubAngle = 120;
+    public static final double KShooterTiltPodiumAngle = 95;
+    public static final double KShooterTiltBottomAngle = 60;
+
   }
   
   public static class FlywheelConstants{
@@ -240,12 +252,21 @@ public final class Constants {
     //Motor speeds
     public static final double KFlywheelFullSpeed = 1; 
     public static final double KFlywheelSpeed = 0.7; 
-    public static final double KFlywheelLowSpeed = 0.171; 
+    public static final double KFlywheelLowSpeed = 0.185;
+    
+    public static final double KFlywheelVelocity = 5000;
+    
+    // PID Controller
+    public static final double KFlywheelP = 0; 
+    public static final double KFlywheelI = 0; 
+    public static final double KFlywheelD = 0; 
   }
 
   public static class IndexerConstants{
-    public static final double KIndexerMotorSpeed = 0.6;
-    public static final double KIndexerSlowSpeed = 0.35;
+    public static final double KIndexerMotorSpeed = 0.7;
+    public static final double KIndexerSlowSpeed = 0.32;
+    public static final double KIndexerSlowBackwardSpeed = 0.15;
+    // public static final double KIndexerSlowSpeed = 0.35;
     public static final double KIndexerFastSpeed = 0.9;
 
     public static final int KIndexerBBreakerTopID = 0;

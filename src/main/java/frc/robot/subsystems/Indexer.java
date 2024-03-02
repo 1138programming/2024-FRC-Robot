@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.SubsystemUtil;
+
 import static frc.robot.Constants.IndexerConstants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +28,7 @@ public class Indexer extends SubsystemBase {
   public Indexer() {
     indexerMotor = new CANSparkMax(KIndexerMotorID, MotorType.kBrushless);
 
+    indexerMotor.setInverted(true);
     indexerMotor.setIdleMode(IdleMode.kBrake);
     indexerBeamBreakerTop = new DigitalInput(KIndexerBBreakerTopID);
     indexerBeamBreakerBottom = new DigitalInput(KIndexerBBreakerBottomID);
@@ -36,8 +39,8 @@ public class Indexer extends SubsystemBase {
     SmartDashboard.putBoolean("Indexer Top Beam Breaker", getIndexerBBreakerTop());
     SmartDashboard.putBoolean("Indexer Bottom Beam Breaker", getIndexerBBreakerBottom());
 
+    SubsystemUtil.setNoteIndexed(getIndexerBBreakerTop());
     // This method will be called once per scheduler run
-
   }
 
   //Indexer Methods

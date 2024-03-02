@@ -7,7 +7,6 @@ import static frc.robot.Constants.SwerveDriveConstants.*;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
-import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,7 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.BaseUtil;
+import frc.robot.SubsystemUtil;
 
 public class Base extends SubsystemBase {
   private SwerveModule leftFrontModule;
@@ -91,9 +90,6 @@ public class Base extends SubsystemBase {
     driveSpeedFactor = KBaseDriveMidPercent;
     rotSpeedFactor = KBaseRotMidPercent;
 
-    SmartDashboard.putNumber("X and Y PID", 0);
-    SmartDashboard.putNumber("rot P", 0);
-
     AutoBuilder.configureHolonomic(
         this::getPose,
         this::resetPose,
@@ -113,9 +109,13 @@ public class Base extends SubsystemBase {
           return false;
         },
         this);
+
+    SmartDashboard.putNumber("RotP", KRotationP);
+    SmartDashboard.putNumber("RotI", KRotationI);
+    SmartDashboard.putNumber("RotD", KRotationD);
   }
 
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS) {
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS, double maxRotSpeed) {
     xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     rot *= KMaxAngularSpeed * getRotSpeedFactor();
@@ -125,16 +125,16 @@ public class Base extends SubsystemBase {
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+            : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d()));
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
 
     // if (defenseMode) {
     //   lockWheels();
     // } else {
-      SmartDashboard.putNumber("frontLeftState", states[0].speedMetersPerSecond);
-      SmartDashboard.putNumber("frontRightState", states[1].speedMetersPerSecond);
-      SmartDashboard.putNumber("backLeftState", states[2].speedMetersPerSecond);
-      SmartDashboard.putNumber("backRightState", states[3].speedMetersPerSecond);
+      // SmartDashboard.putNumber("frontLeftState", states[0].speedMetersPerSecond);
+      // SmartDashboard.putNumber("frontRightState", states[1].speedMetersPerSecond);
+      // SmartDashboard.putNumber("backLeftState", states[2].speedMetersPerSecond);
+      // SmartDashboard.putNumber("backRightState", states[3].speedMetersPerSecond);
       // setting module states, aka moving the motors
       leftFrontModule.setDesiredState(states[0]);
       rightFrontModule.setDesiredState(states[1]);
@@ -308,26 +308,37 @@ public class Base extends SubsystemBase {
     }
   }
 
+  public double getAngleFromSpeaker() {
+    if (DriverStation.getAlliance().toString() == "blue") {
+      return 180 + Math.atan(Math.abs(KspeakerCoordinatesBlue[1]-getRobotPoseY()) / Math.abs(KspeakerCoordinatesBlue[0]-getRobotPoseX()));
+    } 
+    else {
+      return 180 + Math.atan(Math.abs(KspeakerCoordinatesRed[1]-getRobotPoseY()) / Math.abs(KspeakerCoordinatesRed[0]-getRobotPoseX()));
+    }
+  }
+
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Gyro", getHeadingDeg());
-    SmartDashboard.putNumber("Speed", leftFrontModule.getDriveEncoderVel());
-    SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
-    SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
-    SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
-    SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
-    SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
-    SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
-
-    odometry.update(getHeading(), getPositions());
-
+    //Position Updates
     pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
     if (limelight.getTargetFound()) {
       poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(6) / 1000));
     }
     poseEstimate.update(getHeading(), getPositions());
+    odometry.update(getHeading(), getPositions());
+    SubsystemUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
+    getAngleFromSpeaker();
 
-    SmartDashboard.putNumber("DISTANCE From Speaker", getDistanceFromSpeaker());
-    BaseUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
+    //Position Data SmartDashboard
+    SmartDashboard.putNumber("Gyro", getHeadingDeg());
+    SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
+    SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
+    SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
+
+    //SwerveDrive Cancoder Position
+    SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
+    SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
+    SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
+    SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
   }
 }

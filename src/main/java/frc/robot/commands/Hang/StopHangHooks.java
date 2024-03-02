@@ -4,9 +4,8 @@
 
 package frc.robot.commands.Hang;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Hang;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class StopHangHooks extends Command {
   /** Creates a new StopHangHooks. */
