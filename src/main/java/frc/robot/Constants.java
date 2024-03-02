@@ -295,4 +295,27 @@ public final class Constants {
     public static final int KHangPistonRightInID = 3;
     public static final int KHangPistonRightOutID = 4;
   }
+
+  public static class TrapConstants{
+    public static final int KTrapRollerMotorID = 18;
+    public static final int KTrapWristMotorID = 19;
+    public static final int KTrapIRID = 2;
+    public static final int KPotentiometerID = 1;
+
+    public static final double KTrapRollersForwardSpeed = 0.5;
+    public static final double KTrapRollersBackwardSpeed = -0.5;
+    public static final double KTrapWristUpSpeed = 0.5;
+    public static final double KTrapWristDownSpeed = -0.5;
+    
+    public static final double KAnalogPotentiometerSensorRange  = 270;
+    public static final double KAnalogPotentiometerSensorOffset  = 30;
+    public static final double KTrapPotentiometerSetpointFront = 260;
+    public static final double KTrapPotentiometerSetpointBack = 40;
+    public static final double KTrapPotentiometerSetpoint = 170;
+
+    public static final double trapControllerkP = 0.00028;
+    public static final double trapControllerkI = 0.000008;
+    public static final double trapControllerkD = 0;
+  
+  }
 }

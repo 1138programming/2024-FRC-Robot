@@ -11,7 +11,7 @@ import frc.robot.subsystems.Hang;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ShooterTilt;
-
+import frc.robot.subsystems.Trap;
 // Commands
 //  Base
 import frc.robot.commands.Base.DriveWithJoysticks;
@@ -47,6 +47,13 @@ import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
 import frc.robot.commands.ShooterTilt.ShooterTiltStop;
 import frc.robot.commands.ShooterTilt.ShooterTiltWait;
+import frc.robot.commands.Trap.MoveRollerIn;
+import frc.robot.commands.Trap.MoveRollerOut;
+import frc.robot.commands.Trap.MoveWristForward;
+import frc.robot.commands.Trap.MoveWristMotorBack;
+import frc.robot.commands.Trap.StopRollers;
+import frc.robot.commands.Trap.StopTrap;
+import frc.robot.commands.Trap.StopWrist;
 import frc.robot.CommandGroups.AimAndShoot;
 import frc.robot.CommandGroups.IndexAndShoot;
 // Command Groups
@@ -73,6 +80,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 // Pathplanner
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+//Trap Imports
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -93,6 +101,7 @@ public class RobotContainer {
   private final Indexer indexer = new Indexer();
   private final Hang hang = new Hang();
 
+  private final Trap trap = new Trap();
   // Commands
   //  Swerve Drive Commands
   private final DriveWithJoysticks drivewithJoysticks = new DriveWithJoysticks(base);
@@ -127,6 +136,14 @@ public class RobotContainer {
   private final IndexerSpinBack indexerSpinBack = new IndexerSpinBack(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
   private final IndexShooter indexShooter = new IndexShooter(indexer);
+  //  Trap Commands
+  private final MoveRollerOut moveRollersBackwards = new MoveRollerOut(trap);
+  private final MoveRollerIn moveRollersForward = new MoveRollerIn(trap);
+  private final MoveWristForward moveWristForward = new MoveWristForward(trap);
+  private final MoveWristMotorBack moveWristMotorBack = new MoveWristMotorBack(trap);
+  private final StopRollers stopRollers = new StopRollers(trap);
+  private final StopWrist stopWrist = new StopWrist(trap);
+  private final StopTrap stopTrap = new StopTrap(trap);
   
   // Command Groups
   // private final ShootAnd ampAutoShoot = new ShootAnd(base, flyWheel, shooterTilt, indexer);
@@ -135,6 +152,7 @@ public class RobotContainer {
   private final IntakeAndIndexToStop intakeAndIndexToStop = new IntakeAndIndexToStop(intake, indexer);
   private final AimAndShoot aimAndShoot = new AimAndShoot(base, flyWheel, shooterTilt, indexer);
   private final IndexAndShoot indexAndShoot = new IndexAndShoot(flyWheel, indexer);
+
   // Shuffleboard AutonChooser
   private final SendableChooser<Command> autonChooser;
 
@@ -170,9 +188,7 @@ public class RobotContainer {
       autonTestStreamDeck10, autonTestStreamDeck11, autonTestStreamDeck12, autonTestStreamDeck13, autonTestStreamDeck14,
       autonTestStreamDeck15;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     base.setDefaultCommand(drivewithJoysticks);
     intake.setDefaultCommand(intakeSpinStop);
