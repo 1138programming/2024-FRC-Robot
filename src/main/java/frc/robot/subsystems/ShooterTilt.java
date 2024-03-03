@@ -109,8 +109,7 @@ public class ShooterTilt extends SubsystemBase {
     // min value
     if (shooterAngle >= KShooterTiltAngles[0][KShooterTiltAnglesMaxIndex]) {
       motorAngle = KShooterTiltAngles[1][KShooterTiltAnglesMaxIndex];
-    } 
-    else if (shooterAngle <= KShooterTiltAngles[0][0]) {
+    } else if (shooterAngle <= KShooterTiltAngles[0][0]) {
       motorAngle = KShooterTiltAngles[1][0];
     }
 
@@ -124,22 +123,27 @@ public class ShooterTilt extends SubsystemBase {
               shooterAngle,
               KShooterTiltAngles[0][i - 1], KShooterTiltAngles[1][i - 1],
               KShooterTiltAngles[0][i], KShooterTiltAngles[1][i]);
-              break;
+          break;
         }
       }
     }
     return motorAngle;
   }
-  
+
   // enter limelight stuff here
-  public static double getAngleForShooterPivot(double distanceFromSpeaker) {
-    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeaker) * (180/Math.PI));
+  public static double getAngleForShooterPivot(double distanceFromSpeakerMeters) {
+    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters) * (180 / Math.PI)); //Meters
   }
+
   public double getAngleForShooterPivot() {
-    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / base.getDistanceFromSpeaker()) * (180/Math.PI));
+    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / base.getDistanceFromSpeaker())
+        * (180 / Math.PI)); //Meters
   }
-  
+
   public void setShooterTiltWithOdometry() {
-    swivelshootController.calculate(getMotorAngleFromShooterAngle(getAngleForShooterPivot(base.getDistanceFromSpeaker())), getTiltEncoder());
+    swivelshootController.calculate(
+        getMotorAngleFromShooterAngle(
+          getAngleForShooterPivot(
+            base.getDistanceFromSpeaker())), getTiltEncoder());
   }
 }
