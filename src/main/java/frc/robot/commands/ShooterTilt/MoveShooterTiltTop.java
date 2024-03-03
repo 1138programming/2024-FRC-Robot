@@ -4,15 +4,12 @@
 
 package frc.robot.commands.ShooterTilt;
 
-import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltDeadZone;
-import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltUpPos;
-import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltUpPos;
+import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 //import static frc.robot.Constants.TiltConstants.*;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterTilt;
 
 public class MoveShooterTiltTop extends Command {

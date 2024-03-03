@@ -6,8 +6,8 @@ package frc.robot.commands.Limelight;
 
 import static frc.robot.Constants.LimelightConstants.KLimelightAngleDeadzone;
 import static frc.robot.Constants.LimelightConstants.KlimelightrotControl;
-import static frc.robot.Constants.LimelightConstants.KspeakerCoordinatesBlue;
-import static frc.robot.Constants.LimelightConstants.KspeakerCoordinatesRed;
+import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesBlue;
+import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesRed;
 import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
 import static frc.robot.Constants.SwerveDriveConstants.KMaxAngularSpeed;
 import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
@@ -36,11 +36,11 @@ public class RotateToSpeaker extends Command {
   @Override
   public void execute() {
     if (DriverStation.getAlliance().toString() == "blue") {
-      offset = Math.atan(Math.abs(KspeakerCoordinatesBlue[1]-base.getRobotPoseY()) / Math.abs(KspeakerCoordinatesBlue[0]-base.getRobotPoseX()));
+      offset = Math.atan(Math.abs(KSpeakerCoordinatesBlue[1]-base.getRobotPoseY()) / Math.abs(KSpeakerCoordinatesBlue[0]-base.getRobotPoseX()));
       rotSpeed = KlimelightrotControl.calculate(base.getHeadingDeg(), offset);
     } 
     else {
-      offset = Math.atan(Math.abs(KspeakerCoordinatesRed[1]-base.getRobotPoseY()) / Math.abs(KspeakerCoordinatesRed[0]-base.getRobotPoseX()));
+      offset = Math.atan(Math.abs(KSpeakerCoordinatesRed[1]-base.getRobotPoseY()) / Math.abs(KSpeakerCoordinatesRed[0]-base.getRobotPoseX()));
       rotSpeed = KlimelightrotControl.calculate(base.getHeadingDeg(), offset);
     }
     base.drive(0, 0, rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KMaxAngularSpeed * KBaseRotMaxPercent);

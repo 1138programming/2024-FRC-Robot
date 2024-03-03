@@ -2,19 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Trap;
 
-import static frc.robot.Constants.TrapConstants.KTrapPotentiometerSetpointFront;
+import static frc.robot.Constants.TrapConstants.KTrapRollersBackwardSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trap;
-import frc.robot.Constants;
 
-public class MoveWristForward extends Command {
-  /** Creates a new MoveWristUp. */
+public class MoveRollerOut extends Command {
+  /** Creates a new MoveRollersBackwards. */
   private Trap trap;
-  
-  public MoveWristForward(Trap trap) {
+  public MoveRollerOut(Trap trap) {
     this.trap = trap;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,18 +25,18 @@ public class MoveWristForward extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.swivelToPos(KTrapPotentiometerSetpointFront);
+    trap.moveTrapRollers(KTrapRollersBackwardSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    trap.stopWrist();
+    trap.stopRollers();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return trap.getPotentiometer() >= KTrapPotentiometerSetpointFront;
+    return !trap.getTrapNoteSensor();
   }
 }

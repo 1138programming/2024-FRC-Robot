@@ -6,10 +6,11 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.TrapConstants.*;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,17 +19,17 @@ import edu.wpi.first.math.controller.PIDController;
 public class Trap extends SubsystemBase {
   /** Creates a new Trap. */
   // 
-  private TalonSRX trapRollerMotor;
+  private CANSparkMax trapRollerMotor;
   private DigitalInput trapNoteSensor;
-  private TalonSRX trapWristMotor;
+  private CANSparkMax trapWristMotor;
   private AnalogPotentiometer trapPotentiometer;
   private PIDController swivelController;
 
 
   public Trap() {
-    trapRollerMotor = new TalonSRX(KTrapRollerMotorID);
+    trapRollerMotor = new CANSparkMax(KTrapRollerMotorID, MotorType.kBrushless);
     trapNoteSensor = new DigitalInput(KTrapIRID);
-    trapWristMotor = new TalonSRX(KTrapWristMotorID);
+    trapWristMotor = new CANSparkMax(KTrapWristMotorID, MotorType.kBrushless);
     trapPotentiometer = new AnalogPotentiometer(KPotentiometerID, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
     swivelController = new PIDController(trapControllerkP, trapControllerkI, trapControllerkD);
   } 
@@ -45,16 +46,16 @@ public class Trap extends SubsystemBase {
 
   public void moveTrapRollers(double speed){
     if (!getTrapNoteSensor()){
-      trapRollerMotor.set(TalonSRXControlMode.PercentOutput, KTrapRollersForwardSpeed);
+      trapRollerMotor.set(KTrapRollersForwardSpeed);
     }
     else if (getTrapNoteSensor()){
-      trapRollerMotor.set(TalonSRXControlMode.PercentOutput, KTrapRollersBackwardSpeed);
+      trapRollerMotor.set(KTrapRollersBackwardSpeed);
     }
-    trapRollerMotor.set(TalonSRXControlMode.PercentOutput, 0);
+    trapRollerMotor.set(0);
   }
 
   public void moveWristMotor(double speed){
-    trapWristMotor.set(TalonSRXControlMode.PercentOutput, speed);
+    trapWristMotor.set(speed);
   }
 
   public double getPotentiometer(){
@@ -62,11 +63,11 @@ public class Trap extends SubsystemBase {
   }
 
   public void stopRollers(){
-    trapRollerMotor.set(TalonSRXControlMode.PercentOutput, 0);
+    trapRollerMotor.set(0);
   }
 
   public void stopWrist(){
-    trapWristMotor.set(TalonSRXControlMode.PercentOutput, 0);
+    trapWristMotor.set(0);
   }
 
   public void swivelToPos(double setPoint){

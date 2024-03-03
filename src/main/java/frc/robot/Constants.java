@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -71,10 +73,10 @@ public final class Constants {
     public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
     public static final double KlimelightMountHeight = 20.0; // Inches (Needs to be changed)
     public static final double KspeakerHeight = 60; // Inches (needs to be changed)
-    public static final double[] KspeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
+    public static final double[] KSpeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
                                                                                           // aprilTag
     public static final double[] KspeakerAprilTagsBlue = new double[] { 7, 8 }; // Right To Left
-    public static final double[] KspeakerCoordinatesRed = new double[] { 16.618, 5.5474108 }; // (X,Y) of the center
+    public static final double[] KSpeakerCoordinatesRed = new double[] { 16.618, 5.5474108 }; // (X,Y) of the center
                                                                                               // aprilTag
     public static final double[] KspeakerAprilTagsRed = new double[] { 9, 10 }; // Right To Left
     public static final double KlimeLightRotP = 0.0167;
@@ -239,6 +241,14 @@ public final class Constants {
     public static final double KShooterTiltPodiumAngle = 95;
     public static final double KShooterTiltBottomAngle = 60;
 
+    // This array must be sorted for the shooter tilt functionality to work!!!!
+    public static final double[][] KShooterTiltAngles =
+    {
+      {17.71, 18,   20,   25,    30,    35,    40,   45,     50,    55,    60,     65,  70,     75,     80,     83.92}, 
+      {0,     12.6, 33.8, 56.78, 71.37, 83.12, 93.5, 103.14, 112.4, 121.5, 130.64, 140, 149.86, 160.72, 173.93, 196.07}
+    };
+    public static final int KShooterTiltAnglesMaxIndex = KShooterTiltAngles[0].length - 1;
+    
   }
   
   public static class FlywheelConstants{

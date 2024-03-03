@@ -4,26 +4,13 @@
 
 package frc.robot.CommandGroups;
 
-import java.util.Optional;
-
-import javax.swing.text.html.Option;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.commands.Base.DriveForTime;
 import frc.robot.commands.Base.DriveForTimeY;
-import frc.robot.commands.Base.RotateToSpeaker;
-import frc.robot.commands.Flywheel.SpinFlywheel;
 import frc.robot.commands.Flywheel.SpinFlywheelAmp;
-import frc.robot.commands.Flywheel.SpinFlywheelVelocity;
-import frc.robot.commands.Flywheel.SpinUpFlywheel;
 import frc.robot.commands.Indexer.IndexerSpin;
-import frc.robot.commands.ShooterTilt.AutoAimShooterTilt;
 import frc.robot.subsystems.Base;
 import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.Indexer;

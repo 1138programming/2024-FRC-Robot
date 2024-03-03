@@ -7,7 +7,6 @@ package frc.robot.CommandGroups;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Indexer.IndexerLoadNoteSlow;
-import frc.robot.commands.Indexer.IndexerLoadNoteBack;
 import frc.robot.commands.Indexer.IndexerLoadNoteFast;
 import frc.robot.commands.Intake.IntakeSpinIn;
 import frc.robot.subsystems.Indexer;

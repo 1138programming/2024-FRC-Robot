@@ -6,7 +6,6 @@ package frc.robot.commands.Indexer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
-import static frc.robot.Constants.IndexerConstants.*;
 
 public class IndexerSpinBack extends Command {
   private Indexer indexer;

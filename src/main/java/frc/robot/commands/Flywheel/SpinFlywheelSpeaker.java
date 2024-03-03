@@ -4,9 +4,7 @@
 
 package frc.robot.commands.Flywheel;
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
-import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAmpAngle;
-import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltSubAngle;
+import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
