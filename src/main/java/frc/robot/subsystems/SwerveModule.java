@@ -79,7 +79,7 @@ public class SwerveModule extends SubsystemBase {
     angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
     
     driveMotorOutput = desiredState.speedMetersPerSecond / KPhysicalMaxDriveSpeedMPS;
-    
+     
     angleMotor.set(angleMotorOutput);
     driveMotor.set(driveMotorOutput); 
   }

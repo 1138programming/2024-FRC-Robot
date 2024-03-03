@@ -35,15 +35,19 @@ public class Hang extends SubsystemBase {
   private DoubleSolenoid hangPistonLeft;
   private DoubleSolenoid hangPistonRight;
   private LaserCan hangLaserCanBottom;
-  private final Compressor m_compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+  private Compressor compressor;
 
   public Hang() {
     hangMotor = new CANSparkFlex(KHangMotorID, MotorType.kBrushless);
     hangLimitSwitchUp = new DigitalInput(KHangLimitSwitchUp);
-    hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonLeftInID, KHangPistonLeftOutID);
+    hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonLeftForwardID, KHangPistonLeftBackwardID);
     hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
-    hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonRightInID, KHangPistonRightOutID);
+    hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonRightForwardID, KHangPistonRightBackwardID);
     hangPistonRight.set(DoubleSolenoid.Value.kReverse);
+    // hangPistonRight.
+
+    compressor = new Compressor(PneumaticsModuleType.REVPH);
+    compressor.enableAnalog(90, 110);
 
     hangLaserCanBottom = new LaserCan(KLaserCanID);
     try {
@@ -58,8 +62,8 @@ public class Hang extends SubsystemBase {
   
   @Override
   public void periodic() {
-    m_compressor.enableAnalog(90, 110);
-    SmartDashboard.putNumber("Pressure", m_compressor.getPressure());
+    SmartDashboard.putNumber("Pressure", compressor.getPressure());
+    SmartDashboard.putBoolean("Pressure switch value", compressor.getPressureSwitchValue());
   }
 
   // add two methods on and off for each pneumatic system

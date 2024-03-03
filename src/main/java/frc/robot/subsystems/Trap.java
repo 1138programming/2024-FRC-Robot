@@ -31,7 +31,10 @@ public class Trap extends SubsystemBase {
     trapNoteSensor = new DigitalInput(KTrapIRID);
     trapWristMotor = new CANSparkMax(KTrapWristMotorID, MotorType.kBrushless);
     trapPotentiometer = new AnalogPotentiometer(KPotentiometerID, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
-    swivelController = new PIDController(trapControllerkP, trapControllerkI, trapControllerkD);
+
+    swivelController = new PIDController(KTrapControllerP, KTrapControllerI, KTrapControllerD);
+
+    // swivelController.setIZone(1);
   } 
 
   @Override

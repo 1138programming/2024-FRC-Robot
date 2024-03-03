@@ -303,10 +303,10 @@ public final class Constants {
     public static final int KHangSetPositionDown = -10;
 
     // Piston Pneumatics double Constants
-    public static final int KHangPistonLeftInID = 1;
-    public static final int KHangPistonLeftOutID = 2;
-    public static final int KHangPistonRightInID = 3;
-    public static final int KHangPistonRightOutID = 4;
+    public static final int KHangPistonLeftForwardID = 2;
+    public static final int KHangPistonLeftBackwardID = 0;
+    public static final int KHangPistonRightForwardID = 3;
+    public static final int KHangPistonRightBackwardID = 1;
   }
 
   public static class TrapConstants{
@@ -326,9 +326,12 @@ public final class Constants {
     public static final double KTrapPotentiometerSetpointBack = 40;
     public static final double KTrapPotentiometerSetpoint = 170;
 
-    public static final double trapControllerkP = 0.00028;
-    public static final double trapControllerkI = 0.000008;
-    public static final double trapControllerkD = 0;
+    public static final double KTrapControllerP = 0;
+    public static final double KTrapControllerI = 0;
+    public static final double KTrapControllerD = 0;
+  }
   
+  public static class CameraConstants {
+    public static final int KCameraPivotServoID = 1;
   }
 }

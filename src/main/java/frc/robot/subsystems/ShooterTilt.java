@@ -35,7 +35,6 @@ public class ShooterTilt extends SubsystemBase {
   public ShooterTilt() {
     // Motor Setup
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless);
-    base = new Base();
 
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
     shooterTiltMotor.setInverted(true);
@@ -98,9 +97,6 @@ public class ShooterTilt extends SubsystemBase {
     moveSwivel(swivelshootController.calculate(getTiltEncoder(), setPoint));
   }
 
-  public void swivelToPosUp(double setPoint) {
-    moveSwivel(swivelUpController.calculate(getTiltEncoder(), setPoint));
-  }
 
   public static double getMotorAngleFromShooterAngle(double shooterAngle) {
     double motorAngle = 0;
