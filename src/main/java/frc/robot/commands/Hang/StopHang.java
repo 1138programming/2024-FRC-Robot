@@ -7,11 +7,11 @@ package frc.robot.commands.Hang;
 import frc.robot.subsystems.Hang;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class StopHangHooks extends Command {
+public class StopHang extends Command {
   /** Creates a new StopHangHooks. */
   private Hang hang;
 
-  public StopHangHooks(Hang hang) {
+  public StopHang(Hang hang) {
     this.hang = hang;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.

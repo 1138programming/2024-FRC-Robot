@@ -2,20 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Indexer;
+package frc.robot.commands.Hang;
 
-import static frc.robot.Constants.IndexerConstants.KIndexerMotorSpeed;
+import frc.robot.subsystems.Hang;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Indexer;
 
-public class IndexShooter extends Command {
-  private Indexer indexer;
-  /** Creates a new IndexShooter. */
-  public IndexShooter(Indexer indexer) {
-    this.indexer = indexer;
-    addRequirements(indexer); 
-    
+import static frc.robot.Constants.HangConstants.KHangMotorSpeedUp;
+
+public class MoveHangUp extends Command {
+  /** Creates a new MoveHangUp. */
+  private Hang hang;
+
+  public MoveHangUp(Hang hang) {
+    this.hang = hang;
+    addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,17 +27,18 @@ public class IndexShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerSpin(KIndexerMotorSpeed);
-    }
+    hang.moveHangMotor(KHangMotorSpeedUp);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    hang.hangStop();
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.getIndexerBBreakerTop();
+    return false;
   }
 }

@@ -24,12 +24,13 @@ import frc.robot.commands.Flywheel.SpinFlywheelAmp;
 import frc.robot.commands.Flywheel.SpinFlywheelFullSpeed;
 import frc.robot.commands.Flywheel.SpinFlywheelSpeaker;
 import frc.robot.commands.Flywheel.SpinFlywheelSpeakerPodium;
-import frc.robot.commands.Flywheel.SpinFlywheelVelocity;
 import frc.robot.commands.Flywheel.SpinLowerFlywheel;
 import frc.robot.commands.Flywheel.SpinUpperFlywheel;
 import frc.robot.commands.Flywheel.StopFlywheel;
-import frc.robot.commands.Hang.StopHangHooks;
-import frc.robot.commands.Indexer.IndexShooter;
+import frc.robot.commands.Hang.MoveHangDown;
+import frc.robot.commands.Hang.MoveHangUp;
+import frc.robot.commands.Hang.ToggleHangPistons;
+import frc.robot.commands.Hang.StopHang;
 //  Indexer
 import frc.robot.commands.Indexer.IndexerLoadNoteFast;
 import frc.robot.commands.Indexer.IndexerLoadNoteSlow;
@@ -135,7 +136,11 @@ public class RobotContainer {
   private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerSpinBack indexerSpinBack = new IndexerSpinBack(indexer);
   private final IndexerStop indexerStop = new IndexerStop(indexer);
-  private final IndexShooter indexShooter = new IndexShooter(indexer);
+  //  Hang Commands
+  private final MoveHangUp moveHangUp = new MoveHangUp(hang);
+  private final MoveHangDown moveHangDown = new MoveHangDown(hang);
+  private final ToggleHangPistons toggleHangPistons = new ToggleHangPistons(hang);
+  private final StopHang stopHang = new StopHang(hang);
   //  Trap Commands
   private final MoveRollerOut moveRollersBackwards = new MoveRollerOut(trap);
   private final MoveRollerIn moveRollersForward = new MoveRollerIn(trap);
@@ -196,7 +201,7 @@ public class RobotContainer {
     shooterTilt.setDefaultCommand(shooterTiltStop);
     indexer.setDefaultCommand(indexerStop);
     flyWheel.setDefaultCommand(stopFlywheel);
-    hang.setDefaultCommand(new StopHangHooks(hang));
+    hang.setDefaultCommand(new StopHang(hang));
 
     // Auton Chooser
     autonChooser = AutoBuilder.buildAutoChooser("Middle");
@@ -307,35 +312,17 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Comp Arms and Lifts Controls
-    // compStreamDeck1.whileTrue(indexerSpin);
-    // compStreamDeck2.onTrue(spinFlywheel);
-    // compStreamDeck3.onTrue(new SpinFlywheelAmp(flyWheel, shooterTilt));
-    // compStreamDeck4.onTrue(new SpinFlywheelFullSpeed(flyWheel));
-    // compStreamDeck5.whileTrue(shooterTiltSpinUp);
-    
-    // compStreamDeck6.whileTrue(new IndexerSpinBack(indexer));
-    // compStreamDeck7.onTrue(stopFlywheel);
-
-    // compStreamDeck8.whileTrue(moveShooterTiltTop);
-    // compStreamDeck9.whileTrue(moveShooterTiltToBottom);
-
-    // compStreamDeck10.whileTrue(shooterTiltSpinDown);
-    // compStreamDeck12.onTrue(moveShooterTiltTo90);
-    // compStreamDeck13.onTrue(new AimAndShoot(base, flyWheel, shooterTilt, indexer));
-    // compStreamDeck14.onTrue(new SpinFlywheelVelocity(flyWheel));
-    // compStreamDeck15.whileTrue(intakeAndIndexToStop);
-    
+    // Comp Arms and Lifts Controls    
     compStreamDeck1.onTrue(spinFlywheelSpeaker);
     compStreamDeck2.onTrue(spinFlywheelSpeakerPodium);
     compStreamDeck3.whileTrue(shooterTiltSpinUp);
-    
     compStreamDeck4.whileTrue(moveShooterTiltTop);
     compStreamDeck5.whileTrue(indexerSpin);
     
-    // compStreamDeck6.onTrue(spinFlywheelAmp);
+    compStreamDeck6.onTrue(spinFlywheelAmp);
     compStreamDeck7.onTrue(spinFlywheel);
     compStreamDeck8.whileTrue(shooterTiltSpinDown);
+    compStreamDeck9.onTrue(toggleHangPistons);
     compStreamDeck10.whileTrue(indexerSpinBack);
     
     compStreamDeck11.onTrue(spinFlywheelAmp);

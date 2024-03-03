@@ -5,16 +5,12 @@
 package frc.robot.commands.Hang;
 
 import frc.robot.subsystems.Hang;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
-import static frc.robot.Constants.HangConstants.KHangMotorSpeedUp;
-
-public class MoveHangHookUp extends Command {
-  /** Creates a new MoveHangUp. */
+public class ToggleHangPistons extends Command {
+  /** Creates a new MoveHangPistons. */
   private Hang hang;
-
-  public MoveHangHookUp(Hang hang) {
+  public ToggleHangPistons(Hang hang) {
     this.hang = hang;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,23 +18,22 @@ public class MoveHangHookUp extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    hang.moveHangPistons();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hang.moveHangMotor(KHangMotorSpeedUp);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    hang.hangStop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

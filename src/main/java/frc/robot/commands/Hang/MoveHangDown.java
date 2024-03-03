@@ -10,11 +10,11 @@ import static frc.robot.Constants.HangConstants.KHangMotorSpeedDown;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class MoveHangHookDown extends Command {
+public class MoveHangDown extends Command {
   /** Creates a new MoveHangDown. */
   private Hang hang;
 
-  public MoveHangHookDown(Hang hang) {
+  public MoveHangDown(Hang hang) {
     this.hang = hang;
     addRequirements(hang);
     // Use addRequirements() here to declare subsystem dependencies.
