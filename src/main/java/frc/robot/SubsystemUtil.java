@@ -1,15 +1,13 @@
 package frc.robot;
 
-import frc.robot.subsystems.Base;
-
 public class SubsystemUtil {
     private static double distanceFromSpeaker = 0;
     private static boolean isNoteIndexed = false;
-    private Base base = new Base();
 
     public static void setDistanceFromSpeaker(double distance) {
         distanceFromSpeaker = distance;
     }
+
     public static void setNoteIndexed(boolean isIndexed) {
         isNoteIndexed = isIndexed;
     }
@@ -17,6 +15,7 @@ public class SubsystemUtil {
     public static double getDistanceFromSpeaker() {
         return distanceFromSpeaker;
     }
+
     public static boolean getIsNoteIndexed() {
         return isNoteIndexed;
     }

@@ -71,7 +71,8 @@ public final class Constants {
 
   public static class LimelightConstants {
     public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
-    public static final double KlimelightMountHeight = 20.0; 
+    public static final double KlimelightMountHeight = 0.508; 
+    public static final double KShooterTiltMountHeight = 0.2286; 
     public static final double KspeakerHeight = 2.1082;  
     public static final double[] KSpeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
                                                                                           // aprilTag
