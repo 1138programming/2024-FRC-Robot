@@ -114,6 +114,10 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("RotP", KRotationP);
     SmartDashboard.putNumber("RotI", KRotationI);
     SmartDashboard.putNumber("RotD", KRotationD);
+    SmartDashboard.putNumber("DriveP", KDriveP);
+    SmartDashboard.putNumber("DriveD", KDriveD);
+    SmartDashboard.putNumber("AngleP", KAngleP);
+    SmartDashboard.putNumber("AngleD", KAngleD);
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS,
