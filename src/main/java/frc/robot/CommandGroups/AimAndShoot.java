@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Base.RotateToSpeaker;
 import frc.robot.commands.Flywheel.SpinFlywheelVelocity;
 import frc.robot.commands.Flywheel.SpinUpFlywheel;
-import frc.robot.commands.Indexer.IndexShooter;
+import frc.robot.commands.Indexer.IndexerSpin;
 import frc.robot.commands.ShooterTilt.AutoAimShooterTilt;
 import frc.robot.subsystems.Base;
 import frc.robot.subsystems.Flywheel;
@@ -32,7 +32,7 @@ public class AimAndShoot extends SequentialCommandGroup {
         new SpinUpFlywheel(flywheel)
       ),
       new ParallelRaceGroup(
-        new IndexShooter(indexer),
+        new IndexerSpin(indexer),
         new SpinFlywheelVelocity(flywheel)
       )
     );
