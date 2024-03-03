@@ -26,7 +26,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
-
+  private Base base;
   // PID
   private PIDController swivelController;
   private PIDController swivelUpController;
@@ -35,6 +35,7 @@ public class ShooterTilt extends SubsystemBase {
   public ShooterTilt() {
     // Motor Setup
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless);
+    base = new Base();
 
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
     shooterTiltMotor.setInverted(true);
@@ -129,9 +130,16 @@ public class ShooterTilt extends SubsystemBase {
     }
     return motorAngle;
   }
-
+  
   // enter limelight stuff here
+  public static double getAngleForShooterPivot(double distanceFromSpeaker) {
+    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeaker) * (180/Math.PI));
+  }
   public double getAngleForShooterPivot() {
-    return Math.atan((KspeakerHeight - KlimelightMountHeight) / SubsystemUtil.getDistanceFromSpeaker());
+    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / base.getDistanceFromSpeaker()) * (180/Math.PI));
+  }
+  
+  public void setShooterTiltWithOdometry() {
+    swivelshootController.calculate(getMotorAngleFromShooterAngle(getAngleForShooterPivot(base.getDistanceFromSpeaker())), getTiltEncoder());
   }
 }

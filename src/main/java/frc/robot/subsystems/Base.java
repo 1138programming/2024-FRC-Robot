@@ -321,16 +321,16 @@ public class Base extends SubsystemBase {
 
   public static double getAngleFromSpeaker(DriverStation.Alliance allianceColor, double xPos, double yPos, double lambda) {
     double theta = 0;
-    double angle = 110;
+    double angle = 0;
     if (allianceColor == DriverStation.Alliance.Blue) {
-      if (xPos - KSpeakerCoordinatesBlue[0] < 0.01) {
+      if (Math.abs(xPos - KSpeakerCoordinatesBlue[0]) < 0.01) {
         return 0;
       }
       theta = (Math.atan((yPos - KSpeakerCoordinatesBlue[1]) / (xPos - KSpeakerCoordinatesBlue[0])) * (180/Math.PI));
       angle = 180 - lambda + theta;
     }
     else {
-      if (xPos - KSpeakerCoordinatesRed[0] < 0.01) {
+      if (Math.abs(xPos - KSpeakerCoordinatesRed[0]) < 0.01) {
         return 0;
       }
       theta = (Math.atan((yPos - KSpeakerCoordinatesRed[1]) / (xPos - KSpeakerCoordinatesRed[0])) * (180/Math.PI));

@@ -72,7 +72,7 @@ public final class Constants {
   public static class LimelightConstants {
     public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
     public static final double KlimelightMountHeight = 20.0; // Inches (Needs to be changed)
-    public static final double KspeakerHeight = 60; // Inches (needs to be changed)
+    public static final double KspeakerHeight = 83; // Inches (needs to be changed)
     public static final double[] KSpeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
                                                                                           // aprilTag
     public static final double[] KspeakerAprilTagsBlue = new double[] { 7, 8 }; // Right To Left
@@ -225,6 +225,8 @@ public final class Constants {
 
     // Motor Speed
     public static final double KShooterTiltMotorSpeed = 0.25;
+
+    public static final double KShooterTiltDistanceOffGround = 2;
 
     // Untuned - PID Constants
     public static final double KShooterTiltControllerP = 0.004;
