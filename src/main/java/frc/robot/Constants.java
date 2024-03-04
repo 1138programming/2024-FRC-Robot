@@ -119,9 +119,12 @@ public final class Constants {
     public static final int KRightBackEncoderID = 4;
 
     // Swerve Angle PID
-    public static final double KAngleP = 0.006;
-    public static final double KAngleI = 0;
+    public static final double KAngleP = 0;
     public static final double KAngleD = 0;
+
+    // Drive Angle PID
+    public static final double KDriveP = 0;
+    public static final double KDriveD = 0;
 
     // Swerve Current Limits
     public static final int KDriveMotorCurrentLimit = 40;

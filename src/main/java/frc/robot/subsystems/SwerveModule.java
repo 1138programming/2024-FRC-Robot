@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveModule extends SubsystemBase {
@@ -30,9 +31,9 @@ public class SwerveModule extends SubsystemBase {
   private RelativeEncoder driveEncoder;
 
   private PIDController angleController;
+  private PIDController driveController;
 
   private double offset;
-  
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
                       boolean driveMotorReversed, boolean angleMotorReversed) {
     angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
@@ -64,8 +65,9 @@ public class SwerveModule extends SubsystemBase {
     
     driveEncoder.setPositionConversionFactor(KDriveMotorRotToMeter);
     driveEncoder.setVelocityConversionFactor(KDriveMotorRPMToMetersPerSec);
-
-    angleController = new PIDController(KAngleP, KAngleI, KAngleD);
+    
+    angleController = new PIDController(KAngleP, 0, KAngleD);
+    driveController = new PIDController(KAngleP, 0, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
   }
   
@@ -79,7 +81,8 @@ public class SwerveModule extends SubsystemBase {
     angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
     
     driveMotorOutput = desiredState.speedMetersPerSecond / KPhysicalMaxDriveSpeedMPS;
-     
+    // driveMotorOutput = driveController.calculate(getDriveEncoderVel(), desiredState.speedMetersPerSecond) / KPhysicalMaxDriveSpeedMPS;
+    
     angleMotor.set(angleMotorOutput);
     driveMotor.set(driveMotorOutput); 
   }
@@ -138,5 +141,9 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
+    driveController.setP(SmartDashboard.getNumber("DriveP", KDriveP));
+    driveController.setD(SmartDashboard.getNumber("DriveD", KDriveD));
+    angleController.setP(SmartDashboard.getNumber("AngleP", KAngleP));
+    angleController.setD(SmartDashboard.getNumber("AngleD", KAngleD));
   }
 }
