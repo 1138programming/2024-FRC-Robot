@@ -33,7 +33,10 @@ public class AutoAimShooterTilt extends Command {
   @Override
   public void execute() {
     if (SubsystemUtil.getIsNoteIndexed()) {
-      shooterTilt.swivelToPosShoot(shooterTilt.getAngleForShooterPivot());
+      shooterTilt.swivelToPosShoot(
+        ShooterTilt.getMotorAngleFromShooterAngle(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+      ));
     }
   }
 

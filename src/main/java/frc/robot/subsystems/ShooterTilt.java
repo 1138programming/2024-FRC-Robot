@@ -26,7 +26,6 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
-  private Base base;
   // PID
   private PIDController swivelController;
   private PIDController swivelUpController;
@@ -131,15 +130,4 @@ public class ShooterTilt extends SubsystemBase {
     return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters) * (180 / Math.PI)); //Meters
   }
 
-  public double getAngleForShooterPivot() {
-    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / base.getDistanceFromSpeaker())
-        * (180 / Math.PI)); //Meters
-  }
-
-  public void setShooterTiltWithOdometry() {
-    swivelshootController.calculate(
-        getMotorAngleFromShooterAngle(
-          getAngleForShooterPivot(
-            base.getDistanceFromSpeaker())), getTiltEncoder());
-  }
 }
