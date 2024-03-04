@@ -129,5 +129,4 @@ public class ShooterTilt extends SubsystemBase {
   public static double getAngleForShooterPivot(double distanceFromSpeakerMeters) {
     return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters) * (180 / Math.PI)); //Meters
   }
-
 }
