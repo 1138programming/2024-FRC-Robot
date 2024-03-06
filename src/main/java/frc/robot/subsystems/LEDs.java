@@ -20,12 +20,32 @@ public class LEDs extends SubsystemBase {
     LEDStrip.setLength(LEDBuffer.getLength());
     LEDStrip.setData(LEDBuffer);
   }
-  public void setLEDColors(int R, int G, int B){
-    for (int i=0; i< LEDBuffer.getLength(); i++){
+  public void setLEDStripColor(int R, int G, int B){
+    for (int i = 0; i< LEDBuffer.getLength(); i++){
       LEDBuffer.setRGB(i, R, G, B);
     }
     LEDStrip.start();
     LEDStrip.setData(LEDBuffer);
+
+  }
+
+  // This method set the LED Strip in an everyother color pattern. ex. Orange-Blue-Orange-Blue
+  public void LEDOrangeBluePattern(){
+    LEDStrip.start();
+    for(int i = 0; i < LEDBuffer.getLength(); i++){
+      if (i/2 == 0){
+        LEDBuffer.setRGB(i, 7, 7, 137);
+      }
+      else{
+        LEDBuffer.setRGB(i, 255, 145, 0);
+      }
+      LEDStrip.setData(LEDBuffer);
+    }
+  }
+
+  public void LEDOngoingPattern(){
+    LEDStrip.start();
+    
   }
 
   @Override
