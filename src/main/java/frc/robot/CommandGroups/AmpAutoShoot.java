@@ -4,8 +4,6 @@
 
 package frc.robot.CommandGroups;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Base.DriveForTimeY;
@@ -23,7 +21,6 @@ public class AmpAutoShoot extends SequentialCommandGroup {
   /** Creates a new AimAndShoot. */
   public AmpAutoShoot(Base base, Flywheel flywheel, ShooterTilt shooterTilt, Indexer indexer) {
     double speed = 0.63;
-    SmartDashboard.putString("alliance", DriverStation.getAlliance().toString());
     
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

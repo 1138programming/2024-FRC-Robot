@@ -29,41 +29,45 @@ import au.grapplerobotics.LaserCan;
 
 public class Hang extends SubsystemBase {
   /** Creates a new Hang. */
-  private CANSparkFlex hangMotor;
-  private DigitalInput hangLimitSwitchUp;
+  // private CANSparkFlex hangMotor;
+  // private DigitalInput hangLimitSwitchUp;
   
   private DoubleSolenoid hangPistonLeft;
   private DoubleSolenoid hangPistonRight;
-  private LaserCan hangLaserCanBottom;
+  // private LaserCan hangLaserCanBottom;
   private Compressor compressor;
-
+  
   public Hang() {
-    hangMotor = new CANSparkFlex(KHangMotorID, MotorType.kBrushless);
-    hangLimitSwitchUp = new DigitalInput(KHangLimitSwitchUp);
-    hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonLeftForwardID, KHangPistonLeftBackwardID);
-    hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
-    hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonRightForwardID, KHangPistonRightBackwardID);
-    hangPistonRight.set(DoubleSolenoid.Value.kReverse);
-    // hangPistonRight.
-
+    // Motor
+    // hangMotor = new CANSparkFlex(KHangMotorID, MotorType.kBrushless);
+    
+    // // Sensors
+    // hangLimitSwitchUp = new DigitalInput(KHangLimitSwitchUp);
+    
+    // hangLaserCanBottom = new LaserCan(KLaserCanID);
+    // try {
+    //   hangLaserCanBottom.setRangingMode(LaserCan.RangingMode.SHORT);
+    //   hangLaserCanBottom.setRegionOfInterest(new LaserCan.RegionOfInterest(6, 6, 16, 16));
+    //   hangLaserCanBottom.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+    // } catch (ConfigurationFailedException e){
+    //   System.out.println("Configuration failed! " + e);
+    // }
+    
+    // Pneumatics
     compressor = new Compressor(PneumaticsModuleType.REVPH);
     compressor.enableAnalog(90, 110);
 
-    hangLaserCanBottom = new LaserCan(KLaserCanID);
-    try {
-      hangLaserCanBottom.setRangingMode(LaserCan.RangingMode.SHORT);
-      hangLaserCanBottom.setRegionOfInterest(new LaserCan.RegionOfInterest(6, 6, 16, 16));
-      hangLaserCanBottom.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
-    } catch (ConfigurationFailedException e){
-      System.out.println("Configuration failed! " + e);
-    }
-
+    hangPistonLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonLeftForwardID, KHangPistonLeftBackwardID);
+    hangPistonRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, KHangPistonRightBackwardID, KHangPistonRightForwardID);
+    
+    hangPistonLeft.set(DoubleSolenoid.Value.kForward);
+    hangPistonRight.set(DoubleSolenoid.Value.kForward);
   }
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pressure", compressor.getPressure());
-    SmartDashboard.putBoolean("Pressure switch value", compressor.getPressureSwitchValue());
+    // SmartDashboard.putNumber("Pressure", compressor.getPressure());
+    // SmartDashboard.putBoolean("Pressure switch value", compressor.getPressureSwitchValue());
   }
 
   // add two methods on and off for each pneumatic system
@@ -72,22 +76,23 @@ public class Hang extends SubsystemBase {
 
  // Only moves up and down to the limit switches
    public void moveHangMotor(double speed){
-     if(speed < 0 ){
-       if (laserCanDistanceInch() <= 2){
-         hangMotor.set(0);
-       }
-       else{
-         hangMotor.set(speed);
-       }
-     }
-     else if(speed > 0){
-       if (getHangTopLimitSwitch()){
-         hangMotor.set(0);
-       }
-       else{
-         hangMotor.set(speed);
-       }
-     }
+    //  if(speed < 0 ){
+    //    if (laserCanDistanceInch() <= 2){
+    //      hangMotor.set(0);
+    //    }
+    //    else{
+    //      hangMotor.set(speed);
+    //    }
+    //  }
+    //  else if(speed > 0){
+    //    if (getHangTopLimitSwitch()){
+    //      hangMotor.set(0);
+    //    }
+    //    else{
+    //      hangMotor.set(speed);
+    //    }
+    //  }
+    // hangMotor.set(speed);
    }
  
    // Pneumatics
@@ -95,37 +100,57 @@ public class Hang extends SubsystemBase {
      hangPistonLeft.toggle();
      hangPistonRight.toggle();
    }
+   public void moveHangPistonsUp(){
+     hangPistonLeft.set(DoubleSolenoid.Value.kReverse);
+     hangPistonRight.set(DoubleSolenoid.Value.kReverse);
+    }
+    public void moveHangPistonsDown(){
+     hangPistonLeft.set(DoubleSolenoid.Value.kForward);
+     hangPistonRight.set(DoubleSolenoid.Value.kForward);
+   }
 
    public double getHangPosition(){
-     return hangMotor.getEncoder().getPosition();
+     return 0;
+    //  return hangMotor.getEncoder().getPosition();
    }
  
    public boolean getHangTopLimitSwitch(){
-     return hangLimitSwitchUp.get();
+     return true;
+    //  return hangLimitSwitchUp.get();
    }
  
    public void hangStop(){
-     hangMotor.set(0);
+    //  hangMotor.set(0);
+    //  hangMotor.set(0);
    }
 
   public double laserCanDistanceMM(){
-    LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
-    double distance = measurement.distance_mm;
-    return distance;
+    // LaserCan.Measurement measurement;
+    // measurement= hangLaserCanBottom.getMeasurement();
+    // double distance = 0;
+    // if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+    //   distance = measurement.distance_mm;
+    // }
+    // return distance;
+    return 0;
   }
 
   public double laserCanDistanceInch(){
-    LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
-    double distance = measurement.distance_mm;
+    // LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
+    double distance = 0;
+    // if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+    //   distance = measurement.distance_mm;
+    // }
     return distance/25.4;
   }
 
   public String laserCanDisStatus(){
-    LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
-    if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
-      return "The target is " + measurement.distance_mm + "mm away!";
-    } else {
-      return "Oh no! The target is out of range, or we can't get a reliable measurement!";
-    }
+    // LaserCan.Measurement measurement = hangLaserCanBottom.getMeasurement();
+    // if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+      //   return "The target is " + measurement.distance_mm + "mm away!";
+      // } else {
+        //   return "Oh no! The target is out of range, or we can't get a reliable measurement!";
+        // }
+        return "";
   }
 }

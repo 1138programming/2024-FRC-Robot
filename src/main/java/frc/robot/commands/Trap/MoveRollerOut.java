@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Trap;
 
-import static frc.robot.Constants.TrapConstants.KTrapRollersBackwardSpeed;
+import static frc.robot.Constants.TrapConstants.KTrapRollersForwardSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trap;
@@ -25,7 +25,7 @@ public class MoveRollerOut extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.moveTrapRollers(KTrapRollersBackwardSpeed);
+    trap.moveTrapRollers(-KTrapRollersForwardSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +37,7 @@ public class MoveRollerOut extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !trap.getTrapNoteSensor();
+    return false;
+    // return !trap.getTrapNoteSensor();
   }
 }

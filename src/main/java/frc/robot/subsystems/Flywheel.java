@@ -59,12 +59,10 @@ public class Flywheel extends SubsystemBase {
     flywheelLowerController.setI(KFlywheelI);
     flywheelLowerController.setD(KFlywheelD);
     
-    SmartDashboard.putNumber("AMP Top Speed", KFlywheelLowSpeed);
-    SmartDashboard.putNumber("AMP Bottom Speed", KFlywheelLowSpeed);
 
-    SmartDashboard.putNumber("Flywheel P", 0);
-    SmartDashboard.putNumber("Flywheel I", 0);
-    SmartDashboard.putNumber("Flywheel D", 0);
+    // SmartDashboard.putNumber("Flywheel P", 0);
+    // SmartDashboard.putNumber("Flywheel I", 0);
+    // SmartDashboard.putNumber("Flywheel D", 0);
   }
 
   public void stopMotors(){
@@ -99,8 +97,8 @@ public class Flywheel extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("flywheel upper speed", getUpperMotorVelocity());
-    SmartDashboard.putNumber("flywheel lower speed", getLowerMotorVelocity());
+    // SmartDashboard.putNumber("flywheel upper speed", getUpperMotorVelocity());
+    // SmartDashboard.putNumber("flywheel lower speed", getLowerMotorVelocity());
 
     // if (SmartDashboard.getNumber("Flywheel P", 0) != flywheelUpperController.getP()) {
     //   flywheelUpperController.setP(SmartDashboard.getNumber("Flywheel P", 0));

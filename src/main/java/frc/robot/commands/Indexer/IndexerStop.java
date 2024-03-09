@@ -19,12 +19,13 @@ public class IndexerStop extends Command {
   
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    indexer.indexerStop();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerStop();
 
   }
 
@@ -37,6 +38,6 @@ public class IndexerStop extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

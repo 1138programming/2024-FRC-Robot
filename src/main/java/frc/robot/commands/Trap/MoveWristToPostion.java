@@ -4,18 +4,19 @@
 
 package frc.robot.commands.Trap;
 
-import static frc.robot.Constants.TrapConstants.KTrapPotentiometerSetpoint;
+import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltDeadZone;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trap;
 
 public class MoveWristToPostion extends Command {
-
   private Trap trap;
+  private double setpoint;
 
   /** Creates a new MoveWristToPostion. */
-  public MoveWristToPostion(Trap trap) {
+  public MoveWristToPostion(Trap trap, double setpoint) {
     this.trap = trap;
+    this.setpoint = setpoint;
     addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -27,7 +28,7 @@ public class MoveWristToPostion extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    trap.swivelToPos(KTrapPotentiometerSetpoint);
+    trap.swivelToPos(setpoint);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +38,7 @@ public class MoveWristToPostion extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return trap.getPotentiometer() >= KTrapPotentiometerSetpoint;
+    // return (Math.abs(trap.getPotentiometer()-setpoint) < kShooterTiltDeadZone);
+    return false;
   }
 }

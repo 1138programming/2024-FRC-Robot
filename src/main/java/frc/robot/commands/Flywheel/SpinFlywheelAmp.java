@@ -33,7 +33,7 @@ public class SpinFlywheelAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPosShoot(SmartDashboard.getNumber("AMP Angle", KShooterTiltAmpAngle));
+    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(SmartDashboard.getNumber("AMP Angle", KShooterTiltAmpAngle)));
     flywheel.spinUpperFlywheel(SmartDashboard.getNumber("AMP Top Speed", KFlywheelLowSpeed));
     flywheel.spinLowerFlywheel(SmartDashboard.getNumber("AMP Bottom Speed", KFlywheelLowSpeed));
   }

@@ -6,7 +6,7 @@ package frc.robot.commands.ShooterTilt;
 
 import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltDeadZone;
 
-//import static frc.robot.Constants.TiltConstants.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterTilt;
@@ -31,7 +31,7 @@ public class MoveShooterTiltToPos extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPos(pos);
+    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(pos));
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +41,8 @@ public class MoveShooterTiltToPos extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(shooterTilt.getTiltEncoder()-pos) < kShooterTiltDeadZone);
+    
+    SmartDashboard.putNumber("isFinished num", Math.abs(shooterTilt.getTiltEncoder() - ShooterTilt.getMotorAngleFromShooterAngle(SmartDashboard.getNumber("Swivel To", 18))));
+    return (Math.abs(shooterTilt.getTiltEncoder() - ShooterTilt.getMotorAngleFromShooterAngle(SmartDashboard.getNumber("Swivel To", 18)) ) < kShooterTiltDeadZone);
   }
 }

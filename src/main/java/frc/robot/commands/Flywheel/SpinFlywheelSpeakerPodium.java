@@ -7,7 +7,6 @@ package frc.robot.commands.Flywheel;
 import static frc.robot.Constants.FlywheelConstants.*;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
@@ -34,7 +33,7 @@ public class SpinFlywheelSpeakerPodium extends Command {
   @Override
   public void execute() {
     flywheel.spinFlywheel(KFlywheelSpeed);
-    shooterTilt.swivelToPosShoot(SmartDashboard.getNumber("Podium Angle", KShooterTiltPodiumAngle));
+    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(KShooterTiltPodiumAngle));
   }
   // Called once the command ends or is interrupted.
   @Override

@@ -28,7 +28,7 @@ public class ShooterTilt extends SubsystemBase {
   private CANcoder shooterTiltCANcoder;
   // PID
   private PIDController swivelController;
-  private PIDController swivelUpController;
+  // private PIDController swivelUpController;
   private PIDController swivelshootController;
 
   public ShooterTilt() {
@@ -52,25 +52,13 @@ public class ShooterTilt extends SubsystemBase {
 
     // PID Controller Setups
     swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
-    swivelUpController = new PIDController(KShooterTiltControllerPUp, 0, 0);
-    swivelshootController = new PIDController(KShooterTiltControllerShootP, 0, 0);
-    SmartDashboard.putNumber("TilterPBottom", KShooterTiltControllerP);
-    SmartDashboard.putNumber("TilterP", KShooterTiltControllerPUp);
-    SmartDashboard.putNumber("TilterI", KShooterTiltControllerI);
-    SmartDashboard.putNumber("TilterD", KShooterTiltControllerD);
 
-    SmartDashboard.putNumber("AMP Angle", KShooterTiltAmpAngle);
-    SmartDashboard.putNumber("Podium Angle", KShooterTiltPodiumAngle);
+    // swivelshootController = new PIDController(KShooterTiltControllerShootP, 0, 0);
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shooter Tilt CanCoder", getTiltEncoder());
-    swivelUpController.setP(SmartDashboard.getNumber("TilterP", KShooterTiltControllerPUp));
-    swivelController.setP(SmartDashboard.getNumber("TilterPBottom", KShooterTiltControllerP));
-    swivelUpController.setI(SmartDashboard.getNumber("TilterI", 0));
-    swivelUpController.setD(SmartDashboard.getNumber("TilterD", 0));
   }
 
   public void moveSwivel(double speed) {
@@ -85,17 +73,16 @@ public class ShooterTilt extends SubsystemBase {
 
   // PID
   public void swivelToPos(double setPoint) {
-    if (setPoint > getTiltEncoder()) {
-      moveSwivel(swivelUpController.calculate(getTiltEncoder(), setPoint));
-    } else {
-      moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
-    }
+    moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
   }
 
-  public void swivelToPosShoot(double setPoint) {
-    moveSwivel(swivelshootController.calculate(getTiltEncoder(), setPoint));
-  }
-
+  // public void swivelToPos(double setPoint) {
+  //   if (setPoint > getTiltEncoder()) {
+  //     moveSwivel(swivelUpController.calculate(getTiltEncoder(), setPoint));
+  //   } else {
+  //     moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
+  //   }
+  // }
 
   public static double getMotorAngleFromShooterAngle(double shooterAngle) {
     double motorAngle = 0;
@@ -112,7 +99,8 @@ public class ShooterTilt extends SubsystemBase {
     else {
       for (int i = 1; i < KShooterTiltAngles[0].length; i++) {
         if (shooterAngle == KShooterTiltAngles[0][i]) {
-          return KShooterTiltAngles[1][i];
+          motorAngle = KShooterTiltAngles[1][i];
+          break;
         } else if (shooterAngle < KShooterTiltAngles[0][i]) {
           motorAngle = SubsystemUtil.lerp(
               shooterAngle,
@@ -122,7 +110,37 @@ public class ShooterTilt extends SubsystemBase {
         }
       }
     }
-    return motorAngle;
+    return motorAngle / KTiltMotorToSwivelGearRatio;
+  }
+
+  public double getShooterAngle() {
+    double shooterAngle = 0;
+    double motorAngle = getTiltEncoder() * KTiltMotorToSwivelGearRatio;
+
+    // Check if the requested shooter angle is in bound, otherwise clamp to max /
+    // min value
+    if (motorAngle >= KShooterTiltAngles[1][KShooterTiltAnglesMaxIndex]) {
+      shooterAngle = KShooterTiltAngles[0][KShooterTiltAnglesMaxIndex];
+    } else if (motorAngle <= KShooterTiltAngles[1][0]) {
+      shooterAngle = KShooterTiltAngles[0][0];
+    }
+
+    // Otherwise we interpolate between values from the lookup table
+    else {
+      for (int i = 1; i < KShooterTiltAngles[0].length; i++) {
+        if (motorAngle == KShooterTiltAngles[1][i]) {
+          shooterAngle = KShooterTiltAngles[0][i];
+          break;
+        } else if (motorAngle < KShooterTiltAngles[1][i]) {
+          shooterAngle = SubsystemUtil.lerp(
+              motorAngle,
+              KShooterTiltAngles[1][i - 1], KShooterTiltAngles[0][i - 1],
+              KShooterTiltAngles[1][i], KShooterTiltAngles[0][i]);
+          break;
+        }
+      }
+    }
+    return shooterAngle;
   }
 
   // enter limelight stuff here

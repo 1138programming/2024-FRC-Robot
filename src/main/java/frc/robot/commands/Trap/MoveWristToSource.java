@@ -2,22 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ShooterTilt;
+package frc.robot.commands.Trap;
 
-import static frc.robot.Constants.ShooterTiltConstants.*;
+import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltDeadZone;
+import static frc.robot.Constants.TrapConstants.KTrapWristSource;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Trap;
 
-//import static frc.robot.Constants.TiltConstants.*;
+public class MoveWristToSource extends Command {
+  private Trap trap;
+  private double setpoint = KTrapWristSource;
 
-import frc.robot.subsystems.ShooterTilt;
+  /** Creates a new MoveWristToPostion. */
+  public MoveWristToSource(Trap trap) {
+    this.trap = trap;
 
-public class MoveShooterTiltTop extends Command {
-  /** Creates a new MoveShooterTiltTop. */
-  private ShooterTilt shooterTilt;
-  public MoveShooterTiltTop(ShooterTilt shooterTilt) {
-    this.shooterTilt = shooterTilt;
-    addRequirements(shooterTilt);
+    addRequirements(trap);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,7 +29,7 @@ public class MoveShooterTiltTop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(kShooterTiltUpPos));
+    trap.swivelToPos(setpoint);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +39,6 @@ public class MoveShooterTiltTop extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(shooterTilt.getTiltEncoder() - kShooterTiltUpPos) < kShooterTiltDeadZone);
+    return (Math.abs(trap.getPotentiometer()-setpoint) < 3);
   }
 }

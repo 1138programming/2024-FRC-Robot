@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesBlue;
 import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesRed;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltSubAngle;
 import static frc.robot.Constants.SwerveDriveConstants.*;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -111,13 +112,12 @@ public class Base extends SubsystemBase {
         },
         this);
 
-    SmartDashboard.putNumber("RotP", KRotationP);
-    SmartDashboard.putNumber("RotI", KRotationI);
-    SmartDashboard.putNumber("RotD", KRotationD);
-    SmartDashboard.putNumber("DriveP", KDriveP);
-    SmartDashboard.putNumber("DriveD", KDriveD);
-    SmartDashboard.putNumber("AngleP", KAngleP);
-    SmartDashboard.putNumber("AngleD", KAngleD);
+        // SmartDashboard.putNumber("DrivingPidP", KDrivingPidP);
+        // SmartDashboard.putNumber("DrivingPidI", KDrivingPidI);
+        // SmartDashboard.putNumber("DrivingPidD", KDrivingPidD);
+        SmartDashboard.putNumber("RotP", KRotationP);
+      SmartDashboard.putNumber("RotI", KRotationI);
+      SmartDashboard.putNumber("RotD", KRotationD);
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS,
@@ -125,6 +125,7 @@ public class Base extends SubsystemBase {
     xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     rot *= KMaxAngularSpeed * getRotSpeedFactor();
+    // rot *= KMaxAngularSpeed * getRotSpeedFactor();
 
     // feeding parameter speeds into toSwerveModuleStates to get an array of
     // SwerveModuleState objects
@@ -134,19 +135,10 @@ public class Base extends SubsystemBase {
             : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d()));
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
 
-    // if (defenseMode) {
-    // lockWheels();
-    // } else {
-    // SmartDashboard.putNumber("frontLeftState", states[0].speedMetersPerSecond);
-    // SmartDashboard.putNumber("frontRightState", states[1].speedMetersPerSecond);
-    // SmartDashboard.putNumber("backLeftState", states[2].speedMetersPerSecond);
-    // SmartDashboard.putNumber("backRightState", states[3].speedMetersPerSecond);
-    // setting module states, aka moving the motors
     leftFrontModule.setDesiredState(states[0]);
     rightFrontModule.setDesiredState(states[1]);
     leftBackModule.setDesiredState(states[2]);
     rightBackModule.setDesiredState(states[3]);
-    // }
   }
 
   public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
@@ -320,7 +312,10 @@ public class Base extends SubsystemBase {
   }
 
   public double getAngleFromSpeaker() {
-    return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getHeading().getDegrees());
+    if (DriverStation.getAlliance().isPresent()) {
+      return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getHeading().getDegrees());
+    }
+    return KShooterTiltSubAngle;
   }
 
   public static double getAngleFromSpeaker(DriverStation.Alliance allianceColor, double xPos, double yPos, double lambda) {
@@ -348,7 +343,7 @@ public class Base extends SubsystemBase {
     // Position Updates
     pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
     if (limelight.getTargetFound()) {
-      poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(6) / 1000));
+      poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(5) / 1000));
     }
     poseEstimate.update(getHeading(), getPositions());
     odometry.update(getHeading(), getPositions());
@@ -356,15 +351,21 @@ public class Base extends SubsystemBase {
     getAngleFromSpeaker();
 
     // Position Data SmartDashboard
-    SmartDashboard.putNumber("Gyro", getHeadingDeg());
-    SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
-    SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
-    SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
+    // SmartDashboard.putNumber("Gyro", getHeadingDeg());
+    // SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
+    // SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
+    // SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
+    // SmartDashboard.putNumber("limelight botpose", limelight.getBotPose(5));
 
     // SwerveDrive Cancoder Position
-    SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
-    SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
-    SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
-    SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
+    // SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
+    // SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
+    // SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
+    // SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
+
+    // SmartDashboard.putNumber("FrontLeftVel", leftFrontModule.getDriveEncoderVel());
+    // SmartDashboard.putNumber("BackLeftVel", leftBackModule.getDriveEncoderVel());
+    // SmartDashboard.putNumber("FrontRightVel", rightFrontModule.getDriveEncoderVel());
+    // SmartDashboard.putNumber("BackRightVel", rightBackModule.getDriveEncoderVel());
   }
 }

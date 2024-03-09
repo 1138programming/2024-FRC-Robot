@@ -5,9 +5,7 @@
 package frc.robot.commands.Limelight;
 
 import static frc.robot.Constants.LimelightConstants.*;
-import static frc.robot.Constants.SwerveDriveConstants.*;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Base;
 import frc.robot.subsystems.Limelight;
@@ -36,27 +34,27 @@ public class CenterBaseOnAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int id = (int) limelight.getTID();
-    if (DriverStation.getAlliance().toString() == "blue") {
-      if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[1]) {
-        xOffsetFromAprilTag = limelight.getXAngle();
-      } 
-      else if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[0]) {
-        xOffsetFromAprilTag = limelight.getXAngle() - KaprilTagOffset;
-      }
-    } 
-    else {
-      if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[1]) {
-        xOffsetFromAprilTag = limelight.getXAngle();
-      } 
-      else if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[1]) {
-        xOffsetFromAprilTag = limelight.getXAngle() - KaprilTagOffset;
-      }
-    }
+    // int id = (int) limelight.getTID();
+    // if (DriverStation.getAlliance().toString() == "blue") {
+    //   if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[1]) {
+    //     xOffsetFromAprilTag = limelight.getXAngle();
+    //   } 
+    //   else if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[0]) {
+    //     xOffsetFromAprilTag = limelight.getXAngle() - KaprilTagOffset;
+    //   }
+    // } 
+    // else {
+    //   if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[1]) {
+    //     xOffsetFromAprilTag = limelight.getXAngle();
+    //   } 
+    //   else if (limelight.getTargetFound() && id == KspeakerAprilTagsBlue[1]) {
+    //     xOffsetFromAprilTag = limelight.getXAngle() - KaprilTagOffset;
+    //   }
+    // }
 
-    double rotSpeed = KlimelightrotControl.calculate(xOffsetFromAprilTag, 0);
+    // double rotSpeed = KlimelightrotControl.calculate(xOffsetFromAprilTag, 0);
 
-    base.drive(0, 0, rotSpeed, false, KPhysicalMaxDriveSpeedMPS, KMaxAngularSpeed * KBaseRotMaxPercent);
+    // base.drive(0, 0, rotSpeed, false, KPhysicalMaxDriveSpeedMPS, KMaxAngularSpeed * KBaseRotMaxPercent);
   }
 
   // Called once the command ends or is interrupted.

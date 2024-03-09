@@ -119,7 +119,7 @@ public final class Constants {
     public static final int KRightBackEncoderID = 4;
 
     // Swerve Angle PID
-    public static final double KAngleP = 0;
+    public static final double KAngleP = 0.006;
     public static final double KAngleD = 0;
 
     // Drive Angle PID
@@ -127,8 +127,8 @@ public final class Constants {
     public static final double KDriveD = 0;
 
     // Swerve Current Limits
-    public static final int KDriveMotorCurrentLimit = 40;
-    public static final int KAngleMotorCurrentLimit = 30;
+    public static final int KDriveMotorCurrentLimit = 60;
+    public static final int KAngleMotorCurrentLimit = 40;
 
     // Motor Info
     public static final double KNeoMaxRPM = 5676;
@@ -156,14 +156,19 @@ public final class Constants {
 
     // Max Speeds
     public static final double KMaxAcceleration = 8;
-    public static final double KMaxAngularSpeed = 3.5;
+    public static final double KMaxAngularSpeed = 5;
+    // public static final double KMaxAngularSpeed = 3.5;
 
     // Offsets
     //  Meow (Gray Bot)
-    public static final double KFrontLeftOffset = -177.68+60 + 180;
-    public static final double KFrontRightOffset = 79.01 +180;
-    public static final double KBackLeftOffset = -75.67+180;
-    public static final double KBackRightOffset = 144.75+180;
+    public static final double KFrontLeftOffset = 50;
+    public static final double KFrontRightOffset = -101.69;
+    public static final double KBackLeftOffset = 101.34;
+    public static final double KBackRightOffset = -34.45;
+    // public static final double KFrontLeftOffset = -177.68+60 + 180;
+    // public static final double KFrontRightOffset = 79.01 +180;
+    // public static final double KBackLeftOffset = -75.67+180;
+    // public static final double KBackRightOffset = 144.75+180;
 
     // Drive Motor Reversals
     public static final boolean KFrontLeftDriveReversed = false;
@@ -196,10 +201,17 @@ public final class Constants {
     public static final double KRotationI = 0;
     public static final double KRotationD = 0;
     
+    public static final double KTranslationP = 20;
+    public static final double KTranslationI = 1.5;
+    public static final double KTranslationD = 0;
+
+    public static final double KDrivingPidP = 0.008;
+    public static final double KDrivingPidI = 0;
+    public static final double KDrivingPidD = 0;
     // Auton Config
     public static final HolonomicPathFollowerConfig KPathFollowerConfig = new HolonomicPathFollowerConfig(
-      new PIDConstants(20.0, 1.5, 0), // Translation constants
-      new PIDConstants(3.0, 0, 0), // Rotation constants
+      new PIDConstants(KTranslationP, KTranslationI, KTranslationD), // Translation constants
+      new PIDConstants(3, 0, 0), // Rotation constants
       KPhysicalMaxDriveSpeedMPS,
       KWheelRadialDistanceFromCenter, // Drive base radius (distance from center to furthest module)
       new ReplanningConfig()
@@ -225,7 +237,12 @@ public final class Constants {
     public static final int KShooterTiltEncoderID = 5;
     
     // CANCoder offset
-    public static final double KShooterTiltEncoderOffset = -107.841796875;
+    public static final double KShooterTiltEncoderOffset = -40.18 - 46.40625;
+    // public static final double KShooterTiltEncoderOffset = -314.65;
+
+    // Gear Ratio
+    public static final double KTiltMotorToSwivelGearRatio = 0.85714; // 36 to 42
+    public static final double KTiltMotorToSwivelGearRatioBackwards = 1.1667; // 42 to 36
 
     // Motor Speed
     public static final double KShooterTiltMotorSpeed = 0.25;
@@ -233,26 +250,39 @@ public final class Constants {
     public static final double KShooterTiltDistanceOffGround = 0.0508;
 
     // Untuned - PID Constants
-    public static final double KShooterTiltControllerP = 0.004;
+    public static final double KShooterTiltControllerP = 0.012;
     public static final double KShooterTiltControllerI = 0;
-    public static final double KShooterTiltControllerD = 0;
+    public static final double KShooterTiltControllerD = 0.0001;
     
-    public static final double KShooterTiltControllerPUp = 0.01; 
+    // public static final double KShooterTiltControllerPUp = 0.01; 
     public static final double KShooterTiltControllerShootP = 0.018; // holds tilt in place while shooting
     // Testing
-    public static final double kShooterTiltDeadZone = 1.5;
-    public static final double kShooterTiltUpPos = 135.17578125;
-    public static final double KShooterTiltAmpAngle = 115;
-    public static final double KShooterTiltSubAngle = 120;
-    public static final double KShooterTiltPodiumAngle = 95;
-    public static final double KShooterTiltBottomAngle = 60;
+    public static final double kShooterTiltDeadZone = 1;
+    // public static 
+    public static final double kShooterTiltUpPos = 80;
+    public static final double KShooterTiltAmpAngle = 70;
+    public static final double KShooterTiltSubAngle = 55;
+    public static final double KShooterTiltPodiumAngle = 36;
+    public static final double KShooterTiltAuton1Angle = 38;
+    public static final double KShooterTiltAuton2Angle = 35;
+    public static final double KShooterTiltBottomAngle = 30;
+    // public static final double kShooterTiltUpPos = 149.86;
+    // public static final double KShooterTiltAmpAngle = 115;
+    // public static final double KShooterTiltSubAngle = 120;
+    // public static final double KShooterTiltPodiumAngle = 95;
+    // public static final double KShooterTiltBottomAngle = 60;
 
     // This array must be sorted for the shooter tilt functionality to work!!!!
     public static final double[][] KShooterTiltAngles =
     {
-      {17.71, 18,   20,   25,    30,    35,    40,   45,     50,    55,    60,     65,  70,     75,     80,     83.92}, 
-      {0,     12.6, 33.8, 56.78, 71.37, 83.12, 93.5, 103.14, 112.4, 121.5, 130.64, 140, 149.86, 160.72, 173.93, 196.07}
+      {17.71, 18,   20,   25,    30,    35,    40,   45,     50,    55,    60,     65,  70,     75,     80}, 
+      {0,     12.6, 33.8, 56.78, 71.37, 83.12, 93.5, 103.14, 112.4, 121.5, 130.64, 140, 149.86, 160.72, 173.93}
     };
+    // public static final double[][] KShooterTiltAngles =
+    // {
+    //   {17.71, 18,   20,   25,    30,    35,    40,   45,     50,    55,    60,     65,  70,     75,     80,     83.92}, 
+    //   {0,     12.6, 33.8, 56.78, 71.37, 83.12, 93.5, 103.14, 112.4, 121.5, 130.64, 140, 149.86, 160.72, 173.93, 196.07}
+    // };
     public static final int KShooterTiltAnglesMaxIndex = KShooterTiltAngles[0].length - 1;
     
   }
@@ -318,18 +348,18 @@ public final class Constants {
     public static final int KTrapIRID = 2;
     public static final int KPotentiometerID = 1;
 
-    public static final double KTrapRollersForwardSpeed = 0.5;
-    public static final double KTrapRollersBackwardSpeed = -0.5;
+    public static final double KTrapRollersForwardSpeed = 0.25;
     public static final double KTrapWristUpSpeed = 0.5;
     public static final double KTrapWristDownSpeed = -0.5;
     
     public static final double KAnalogPotentiometerSensorRange  = 270;
-    public static final double KAnalogPotentiometerSensorOffset  = 30;
-    public static final double KTrapPotentiometerSetpointFront = 260;
-    public static final double KTrapPotentiometerSetpointBack = 40;
-    public static final double KTrapPotentiometerSetpoint = 170;
+    public static final double KAnalogPotentiometerSensorOffset  = 0;
+    public static final double KTrapWristAmp = 198;
+    public static final double KTrapWristSource = 213;
+    public static final double KTrapWristStow = 30;
+    // public static final double KTrapPotentiometerSetpoint = 170;
 
-    public static final double KTrapControllerP = 0;
+    public static final double KTrapControllerP = 0.006;
     public static final double KTrapControllerI = 0;
     public static final double KTrapControllerD = 0;
   }

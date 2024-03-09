@@ -1,8 +1,23 @@
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 public class SubsystemUtil {
     private static double distanceFromSpeaker = 0;
     private static boolean isNoteIndexed = false;
+
+
+    public static void putPIDShuffleboard(String name, PIDController controller) {
+        Shuffleboard.getTab("PIDControllers").add(name, controller);
+    }
+
+    // public static PIDController getPIDShuffleboard(String name) {
+    //     return   Shuffleboard.getTab("PIDControllers").
+    // }
 
     public static void setDistanceFromSpeaker(double distance) {
         distanceFromSpeaker = distance;

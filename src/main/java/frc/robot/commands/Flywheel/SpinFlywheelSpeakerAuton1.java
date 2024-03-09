@@ -2,22 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ShooterTilt;
+package frc.robot.commands.Flywheel;
 
+import static frc.robot.Constants.FlywheelConstants.*;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
-
-//import static frc.robot.Constants.TiltConstants.*;
-
+import frc.robot.subsystems.Flywheel;
+//import static frc.robot.Constants.FlywheelConstants.*;
 import frc.robot.subsystems.ShooterTilt;
 
-public class MoveShooterTiltTop extends Command {
-  /** Creates a new MoveShooterTiltTop. */
+public class SpinFlywheelSpeakerAuton1 extends Command {
+  private Flywheel flywheel;
   private ShooterTilt shooterTilt;
-  public MoveShooterTiltTop(ShooterTilt shooterTilt) {
+
+  /** Creates a new SpinFlywheel. */
+  public SpinFlywheelSpeakerAuton1(Flywheel flywheel, ShooterTilt shooterTilt) {
+    this.flywheel = flywheel;
     this.shooterTilt = shooterTilt;
-    addRequirements(shooterTilt);
+    
+    addRequirements(flywheel, shooterTilt);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,16 +32,17 @@ public class MoveShooterTiltTop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(kShooterTiltUpPos));
+    flywheel.spinFlywheel(KFlywheelSpeed);
+    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(KShooterTiltAuton1Angle));
   }
-
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
-
+  public void end(boolean interrupted) {
+    flywheel.stopMotors();
+  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(shooterTilt.getTiltEncoder() - kShooterTiltUpPos) < kShooterTiltDeadZone);
+    return false;
   }
 }

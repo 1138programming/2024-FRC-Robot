@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -32,6 +33,7 @@ public class SwerveModule extends SubsystemBase {
 
   private PIDController angleController;
   private PIDController driveController;
+  private SparkPIDController drivingPidController;
 
   private double offset;
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
@@ -46,8 +48,8 @@ public class SwerveModule extends SubsystemBase {
     this.angleMotor.setInverted(angleMotorReversed);
     this.driveMotor.setInverted(driveMotorReversed);
     
-    this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit);
-    this.angleMotor.setSmartCurrentLimit(KAngleMotorCurrentLimit);
+    this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit); // CURRENTLY 60! NEEDS TESTING
+    this.angleMotor.setSmartCurrentLimit(KAngleMotorCurrentLimit); // 40
 
     canCoder = new CANcoder(encoderPort);
 
@@ -65,10 +67,20 @@ public class SwerveModule extends SubsystemBase {
     
     driveEncoder.setPositionConversionFactor(KDriveMotorRotToMeter);
     driveEncoder.setVelocityConversionFactor(KDriveMotorRPMToMetersPerSec);
+
     
     angleController = new PIDController(KAngleP, 0, KAngleD);
     driveController = new PIDController(KAngleP, 0, KAngleD);
     angleController.enableContinuousInput(-180, 180); // Tells PIDController that 180 deg is same in both directions
+
+    drivingPidController = driveMotor.getPIDController();
+    drivingPidController.setP(KDrivingPidP);
+    drivingPidController.setI(KDrivingPidI);
+    drivingPidController.setD(KDrivingPidD);
+    // drivingPidController.setFF(1/Neo);
+    drivingPidController.setFF(1/KNeoVortexMaxRPM);
+    drivingPidController.setOutputRange(-1, 1);
+
   }
   
   
@@ -81,11 +93,36 @@ public class SwerveModule extends SubsystemBase {
     angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
     
     driveMotorOutput = desiredState.speedMetersPerSecond / KPhysicalMaxDriveSpeedMPS;
+    // driveMotorOutput = desiredState.speedMetersPerSecond;
     // driveMotorOutput = driveController.calculate(getDriveEncoderVel(), desiredState.speedMetersPerSecond) / KPhysicalMaxDriveSpeedMPS;
     
     angleMotor.set(angleMotorOutput);
     driveMotor.set(driveMotorOutput); 
   }
+
+  // public void setDesiredState(SwerveModuleState desiredState) {
+  //   double angleMotorOutput;
+    
+  //   Rotation2d currentAngleR2D = getAngleR2D();
+    
+  //   // Command driving and turning SPARKS MAX towards their respective setpoints.
+  //   desiredState = SwerveModuleState.optimize(desiredState, currentAngleR2D);
+
+  //   drivingPidController.setReference(desiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+  //   angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
+    
+  //   angleMotor.set(angleMotorOutput);
+    
+    
+  //   // Optimize the reference state to avoid spinning further than 90 degrees.
+  //   // desiredState = SwerveModuleState.optimize(desiredState, currentAngleR2D);
+    
+  //   // // Command driving and turning SPARKS MAX towards their respective setpoints.
+  //   // angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
+  //   // angleMotor.set(angleMotorOutput);
+    
+  //   // drivingPidController.setReference(desiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+  // }
   
   public void lockWheel() {
     double angleMotorOutput;
@@ -141,9 +178,11 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    driveController.setP(SmartDashboard.getNumber("DriveP", KDriveP));
-    driveController.setD(SmartDashboard.getNumber("DriveD", KDriveD));
-    angleController.setP(SmartDashboard.getNumber("AngleP", KAngleP));
-    angleController.setD(SmartDashboard.getNumber("AngleD", KAngleD));
+    // if (drivingPidController.getP() != SmartDashboard.getNumber("DrivingPidP", KDrivingPidP)) {
+    //   drivingPidController.setP(SmartDashboard.getNumber("DrivingPidP", KDrivingPidP));
+    // }
+    // if (drivingPidController.getD() != SmartDashboard.getNumber("DrivingPidD", KDrivingPidD)) {
+    //   drivingPidController.setD(SmartDashboard.getNumber("DrivingPidD", KDrivingPidD));
+    // }
   }
 }

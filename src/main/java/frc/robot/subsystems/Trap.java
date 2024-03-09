@@ -18,13 +18,13 @@ import edu.wpi.first.math.controller.PIDController;
 
 public class Trap extends SubsystemBase {
   /** Creates a new Trap. */
-  // 
   private CANSparkMax trapRollerMotor;
-  private DigitalInput trapNoteSensor;
   private CANSparkMax trapWristMotor;
-  private AnalogPotentiometer trapPotentiometer;
-  private PIDController swivelController;
 
+  private AnalogPotentiometer trapPotentiometer;
+  private DigitalInput trapNoteSensor;
+  
+  private PIDController swivelController;
 
   public Trap() {
     trapRollerMotor = new CANSparkMax(KTrapRollerMotorID, MotorType.kBrushless);
@@ -33,13 +33,11 @@ public class Trap extends SubsystemBase {
     trapPotentiometer = new AnalogPotentiometer(KPotentiometerID, KAnalogPotentiometerSensorRange, KAnalogPotentiometerSensorOffset); //Change input later
 
     swivelController = new PIDController(KTrapControllerP, KTrapControllerI, KTrapControllerD);
-
-    // swivelController.setIZone(1);
+    swivelController.setIZone(10);
   } 
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("sensorstate", getTrapNoteSensor());
     // This method will be called once per scheduler run
   }
 
@@ -48,13 +46,7 @@ public class Trap extends SubsystemBase {
   }
 
   public void moveTrapRollers(double speed){
-    if (!getTrapNoteSensor()){
-      trapRollerMotor.set(KTrapRollersForwardSpeed);
-    }
-    else if (getTrapNoteSensor()){
-      trapRollerMotor.set(KTrapRollersBackwardSpeed);
-    }
-    trapRollerMotor.set(0);
+      trapRollerMotor.set(speed);
   }
 
   public void moveWristMotor(double speed){
@@ -74,6 +66,6 @@ public class Trap extends SubsystemBase {
   }
 
   public void swivelToPos(double setPoint){
-    swivelController.calculate(getPotentiometer(), setPoint);
+    moveWristMotor(swivelController.calculate(getPotentiometer(), setPoint));
   }
 }

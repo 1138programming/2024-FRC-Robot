@@ -37,7 +37,7 @@ public class Indexer extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Indexer Top Beam Breaker", getIndexerBBreakerTop());
-    SmartDashboard.putBoolean("Indexer Bottom Beam Breaker", getIndexerBBreakerBottom());
+    // SmartDashboard.putBoolean("Indexer Bottom Beam Breaker", getIndexerBBreakerBottom());
 
     SubsystemUtil.setNoteIndexed(getIndexerBBreakerTop());
     // This method will be called once per scheduler run

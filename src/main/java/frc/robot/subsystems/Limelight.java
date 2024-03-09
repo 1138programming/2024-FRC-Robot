@@ -145,18 +145,16 @@ public class Limelight extends SubsystemBase {
   }
 
   public boolean isSpeakerAprilTagsSeen() {
-    if (DriverStation.getAlliance().toString() == "blue") {
-      if (getTID() == KspeakerAprilTagsBlue [0] || getTID() == KspeakerAprilTagsBlue[1])
-      return true;
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if (alliance.get() == DriverStation.Alliance.Blue) {
+        return (getTID() == KspeakerAprilTagsBlue [0] || getTID() == KspeakerAprilTagsBlue[1]);
+      } 
       else {
-      return false;
+        return (getTID() == KspeakerAprilTagsRed[0] || getTID() == KspeakerAprilTagsRed[1]);
       }
-    } 
-    if (getTID() == KspeakerAprilTagsRed[0] || getTID() == KspeakerAprilTagsRed[1]) {
-      return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   public double getSkew() {
