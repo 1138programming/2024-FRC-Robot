@@ -9,6 +9,8 @@ import static frc.robot.Constants.LimelightConstants.KspeakerHeight;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SubsystemUtil;
@@ -26,6 +28,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
+  private DutyCycleEncoder shooterTiltThroughBoreEncoder;
   private double startingAngle;
 
   // PID
@@ -44,6 +47,10 @@ public class ShooterTilt extends SubsystemBase {
 
     // CANCoder Setup
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
+
+    shooterTiltThroughBoreEncoder = new DutyCycleEncoder(1);
+    shooterTiltThroughBoreEncoder.setDistancePerRotation(1);
+    shooterTiltThroughBoreEncoder.setPositionOffset(0);
 
     double offsetToRotations = 0;
     // double offsetToRotations = KShooterTiltEncoderOffset / 360;
@@ -68,6 +75,7 @@ public class ShooterTilt extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("tilt encoder angle", getTiltEncoder());
     SmartDashboard.putNumber("tilt shooter angle", getShooterAngle());
+    SmartDashboard.putNumber("tilt shooter angle through bore", shooterTiltThroughBoreEncoder.getDistance());
     SmartDashboard.putBoolean("manualControl", manualControl);
   }
 
