@@ -5,6 +5,7 @@
 package frc.robot.commands.ShooterTilt;
 
 import frc.robot.SubsystemUtil;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.ShooterTilt;
 
 import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltUpPos;
@@ -15,16 +16,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ShooterTiltWait extends Command {
   /** Creates a new ShooterTiltStop. */
   private ShooterTilt shooterTilt;
+  private LEDs leds;
 
-  public ShooterTiltWait(ShooterTilt shooterTilt) {
+  public ShooterTiltWait(ShooterTilt shooterTilt, LEDs leds) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooterTilt = shooterTilt;
-    addRequirements(shooterTilt);
+    this.leds = leds;
+    addRequirements(shooterTilt, leds);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    leds.setLEDStripRed();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -38,7 +43,9 @@ public class ShooterTiltWait extends Command {
   
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    leds.setLEDStripGreen();
+  }
   
   // Returns true when the command should end.
   @Override

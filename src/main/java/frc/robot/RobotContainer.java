@@ -10,6 +10,7 @@ import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.Hang;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.subsystems.Trap;
 // Commands
@@ -22,7 +23,9 @@ import frc.robot.commands.Base.Resets.ResetGyro;
 import frc.robot.commands.Flywheel.SpinFlywheel;
 import frc.robot.commands.Flywheel.SpinFlywheelAmp;
 import frc.robot.commands.Flywheel.SpinFlywheelAutoAim;
+import frc.robot.commands.Flywheel.SpinFlywheelBottom;
 import frc.robot.commands.Flywheel.SpinFlywheelFullSpeed;
+import frc.robot.commands.Flywheel.SpinFlywheelReverse;
 import frc.robot.commands.Flywheel.SpinFlywheelSpeaker;
 import frc.robot.commands.Flywheel.SpinFlywheelSpeakerAuton2;
 import frc.robot.commands.Flywheel.SpinFlywheelSpeakerPodium;
@@ -46,6 +49,7 @@ import frc.robot.commands.Intake.IntakeSpinStop;
 //  ShooterTilt
 import frc.robot.commands.ShooterTilt.MoveShooterTiltToPos;
 import frc.robot.commands.ShooterTilt.MoveShooterTiltTop;
+import frc.robot.commands.ShooterTilt.SetManualControl;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinDown;
 import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
 import frc.robot.commands.ShooterTilt.ShooterTiltStop;
@@ -76,6 +80,7 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 //WPILib
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -107,6 +112,7 @@ public class RobotContainer {
   private final Flywheel flyWheel = new Flywheel();
   private final Indexer indexer = new Indexer();
   private final Hang hang = new Hang();
+  private final LEDs leds = new LEDs();
 
   // private final Trap trap = new Trap();
   // Commands
@@ -120,7 +126,7 @@ public class RobotContainer {
   //  Shooter Tilt Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
   private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
-  private final ShooterTiltWait shooterTiltWait = new ShooterTiltWait(shooterTilt);
+  private final ShooterTiltWait shooterTiltWait = new ShooterTiltWait(shooterTilt, leds);
   private final MoveShooterTiltToPos moveShooterTiltTo90 = new MoveShooterTiltToPos(shooterTilt, 90);
   private final ShooterTiltSpinDown shooterTiltSpinDown = new ShooterTiltSpinDown(shooterTilt);
   private final ShooterTiltSpinUp shooterTiltSpinUp = new ShooterTiltSpinUp(shooterTilt);
@@ -141,6 +147,8 @@ public class RobotContainer {
   private final SpinFlywheelAmp spinFlywheelAmp = new SpinFlywheelAmp(flyWheel, shooterTilt);
   private final SpinFlywheel spinFlywheelSlow = new SpinFlywheel(flyWheel);
   private final SpinFlywheelAutoAim spinFlywheelAutoAim = new SpinFlywheelAutoAim(flyWheel, shooterTilt);
+  private final SpinFlywheelReverse spinFlywheelReverse = new SpinFlywheelReverse(flyWheel);
+  private final SpinFlywheelBottom spinFlywheelBottom = new SpinFlywheelBottom(flyWheel, shooterTilt);
   //  Indexer Commands
   private final IndexerLoadNoteSlow indexerLoadNoteSlow = new IndexerLoadNoteSlow(indexer);
   private final IndexerLoadNoteFast indexerLoadNoteFast = new IndexerLoadNoteFast(indexer);
@@ -212,7 +220,7 @@ public class RobotContainer {
     // shooterTilt.setDefaultCommand(shooterTiltStop);
     indexer.setDefaultCommand(indexerStop);
     flyWheel.setDefaultCommand(stopFlywheel);
-    hang.setDefaultCommand(new StopHang(hang));
+    hang.setDefaultCommand(stopHang);
     
     NamedCommands.registerCommand("rotateToSpeaker", rotateToSpeaker);
     NamedCommands.registerCommand("rotateToSpeaker", rotateToSpeaker);
@@ -227,9 +235,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("indexerSpin", indexerSpin);
     NamedCommands.registerCommand("stopFlywheel", stopFlywheel);
     NamedCommands.registerCommand("rotateToSpeaker", new RotateToSpeaker(base));
+    NamedCommands.registerCommand("intakeAndIndex", intakeAndIndex);
+    NamedCommands.registerCommand("indexerSpinBack", indexerSpinBack);
 
     // Auton Chooser
-    autonChooser = AutoBuilder.buildAutoChooser("Mid 1+2+0");
+    autonChooser = AutoBuilder.buildAutoChooser("3 NOTE ATTEMPT 2");
     SmartDashboard.putData("Auton Chooser", autonChooser);
 
     // Configure the trigger bindings
@@ -334,16 +344,21 @@ public class RobotContainer {
     compStreamDeck1.onTrue(spinFlywheelSpeaker);
     compStreamDeck2.onTrue(spinFlywheelSpeakerPodium);
     compStreamDeck3.whileTrue(shooterTiltSpinUp);
-    compStreamDeck4.whileTrue(stopFlywheel);
+    compStreamDeck4.onTrue(stopFlywheel);
     compStreamDeck5.whileTrue(indexerSpin);
     
-    compStreamDeck6.onTrue(intakeAndIndexToStop);
+    // compStreamDeck6.whileTrue(intakeAndIndex);
+    compStreamDeck6.whileTrue(intakeAndIndexToStop);
+    compStreamDeck7.whileTrue(intakeAndIndexOut);
     compStreamDeck8.whileTrue(shooterTiltSpinDown);
+    compStreamDeck9.onTrue(spinFlywheelBottom);
     compStreamDeck10.whileTrue(indexerSpinBack);
 
-    compStreamDeck11.whileTrue(spinFlywheelAmp);
-    compStreamDeck13.whileTrue(rotateToSpeaker);
-    compStreamDeck14.whileTrue(spinFlywheelAutoAim);
+    compStreamDeck11.onTrue(spinFlywheelAmp);
+    compStreamDeck12.whileTrue(spinFlywheelReverse);
+    compStreamDeck13.onTrue(new SetManualControl(shooterTilt));
+    compStreamDeck14.onTrue(spinFlywheel);
+    compStreamDeck15.onTrue(toggleHangPistons);
     
     // compStreamDeck9.whileTrue(moveRollersIn);
     // compStreamDeck7.onTrue(new MoveWristToSource(trap));
@@ -362,23 +377,10 @@ public class RobotContainer {
     // private final StopTrap stopTrap = new StopTrap(trap);
 
     // Testing Arms and Lifts Controls
-    // testStreamDeck1.whileTrue(new MoveTrapWrist(trap, 0.24));
-    // // testStreamDeck1.whileTrue(new MoveTrapWrist(trap, 1));
-    // testStreamDeck2.whileTrue(new MoveTrapWrist(trap, -.24));
-    // testStreamDeck3.whileTrue(moveRollersIn);
-    // testStreamDeck4.whileTrue(moveRollersOut);
-    // testStreamDeck5.whileTrue(new MoveWristToAmp(trap));
-    // testStreamDeck6.whileTrue(new MoveWristToSource(trap));
-    // testStreamDeck1.whileTrue(shooterTiltSpinUp);
-    // testStreamDeck2.whileTrue(indexerSpin);
-    // testStreamDeck3.whileTrue(intakeSpinIn);
-    // testStreamDeck4.whileTrue(indexAndShoot);
-    // testStreamDeck5.whileTrue(moveHangUp);
-    // testStreamDeck5.whileTrue(moveRollersIn);
-    // testStreamDeck6.whileTrue(shooterTiltSpinDown);
     
-    // testStreamDeck6.whileTrue(shooterTiltSpinDown);
-    // testStreamDeck7.whileTrue(indexerSpinBack);
+    testStreamDeck1.whileTrue(rotateToSpeaker);
+    testStreamDeck2.whileTrue(spinFlywheelAutoAim);
+    
     testStreamDeck8.whileTrue(intakeSpinOut);
     testStreamDeck10.whileTrue(moveHangDown);
     

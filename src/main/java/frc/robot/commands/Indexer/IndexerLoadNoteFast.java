@@ -16,6 +16,7 @@ public class IndexerLoadNoteFast extends Command {
   public IndexerLoadNoteFast(Indexer indexer) {
     this.indexer = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(indexer);
   }
   // Called when the command is initially scheduled.
   @Override

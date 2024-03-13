@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
 
 
-public class IndexerLoadNoteSlow extends Command {
+public class IndexerNoteToBB extends Command {
   private Indexer indexer;
 /** Creates a new IndexerNoteLoaded. */
-  public IndexerLoadNoteSlow(Indexer indexer) {
+  public IndexerNoteToBB(Indexer indexer) {
     this.indexer = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
@@ -25,18 +25,22 @@ public class IndexerLoadNoteSlow extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexerSpin(KIndexerSlowSpeed);
+    if (!indexer.getIndexerBBreakerTop()) {
+      indexer.indexerSpin(KIndexerFastSpeed);
+    }
+    else {
+      indexer.indexerStop();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexer.indexerStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.getIndexerBBreakerTop();
+    return false;
   }
 }

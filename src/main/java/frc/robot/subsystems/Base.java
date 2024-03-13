@@ -347,25 +347,28 @@ public class Base extends SubsystemBase {
     }
     poseEstimate.update(getHeading(), getPositions());
     odometry.update(getHeading(), getPositions());
-    SubsystemUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
-    getAngleFromSpeaker();
+    SmartDashboard.putBoolean("limelight.getTargetFound()", limelight.getTargetFound());
+
+    // SubsystemUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
 
     // Position Data SmartDashboard
     // SmartDashboard.putNumber("Gyro", getHeadingDeg());
     // SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
     // SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
     // SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
-    // SmartDashboard.putNumber("limelight botpose", limelight.getBotPose(5));
-
+    
     // SwerveDrive Cancoder Position
-    // SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
-    // SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
-    // SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
-    // SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
-
+    SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
+    SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());
+    SmartDashboard.putNumber("BackRightCanCoderPos", rightBackModule.getMagDegRaw());
+    SmartDashboard.putNumber("FrontRightCanCoderPos", rightFrontModule.getMagDegRaw());
+    
     // SmartDashboard.putNumber("FrontLeftVel", leftFrontModule.getDriveEncoderVel());
     // SmartDashboard.putNumber("BackLeftVel", leftBackModule.getDriveEncoderVel());
     // SmartDashboard.putNumber("FrontRightVel", rightFrontModule.getDriveEncoderVel());
     // SmartDashboard.putNumber("BackRightVel", rightBackModule.getDriveEncoderVel());
+    
+    // SmartDashboard.putNumber("lime
+    // light botpose", limelight.getBotPose(5));
   }
 }

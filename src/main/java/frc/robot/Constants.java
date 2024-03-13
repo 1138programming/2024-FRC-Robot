@@ -97,6 +97,7 @@ public final class Constants {
   public static class LEDConstants
   {
     public static final int KLEDPort = 9; //placeholder
+    public static final int KLEDBuffer = 60;
   }
 
   public static class SwerveDriveConstants {
@@ -127,7 +128,7 @@ public final class Constants {
     public static final double KDriveD = 0;
 
     // Swerve Current Limits
-    public static final int KDriveMotorCurrentLimit = 60;
+    public static final int KDriveMotorCurrentLimit = 70;
     public static final int KAngleMotorCurrentLimit = 40;
 
     // Motor Info
@@ -156,19 +157,19 @@ public final class Constants {
 
     // Max Speeds
     public static final double KMaxAcceleration = 8;
-    public static final double KMaxAngularSpeed = 5;
+    public static final double KMaxAngularSpeed =   10;
     // public static final double KMaxAngularSpeed = 3.5;
 
     // Offsets
     //  Meow (Gray Bot)
-    public static final double KFrontLeftOffset = 50;
-    public static final double KFrontRightOffset = -101.69;
-    public static final double KBackLeftOffset = 101.34;
-    public static final double KBackRightOffset = -34.45;
-    // public static final double KFrontLeftOffset = -177.68+60 + 180;
-    // public static final double KFrontRightOffset = 79.01 +180;
-    // public static final double KBackLeftOffset = -75.67+180;
-    // public static final double KBackRightOffset = 144.75+180;
+    public static final double KFrontLeftOffset = -106.3;
+    public static final double KFrontRightOffset = -106.35;
+    public static final double KBackLeftOffset = 99.89;
+    public static final double KBackRightOffset = -35.6;
+    // public static final double KFrontLeftOffset = -104.326171875;
+    // public static final double KFrontRightOffset = -101.69;
+    // public static final double KBackLeftOffset = 101.34;
+    // public static final double KBackRightOffset = -34.45;
 
     // Drive Motor Reversals
     public static final boolean KFrontLeftDriveReversed = false;
@@ -237,8 +238,7 @@ public final class Constants {
     public static final int KShooterTiltEncoderID = 5;
     
     // CANCoder offset
-    public static final double KShooterTiltEncoderOffset = -40.18 - 46.40625;
-    // public static final double KShooterTiltEncoderOffset = -314.65;
+    public static final double KShooterTiltEncoderOffset = 0;
 
     // Gear Ratio
     public static final double KTiltMotorToSwivelGearRatio = 0.85714; // 36 to 42
@@ -259,10 +259,12 @@ public final class Constants {
     // Testing
     public static final double kShooterTiltDeadZone = 1;
     // public static 
-    public static final double kShooterTiltUpPos = 80;
-    public static final double KShooterTiltAmpAngle = 70;
-    public static final double KShooterTiltSubAngle = 55;
-    public static final double KShooterTiltPodiumAngle = 36;
+    public static final double KShooterTiltAngleOffset = -7;
+
+    public static final double kShooterTiltUpPos = 63;
+    public static final double KShooterTiltAmpAngle = 90;
+    public static final double KShooterTiltSubAngle = 51;
+    public static final double KShooterTiltPodiumAngle = 30;
     public static final double KShooterTiltAuton1Angle = 38;
     public static final double KShooterTiltAuton2Angle = 35;
     public static final double KShooterTiltBottomAngle = 30;
@@ -299,6 +301,7 @@ public final class Constants {
     public static final double KFlywheelFullSpeed = 1; 
     public static final double KFlywheelSpeed = 0.7; 
     public static final double KFlywheelLowSpeed = 0.185;
+    public static final double KFLywheelAmpSpeed = 0.55;
     
     public static final double KFlywheelVelocity = 5000;
     

@@ -16,6 +16,7 @@ public class IndexerLoadNoteBack extends Command {
   public IndexerLoadNoteBack(Indexer indexer) {
     this.indexer = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(indexer);
   }
   // Called when the command is initially scheduled.
   @Override

@@ -4,21 +4,20 @@
 
 package frc.robot.commands.Flywheel;
 
-import static frc.robot.Constants.FlywheelConstants.*;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
 import frc.robot.subsystems.ShooterTilt;
 
-public class SpinFlywheelAmp extends Command {
+public class SpinFlywheelBottom extends Command {
   private Flywheel flywheel;
-  private ShooterTilt  shooterTilt;
+  private ShooterTilt shooterTilt;
 
   /** Creates a new SpinFlywheel. */
-  public SpinFlywheelAmp(Flywheel flywheel, ShooterTilt shooterTilt) {
+  public SpinFlywheelBottom(Flywheel flywheel, ShooterTilt shooterTilt) {
     this.flywheel = flywheel;
     this.shooterTilt = shooterTilt;
     
@@ -33,8 +32,8 @@ public class SpinFlywheelAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(SmartDashboard.getNumber("AMP Angle", KShooterTiltAmpAngle)));
-    flywheel.spinFlywheel(SmartDashboard.getNumber("F SPEED", 0.175));
+    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(KShooterTiltBottomAngle));
+    flywheel.spinFlywheel(KFlywheelSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

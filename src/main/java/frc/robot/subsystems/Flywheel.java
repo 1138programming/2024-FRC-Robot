@@ -58,6 +58,8 @@ public class Flywheel extends SubsystemBase {
     flywheelLowerController.setP(KFlywheelP);
     flywheelLowerController.setI(KFlywheelI);
     flywheelLowerController.setD(KFlywheelD);
+
+    SmartDashboard.putNumber("F SPEED", 0.175);
     
 
     // SmartDashboard.putNumber("Flywheel P", 0);

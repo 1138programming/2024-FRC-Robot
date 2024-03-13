@@ -48,7 +48,7 @@ public class SwerveModule extends SubsystemBase {
     this.angleMotor.setInverted(angleMotorReversed);
     this.driveMotor.setInverted(driveMotorReversed);
     
-    this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit); // CURRENTLY 60! NEEDS TESTING
+    this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit); // CURRENTLY 70! NEEDS TESTING
     this.angleMotor.setSmartCurrentLimit(KAngleMotorCurrentLimit); // 40
 
     canCoder = new CANcoder(encoderPort);

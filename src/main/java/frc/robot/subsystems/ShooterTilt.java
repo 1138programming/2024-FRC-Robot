@@ -26,10 +26,14 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
   private CANcoder shooterTiltCANcoder;
+  private double startingAngle;
+
   // PID
   private PIDController swivelController;
   // private PIDController swivelUpController;
   private PIDController swivelshootController;
+  
+  private boolean manualControl;
 
   public ShooterTilt() {
     // Motor Setup
@@ -41,7 +45,8 @@ public class ShooterTilt extends SubsystemBase {
     // CANCoder Setup
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
 
-    double offsetToRotations = KShooterTiltEncoderOffset / 360;
+    double offsetToRotations = 0;
+    // double offsetToRotations = KShooterTiltEncoderOffset / 360;
 
     MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
 
@@ -49,9 +54,11 @@ public class ShooterTilt extends SubsystemBase {
     canCoderConfig.SensorDirection = SensorDirectionValue.Clockwise_Positive;
     canCoderConfig.MagnetOffset = offsetToRotations;
     shooterTiltCANcoder.getConfigurator().apply(canCoderConfig);
+    manualControl = false;
 
     // PID Controller Setups
     swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
+    startingAngle = 202.91833 - shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
 
     // swivelshootController = new PIDController(KShooterTiltControllerShootP, 0, 0);
   }
@@ -59,6 +66,13 @@ public class ShooterTilt extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("tilt encoder angle", getTiltEncoder());
+    SmartDashboard.putNumber("tilt shooter angle", getShooterAngle());
+    SmartDashboard.putBoolean("manualControl", manualControl);
+  }
+
+  public void toggleManualControl() {
+    manualControl = !manualControl;
   }
 
   public void moveSwivel(double speed) {
@@ -68,12 +82,19 @@ public class ShooterTilt extends SubsystemBase {
   // starting angle is 17 degrees and the range is between 17-90 or 15-180 (If i
   // recall correctly)
   public double getTiltEncoder() {
-    return shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
+    double angle = shooterTiltCANcoder.getPosition().getValueAsDouble() * 360 + startingAngle;
+    // if (angle < 0) {
+    //   return 360 + angle;
+    // }
+    return angle;
   }
 
   // PID
   public void swivelToPos(double setPoint) {
-    moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
+    if (!manualControl) {
+      moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
+    }
+    // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
   }
 
   // public void swivelToPos(double setPoint) {
@@ -86,6 +107,7 @@ public class ShooterTilt extends SubsystemBase {
 
   public static double getMotorAngleFromShooterAngle(double shooterAngle) {
     double motorAngle = 0;
+    // shooterAngle += KShooterTiltAngleOffset;
 
     // Check if the requested shooter angle is in bound, otherwise clamp to max /
     // min value
