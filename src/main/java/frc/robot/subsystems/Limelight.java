@@ -25,7 +25,7 @@ public class Limelight extends SubsystemBase {
   private double botPoseY;
 
   public Limelight() {
-    aprilTagsTable = NetworkTableInstance.getDefault().getTable(aprilTagsPipeline);
+    aprilTagsTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     targetFound = 0;
     x = 0;
@@ -75,13 +75,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public boolean getTargetFound() {
-    if (targetFound == 0) {
-      return false;
-    } else if (targetFound == 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return targetFound == 1;
   }
 
   public double getBotPoseY() {

@@ -33,8 +33,7 @@ public class ShooterTilt extends SubsystemBase {
 
   // PID
   private PIDController swivelController;
-  // private PIDController swivelUpController;
-  private PIDController swivelshootController;
+  private PIDController absoluteSwivelController;
   
   private boolean manualControl;
 
@@ -48,9 +47,11 @@ public class ShooterTilt extends SubsystemBase {
     // CANCoder Setup
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
 
-    shooterTiltThroughBoreEncoder = new DutyCycleEncoder(1);
-    shooterTiltThroughBoreEncoder.setDistancePerRotation(1);
-    shooterTiltThroughBoreEncoder.setPositionOffset(0);
+    shooterTiltThroughBoreEncoder = new DutyCycleEncoder(KShooterTiltAbsoluteEncoderID);
+    shooterTiltThroughBoreEncoder.reset();
+    shooterTiltThroughBoreEncoder.setPositionOffset(KShooterTiltAbsoluteOffset);
+    shooterTiltThroughBoreEncoder.setDistancePerRotation(360);
+
 
     double offsetToRotations = 0;
     // double offsetToRotations = KShooterTiltEncoderOffset / 360;
@@ -65,7 +66,14 @@ public class ShooterTilt extends SubsystemBase {
 
     // PID Controller Setups
     swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
+    absoluteSwivelController = new PIDController(1, 1, 1);
     startingAngle = 202.91833 - shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
+
+    SmartDashboard.putNumber("absolute P", KShooterTiltAbsoluteControllerP);
+    SmartDashboard.putNumber("absolute I", KShooterTiltAbsoluteControllerI);
+    SmartDashboard.putNumber("absolute D", KShooterTiltAbsoluteControllerD);
+
+    SmartDashboard.putNumber("tilt to", 50);
 
     // swivelshootController = new PIDController(KShooterTiltControllerShootP, 0, 0);
   }
@@ -76,7 +84,13 @@ public class ShooterTilt extends SubsystemBase {
     SmartDashboard.putNumber("tilt encoder angle", getTiltEncoder());
     SmartDashboard.putNumber("tilt shooter angle", getShooterAngle());
     SmartDashboard.putNumber("tilt shooter angle through bore", shooterTiltThroughBoreEncoder.getDistance());
+    SmartDashboard.putNumber("tilt shooter absolute pos through bore", shooterTiltThroughBoreEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("tilt shooter get final through bore", getAbsoluteEncoder());
     SmartDashboard.putBoolean("manualControl", manualControl);
+
+    absoluteSwivelController.setP(SmartDashboard.getNumber("absolute P", KShooterTiltAbsoluteControllerP));
+    absoluteSwivelController.setI(SmartDashboard.getNumber("absolute I", KShooterTiltAbsoluteControllerI));
+    absoluteSwivelController.setD(SmartDashboard.getNumber("absolute D", KShooterTiltAbsoluteControllerD));
   }
 
   public void toggleManualControl() {
@@ -91,16 +105,23 @@ public class ShooterTilt extends SubsystemBase {
   // recall correctly)
   public double getTiltEncoder() {
     double angle = shooterTiltCANcoder.getPosition().getValueAsDouble() * 360 + startingAngle;
-    // if (angle < 0) {
-    //   return 360 + angle;
-    // }
     return angle;
   }
 
-  // PID
-  public void swivelToPos(double setPoint) {
+  public double getAbsoluteEncoder() {
+    return 101.63 - shooterTiltThroughBoreEncoder.getDistance();
+  }
+
+  public void swivelToPosAbsolute(double setpoint) {
     if (!manualControl) {
-      moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
+      moveSwivel(absoluteSwivelController.calculate(getAbsoluteEncoder(), setpoint));
+    }
+  }
+
+  // PID
+  public void swivelToPos(double setpoint) {
+    if (!manualControl) {
+      moveSwivel(swivelController.calculate(getTiltEncoder(), setpoint));
     }
     // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
   }
@@ -175,6 +196,6 @@ public class ShooterTilt extends SubsystemBase {
 
   // enter limelight stuff here
   public static double getAngleForShooterPivot(double distanceFromSpeakerMeters) {
-    return (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters) * (180 / Math.PI)); //Meters
+    return (Math.toDegrees(Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters))); //Meters
   }
 }

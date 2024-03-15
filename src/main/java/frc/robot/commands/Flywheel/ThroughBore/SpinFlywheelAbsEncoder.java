@@ -2,22 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Flywheel;
+package frc.robot.commands.Flywheel.ThroughBore;
 
 import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
-import static frc.robot.Constants.ShooterTiltConstants.*;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.SubsystemUtil;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
 import frc.robot.subsystems.ShooterTilt;
 
-public class SpinFlywheelSpeaker extends Command {
+public class SpinFlywheelAbsEncoder extends Command {
   private Flywheel flywheel;
   private ShooterTilt shooterTilt;
 
   /** Creates a new SpinFlywheel. */
-  public SpinFlywheelSpeaker(Flywheel flywheel, ShooterTilt shooterTilt) {
+  public SpinFlywheelAbsEncoder(Flywheel flywheel, ShooterTilt shooterTilt) {
     this.flywheel = flywheel;
     this.shooterTilt = shooterTilt;
     
@@ -32,8 +33,8 @@ public class SpinFlywheelSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(KShooterTiltSubAngle));
-    flywheel.spinFlywheel(KFlywheelSpeed);
+    shooterTilt.swivelToPosAbsolute(SmartDashboard.getNumber("tilt to", 50));
+    // flywheel.spinFlywheel(KFlywheelSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

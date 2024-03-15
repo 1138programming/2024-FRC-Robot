@@ -7,7 +7,7 @@ package frc.robot.CommandGroups;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Base.DriveForTimeY;
-import frc.robot.commands.Flywheel.SpinFlywheelAmp;
+import frc.robot.commands.Flywheel.ThroughBore.SpinFlywheelAmp;
 import frc.robot.commands.Indexer.IndexerSpin;
 import frc.robot.subsystems.Base;
 import frc.robot.subsystems.Flywheel;

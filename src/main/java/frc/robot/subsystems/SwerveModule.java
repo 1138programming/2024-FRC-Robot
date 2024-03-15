@@ -35,6 +35,8 @@ public class SwerveModule extends SubsystemBase {
   private PIDController driveController;
   private SparkPIDController drivingPidController;
 
+  // private SwerveModulePosition prevPosition;
+
   private double offset;
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
                       boolean driveMotorReversed, boolean angleMotorReversed) {
@@ -139,6 +141,10 @@ public class SwerveModule extends SubsystemBase {
   
   public SwerveModulePosition getPosition() {
     SwerveModulePosition position = new SwerveModulePosition(getDriveEncoderPos(), getAngleR2D());
+    // TEST * TEST * TEST (possible solution to high odom values after disable)
+    // if (position.distanceMeters > 50) {
+    //   return new SwerveModulePosition(0, getAngleR2D());
+    // }
     return position;
   }
   

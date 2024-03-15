@@ -37,8 +37,13 @@ public class ShooterTiltWait extends Command {
     boolean isNoteIndexed = SubsystemUtil.getIsNoteIndexed();
     SmartDashboard.putBoolean("isNoteIndexed", isNoteIndexed);
     if (!isNoteIndexed) {
-      shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(kShooterTiltUpPos));
+      shooterTilt.swivelToPosAbsolute(kShooterTiltUpPos);
     }
+    // boolean isNoteIndexed = SubsystemUtil.getIsNoteIndexed();
+    // SmartDashboard.putBoolean("isNoteIndexed", isNoteIndexed);
+    // if (!isNoteIndexed) {
+    //   shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(kShooterTiltUpPos));
+    // }
   }
   
   // Called once the command ends or is interrupted.

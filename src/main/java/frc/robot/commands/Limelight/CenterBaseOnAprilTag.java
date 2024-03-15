@@ -17,13 +17,11 @@ public class CenterBaseOnAprilTag extends Command {
 
   /** Creates a new CenterBaseOnAprilTag. */
   public CenterBaseOnAprilTag(Base base, Limelight limelight) {
-
     this.base = base;
     this.limelight = limelight;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(base, limelight);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

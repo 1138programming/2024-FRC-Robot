@@ -258,7 +258,7 @@ public class Base extends SubsystemBase {
   }
 
   public double getHeadingDeg() {
-    return -gyro.getAngle();
+    return -gyro.getAngle() % 360;
   }
 
   public double getRoll() {
@@ -315,7 +315,7 @@ public class Base extends SubsystemBase {
     if (DriverStation.getAlliance().isPresent()) {
       return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getHeading().getDegrees());
     }
-    return KShooterTiltSubAngle;
+    return 180;
   }
 
   public static double getAngleFromSpeaker(DriverStation.Alliance allianceColor, double xPos, double yPos, double lambda) {
@@ -349,13 +349,15 @@ public class Base extends SubsystemBase {
     odometry.update(getHeading(), getPositions());
     SmartDashboard.putBoolean("limelight.getTargetFound()", limelight.getTargetFound());
 
-    // SubsystemUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
+    SubsystemUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
 
     // Position Data SmartDashboard
-    // SmartDashboard.putNumber("Gyro", getHeadingDeg());
+    SmartDashboard.putNumber("Gyro", getHeadingDeg());
     // SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
-    // SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
-    // SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
+    SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
+    SmartDashboard.putBoolean("getTargetFound", limelight.getTargetFound());
+    SmartDashboard.putNumber("getBotPose", limelight.getBotPose(5));
+    SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
     
     // SwerveDrive Cancoder Position
     SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());

@@ -198,7 +198,7 @@ public final class Constants {
     public static final double KBaseRotMidPercent = 1;
     public static final double KBaseRotMaxPercent = 1.5;
 
-    public static final double KRotationP = 0;
+    public static final double KRotationP = 1;
     public static final double KRotationI = 0;
     public static final double KRotationD = 0;
     
@@ -234,14 +234,17 @@ public final class Constants {
   public static class ShooterTiltConstants {
     // Motor ID
     public static final int KShooterTiltMotorID = 16;
-    // CANCoder ID
-    public static final int KShooterTiltEncoderID = 5;
+    // Encoder IDs
+    public static final int KShooterTiltEncoderID = 5; // CANCoder
+    public static final int KShooterTiltAbsoluteEncoderID = 2; // Throughbore
     
     // CANCoder offset
-    public static final double KShooterTiltEncoderOffset = 0;
+    public static final double KShooterTiltEncoderOffset = 0; // CANCoder
+    public static final double KShooterTiltAbsoluteOffset = 0.0435; // Throughbore
+    // public static final double KShooterTiltAbsoluteOffset = 50.56/360; // Throughbore
 
     // Gear Ratio
-    public static final double KTiltMotorToSwivelGearRatio = 0.85714; // 36 to 42
+    public static final double KTiltMotorToSwivelGearRatio = 0.85714286; // 36 to 42
     public static final double KTiltMotorToSwivelGearRatioBackwards = 1.1667; // 42 to 36
 
     // Motor Speed
@@ -253,6 +256,10 @@ public final class Constants {
     public static final double KShooterTiltControllerP = 0.012;
     public static final double KShooterTiltControllerI = 0;
     public static final double KShooterTiltControllerD = 0.0001;
+
+    public static final double KShooterTiltAbsoluteControllerP = 0.015;
+    public static final double KShooterTiltAbsoluteControllerI = 0;
+    public static final double KShooterTiltAbsoluteControllerD = 0.0001;
     
     // public static final double KShooterTiltControllerPUp = 0.01; 
     public static final double KShooterTiltControllerShootP = 0.018; // holds tilt in place while shooting
@@ -261,18 +268,20 @@ public final class Constants {
     // public static 
     public static final double KShooterTiltAngleOffset = -7;
 
-    public static final double kShooterTiltUpPos = 63;
-    public static final double KShooterTiltAmpAngle = 90;
-    public static final double KShooterTiltSubAngle = 51;
-    public static final double KShooterTiltPodiumAngle = 30;
-    public static final double KShooterTiltAuton1Angle = 38;
-    public static final double KShooterTiltAuton2Angle = 35;
+    public static final double kShooterTiltUpPos = 76.7;
+    public static final double KShooterTiltAmpAngle = 65;
+    public static final double KShooterTiltSubAngle = 65;
+    public static final double KShooterTiltPodiumAngle = 40.08;
+    public static final double KShooterTiltAuton1Angle = 50.6;
+    public static final double KShooterTiltAuton2Angle = 47.8;
     public static final double KShooterTiltBottomAngle = 30;
-    // public static final double kShooterTiltUpPos = 149.86;
-    // public static final double KShooterTiltAmpAngle = 115;
-    // public static final double KShooterTiltSubAngle = 120;
-    // public static final double KShooterTiltPodiumAngle = 95;
-    // public static final double KShooterTiltBottomAngle = 60;
+    // public static final double kShooterTiltUpPos = 63;
+    // public static final double KShooterTiltAmpAngle = 51.5;
+    // public static final double KShooterTiltSubAngle = 51;
+    // public static final double KShooterTiltPodiumAngle = 30;
+    // public static final double KShooterTiltAuton1Angle = 38;
+    // public static final double KShooterTiltAuton2Angle = 35;
+    // public static final double KShooterTiltBottomAngle = 30;
 
     // This array must be sorted for the shooter tilt functionality to work!!!!
     public static final double[][] KShooterTiltAngles =
@@ -312,7 +321,7 @@ public final class Constants {
   }
 
   public static class IndexerConstants{
-    public static final double KIndexerMotorSpeed = 0.7;
+    public static final double KIndexerMotorSpeed = 0.32;
     public static final double KIndexerSlowSpeed = 0.32;
     public static final double KIndexerSlowBackwardSpeed = 0.15;
     // public static final double KIndexerSlowSpeed = 0.35;

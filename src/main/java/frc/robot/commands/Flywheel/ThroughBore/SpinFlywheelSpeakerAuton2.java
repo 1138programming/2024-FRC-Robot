@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Flywheel;
+package frc.robot.commands.Flywheel.ThroughBore;
 
 import static frc.robot.Constants.FlywheelConstants.*;
 import static frc.robot.Constants.ShooterTiltConstants.*;
@@ -33,7 +33,7 @@ public class SpinFlywheelSpeakerAuton2 extends Command {
   @Override
   public void execute() {
     flywheel.spinFlywheel(KFlywheelSpeed);
-    shooterTilt.swivelToPos(ShooterTilt.getMotorAngleFromShooterAngle(KShooterTiltAuton2Angle));
+    shooterTilt.swivelToPosAbsolute(KShooterTiltAuton2Angle);
   }
   // Called once the command ends or is interrupted.
   @Override
