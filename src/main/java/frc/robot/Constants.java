@@ -73,13 +73,15 @@ public final class Constants {
     public static final double KlimelightMountAngleDegrees = 25.0; // Neeeds to be changed
     public static final double KlimelightMountHeight = 0.508; 
     public static final double KShooterTiltMountHeight = 0.2286; 
-    public static final double KspeakerHeight = 2.1082;  
-    public static final double[] KSpeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
+    public static final double KspeakerHeight = 2.159;  
+    public static final double[] KSpeakerCoordinatesBlue = new double[] { 0, 5.547868 }; // (X,Y) of the center
+    // public static final double[] KSpeakerCoordinatesBlue = new double[] { 0, 5.5474108 }; // (X,Y) of the center
                                                                                           // aprilTag
     public static final double[] KspeakerAprilTagsBlue = new double[] { 7, 8 }; // Right To Left
-    public static final double[] KSpeakerCoordinatesRed = new double[] { 16.618, 5.5474108 }; // (X,Y) of the center
+    public static final double[] KSpeakerCoordinatesRed = new double[] { 16.58, 5.547868 }; // (X,Y) of the center
+    // public static final double[] KSpeakerCoordinatesRed = new double[] { 16.52, 5.5474108 }; // (X,Y) of the center
                                                                                               // aprilTag
-    public static final double[] KspeakerAprilTagsRed = new double[] { 9, 10 }; // Right To Left
+    public static final double[] KspeakerAprilTagsRed = new double[] { 3, 4 }; // Right To Left
     public static final double KlimeLightRotP = 0.0167;
     public static final double KlimeLightRotI = 0;
     public static final double KlimeLightRotD = 0;
@@ -198,7 +200,7 @@ public final class Constants {
     public static final double KBaseRotMidPercent = 1;
     public static final double KBaseRotMaxPercent = 1.5;
 
-    public static final double KRotationP = 1;
+    public static final double KRotationP = 0.025;
     public static final double KRotationI = 0;
     public static final double KRotationD = 0;
     
@@ -269,19 +271,16 @@ public final class Constants {
     public static final double KShooterTiltAngleOffset = -7;
 
     public static final double kShooterTiltUpPos = 76.7;
-    public static final double KShooterTiltAmpAngle = 65;
+    public static final double KShooterTiltAmpAngle = 55;
     public static final double KShooterTiltSubAngle = 65;
+    public static final double KShooterTiltSource = 57.9;
     public static final double KShooterTiltPodiumAngle = 40.08;
     public static final double KShooterTiltAuton1Angle = 50.6;
     public static final double KShooterTiltAuton2Angle = 47.8;
     public static final double KShooterTiltBottomAngle = 30;
-    // public static final double kShooterTiltUpPos = 63;
-    // public static final double KShooterTiltAmpAngle = 51.5;
-    // public static final double KShooterTiltSubAngle = 51;
-    // public static final double KShooterTiltPodiumAngle = 30;
-    // public static final double KShooterTiltAuton1Angle = 38;
-    // public static final double KShooterTiltAuton2Angle = 35;
-    // public static final double KShooterTiltBottomAngle = 30;
+
+    public static final double KShooterTiltAimOffset = 1.5;
+    // public static final double KShooterTiltWingAimOffset = -2;
 
     // This array must be sorted for the shooter tilt functionality to work!!!!
     public static final double[][] KShooterTiltAngles =
@@ -309,7 +308,8 @@ public final class Constants {
     //Motor speeds
     public static final double KFlywheelFullSpeed = 1; 
     public static final double KFlywheelSpeed = 0.7; 
-    public static final double KFlywheelLowSpeed = 0.185;
+    public static final double KFlywheelSlowSpeed = 0.3; 
+    // public static final double KFlywheelLowSpeed = 0.185;
     public static final double KFLywheelAmpSpeed = 0.55;
     
     public static final double KFlywheelVelocity = 5000;
@@ -321,11 +321,13 @@ public final class Constants {
   }
 
   public static class IndexerConstants{
-    public static final double KIndexerMotorSpeed = 0.32;
-    public static final double KIndexerSlowSpeed = 0.32;
+    public static final double KIndexerMotorSpeed = 0.2;
+    public static final double KIndexerSlowSpeed = 0.2;
+    // public static final double KIndexerMotorSpeed = 0.32;
+    // public static final double KIndexerSlowSpeed = 0.32;
     public static final double KIndexerSlowBackwardSpeed = 0.15;
     // public static final double KIndexerSlowSpeed = 0.35;
-    public static final double KIndexerFastSpeed = 0.9;
+    public static final double KIndexerFastSpeed = 0.5;
 
     public static final int KIndexerBBreakerTopID = 0;
     public static final int KIndexerBBreakerBottomID = 9;

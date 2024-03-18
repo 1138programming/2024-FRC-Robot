@@ -5,6 +5,7 @@
 package frc.robot.commands.Flywheel;
 
 import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
 import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
 import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
@@ -33,6 +34,7 @@ public class SpinFlywheelAndRotate extends Command {
     this.base = base;
     this.shooterTilt = shooterTilt;
     rotController = new PIDController(KRotationP, KRotationI, KRotationD);
+    rotController.enableContinuousInput(-180, 180);
     
     addRequirements(flywheel, base, shooterTilt);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -48,15 +50,21 @@ public class SpinFlywheelAndRotate extends Command {
     rotController.setP(SmartDashboard.getNumber("RotP", KRotationP));
     rotController.setI(SmartDashboard.getNumber("RotI", KRotationI));
     rotController.setD(SmartDashboard.getNumber("RotD", KRotationD));
-    double rotSpeed = rotController.calculate(base.getAngleFromSpeaker(), 0);
-    // if (SubsystemUtil.getIsNoteIndexed()) {
-      shooterTilt.swivelToPosAbsolute(
-        ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
-        );
-        // }
-    SmartDashboard.putNumber(" base.getAngleFromSpeaker()",  base.getAngleFromSpeaker());
+
+    double rotSpeed = rotController.calculate(base.getAimingHeadingDeg(), base.getAngleFromSpeaker());
+    // double rotSpeed = rotController.calculate(base.getAprilTagOffsetFromSpeaker(), 0);
+
+    base.drive(0, 0, rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KBaseRotMaxPercent * base.getRotSpeedFactor());
+
+    SmartDashboard.putNumber("base.getAngleFromSpeaker()",  base.getAngleFromSpeaker());
+    SmartDashboard.putNumber("base.getPositiveHeadingDeg()",  base.getPositiveHeadingDeg());
+    SmartDashboard.putNumber("base.getAprilTagOffsetFromSpeaker()", base.getAprilTagOffsetFromSpeaker());
+    
+    shooterTilt.swivelToPosAbsolute(
+      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltAimOffset
+    );
+
     flywheel.spinFlywheel(KFlywheelSpeed);
-    base.drive(0, 0, -rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KBaseRotMaxPercent * base.getRotSpeedFactor());
   }
   // Called once the command ends or is interrupted.
   @Override

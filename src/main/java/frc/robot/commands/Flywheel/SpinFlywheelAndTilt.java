@@ -2,25 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Flywheel.ThroughBore;
+package frc.robot.commands.Flywheel;
 
-import static frc.robot.Constants.FlywheelConstants.*;
-import static frc.robot.Constants.ShooterTiltConstants.*;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
+import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
+import static frc.robot.Constants.SwerveDriveConstants.KRotationI;
+import static frc.robot.Constants.SwerveDriveConstants.KRotationP;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.SubsystemUtil;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
 import frc.robot.subsystems.ShooterTilt;
 
-public class SpinFlywheelAmp extends Command {
+public class SpinFlywheelAndTilt extends Command {
   private Flywheel flywheel;
-  private ShooterTilt  shooterTilt;
+  private ShooterTilt shooterTilt;
+
+  private PIDController rotController;
 
   /** Creates a new SpinFlywheel. */
-  public SpinFlywheelAmp(Flywheel flywheel, ShooterTilt shooterTilt) {
+  public SpinFlywheelAndTilt(Flywheel flywheel, ShooterTilt shooterTilt) {
     this.flywheel = flywheel;
     this.shooterTilt = shooterTilt;
+    rotController = new PIDController(KRotationP, KRotationI, KRotationD);
+    rotController.enableContinuousInput(-180, 180);
     
     addRequirements(flywheel, shooterTilt);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,8 +41,11 @@ public class SpinFlywheelAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPosAbsolute(KShooterTiltAmpAngle);
-    flywheel.spinFlywheel(0.55);
+    shooterTilt.swivelToPosAbsolute(
+      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltAimOffset
+    );
+
+    flywheel.spinFlywheel(KFlywheelSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

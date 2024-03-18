@@ -131,7 +131,8 @@ public class Base extends SubsystemBase {
     // SwerveModuleState objects
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading())
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getDrivingHeading())
+            // ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading())
             : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d()));
     SwerveDriveKinematics.desaturateWheelSpeeds(states, KPhysicalMaxDriveSpeedMPS);
 
@@ -253,12 +254,51 @@ public class Base extends SubsystemBase {
   }
 
   public Rotation2d getHeading() {
-    // return Rotation2d.fromDegrees(getHeadingDeg());
-    return gyro.getRotation2d(); // TEST
+    double heading = getAimingHeadingDeg();
+
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if (alliance.get() == DriverStation.Alliance.Red) {
+        if (heading < 0) {
+          heading += 180;
+        } else {
+          heading -= 180;
+        }
+      }
+    }
+    return Rotation2d.fromDegrees(heading);
+
+    // return gyro.getRotation2d(); // TEST
+  }
+  public Rotation2d getDrivingHeading() {
+    double heading = getAimingHeadingDeg();
+
+    return Rotation2d.fromDegrees(heading);
+
+    // return gyro.getRotation2d(); // TEST
   }
 
   public double getHeadingDeg() {
     return -gyro.getAngle() % 360;
+  }
+
+  public double getPositiveHeadingDeg() {
+    double angle = getHeadingDeg();
+    if (angle < 0) {
+      return 360 + angle;
+    }
+    return angle;
+  }
+
+  public double getAimingHeadingDeg() {
+    double angle = getHeadingDeg();
+    if (angle < -180) {
+      angle += 360;
+    }
+    if (angle > 180) {
+      angle -= 360;
+    }
+    return angle;
   }
 
   public double getRoll() {
@@ -312,10 +352,11 @@ public class Base extends SubsystemBase {
   }
 
   public double getAngleFromSpeaker() {
+    SmartDashboard.putNumber("gyro input", getPositiveHeadingDeg());
     if (DriverStation.getAlliance().isPresent()) {
-      return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getHeading().getDegrees());
+      return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getPositiveHeadingDeg());
     }
-    return 180;
+    return 0;
   }
 
   public static double getAngleFromSpeaker(DriverStation.Alliance allianceColor, double xPos, double yPos, double lambda) {
@@ -326,16 +367,36 @@ public class Base extends SubsystemBase {
         return 0;
       }
       theta = (Math.atan((yPos - KSpeakerCoordinatesBlue[1]) / (xPos - KSpeakerCoordinatesBlue[0])) * (180/Math.PI));
-      angle = 180 - lambda + theta;
-    }
-    else {
-      if (Math.abs(xPos - KSpeakerCoordinatesRed[0]) < 0.01) {
-        return 0;
+      angle = theta;
       }
-      theta = (Math.atan((yPos - KSpeakerCoordinatesRed[1]) / (xPos - KSpeakerCoordinatesRed[0])) * (180/Math.PI));
-      angle = 180 - lambda + theta;
+      else {
+        if (Math.abs(xPos - KSpeakerCoordinatesRed[0]) < 0.01) {
+          return 0;
+        }
+        theta = (Math.atan((yPos - KSpeakerCoordinatesRed[1]) / (xPos - KSpeakerCoordinatesRed[0])) * (180/Math.PI));
+        angle = theta;
     } 
     return angle;
+    // return angle;
+  }
+
+  public double getAprilTagOffsetFromSpeaker() {
+    double offset = 0;
+
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if(alliance.get() == DriverStation.Alliance.Blue) {
+        if (limelight.getTargetFound() && limelight.getTID() == 8) {
+          offset = limelight.getXAngle();
+        } 
+      }
+      else if (alliance.get() == DriverStation.Alliance.Red) {
+        if (limelight.getTargetFound() && limelight.getTID() == 10) {
+          offset = limelight.getXAngle();
+        }
+      }
+    }
+    return offset;
   }
 
   @Override
@@ -353,7 +414,7 @@ public class Base extends SubsystemBase {
 
     // Position Data SmartDashboard
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
-    // SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
+    SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
     SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
     SmartDashboard.putBoolean("getTargetFound", limelight.getTargetFound());
     SmartDashboard.putNumber("getBotPose", limelight.getBotPose(5));

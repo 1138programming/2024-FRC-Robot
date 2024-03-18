@@ -1,0 +1,87 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.68,
+      "y": 6.69
+    },
+    "rotation": 59.74
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "autonShoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left 1+1+0_P1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeAndIndexToStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "autoAimShooterTilt"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopFlywheel"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Left 1+1+0_P1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeAndIndexToStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "autoAimShooterTilt"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autonShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

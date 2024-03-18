@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ShooterTilt;
 
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
 import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltDeadZone;
 import static frc.robot.Constants.ShooterTiltConstants.kShooterTiltUpPos;
 
@@ -35,7 +36,7 @@ public class AutoAimShooterTilt extends Command {
   public void execute() {
     if (SubsystemUtil.getIsNoteIndexed()) {
       shooterTilt.swivelToPosAbsolute(
-          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + 5
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltAimOffset
       );
     }
     else {

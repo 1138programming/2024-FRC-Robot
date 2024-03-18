@@ -11,9 +11,6 @@ public class SubsystemUtil {
     private static boolean isNoteIndexed = false;
 
 
-    public static void putPIDShuffleboard(String name, PIDController controller) {
-        Shuffleboard.getTab("PIDControllers").add(name, controller);
-    }
 
     // public static PIDController getPIDShuffleboard(String name) {
     //     return   Shuffleboard.getTab("PIDControllers").

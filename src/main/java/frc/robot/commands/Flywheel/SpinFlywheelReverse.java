@@ -9,14 +9,14 @@ import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
+import frc.robot.subsystems.ShooterTilt;
 
 public class SpinFlywheelReverse extends Command {
   private Flywheel flywheel;
-
+  private ShooterTilt shooterTilt;
   /** Creates a new SpinFlywheel. */
   public SpinFlywheelReverse(Flywheel flywheel) {
     this.flywheel = flywheel;
-    
     addRequirements(flywheel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,7 +28,7 @@ public class SpinFlywheelReverse extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.spinFlywheel(-0.5);
+    flywheel.spinFlywheel(-0.5); 
   }
   // Called once the command ends or is interrupted.
   @Override

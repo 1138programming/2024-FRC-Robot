@@ -22,9 +22,11 @@ import frc.robot.commands.Base.Resets.ResetGyro;
 //  Flywheel
 import frc.robot.commands.Flywheel.SpinFlywheel;
 import frc.robot.commands.Flywheel.SpinFlywheelAndRotate;
+import frc.robot.commands.Flywheel.SpinFlywheelAndTilt;
 import frc.robot.commands.Flywheel.SpinFlywheelBottom;
 import frc.robot.commands.Flywheel.SpinFlywheelFullSpeed;
 import frc.robot.commands.Flywheel.SpinFlywheelReverse;
+import frc.robot.commands.Flywheel.SpinFlywheelSlow;
 import frc.robot.commands.Flywheel.SpinLowerFlywheel;
 import frc.robot.commands.Flywheel.SpinUpperFlywheel;
 import frc.robot.commands.Flywheel.StopFlywheel;
@@ -69,6 +71,7 @@ import frc.robot.commands.Trap.StopRollers;
 import frc.robot.commands.Trap.StopTrap;
 import frc.robot.commands.Trap.StopWrist;
 import frc.robot.CommandGroups.AimAndShoot;
+import frc.robot.CommandGroups.AutonShoot;
 import frc.robot.CommandGroups.IndexAndShoot;
 // Command Groups+++
 import frc.robot.CommandGroups.IntakeAndIndex;
@@ -134,6 +137,7 @@ public class RobotContainer {
   private final ShooterTiltSpinDown shooterTiltSpinDown = new ShooterTiltSpinDown(shooterTilt);
   private final ShooterTiltSpinUp shooterTiltSpinUp = new ShooterTiltSpinUp(shooterTilt);
   private final MoveShooterTiltTop moveShooterTiltTop = new MoveShooterTiltTop(shooterTilt);
+  private final AutoAimShooterTilt autoAimShooterTilt = new AutoAimShooterTilt(shooterTilt);
   //  Intake Commands
   private final IntakeSpinStop intakeSpinStop = new IntakeSpinStop(intake);
   private final IntakeSpinIn intakeSpinIn = new IntakeSpinIn(intake);
@@ -148,10 +152,13 @@ public class RobotContainer {
   private final SpinFlywheelSpeakerPodium spinFlywheelSpeakerPodium = new SpinFlywheelSpeakerPodium(flyWheel, shooterTilt);
   private final SpinFlywheelFullSpeed spinFlywheelFullSpeed = new SpinFlywheelFullSpeed(flyWheel);
   private final SpinFlywheelAmp spinFlywheelAmp = new SpinFlywheelAmp(flyWheel, shooterTilt);
-  private final SpinFlywheel spinFlywheelSlow = new SpinFlywheel(flyWheel);
   private final SpinFlywheelAutoAim spinFlywheelAutoAim = new SpinFlywheelAutoAim(flyWheel, shooterTilt);
   private final SpinFlywheelReverse spinFlywheelReverse = new SpinFlywheelReverse(flyWheel);
   private final SpinFlywheelBottom spinFlywheelBottom = new SpinFlywheelBottom(flyWheel, shooterTilt);
+
+  private final SpinFlywheelAndRotate spinFlywheelAndRotate = new SpinFlywheelAndRotate(flyWheel, base, shooterTilt);
+  private final SpinFlywheelAndTilt spinFlywheelAndTilt = new SpinFlywheelAndTilt(flyWheel, shooterTilt);
+  private final SpinFlywheelSlow spinFlywheelSlow = new SpinFlywheelSlow(flyWheel);
   //  Indexer Commands
   private final IndexerLoadNoteSlow indexerLoadNoteSlow = new IndexerLoadNoteSlow(indexer);
   private final IndexerLoadNoteFast indexerLoadNoteFast = new IndexerLoadNoteFast(indexer);
@@ -163,14 +170,6 @@ public class RobotContainer {
   private final MoveHangDown moveHangDown = new MoveHangDown(hang);
   private final ToggleHangPistons toggleHangPistons = new ToggleHangPistons(hang);
   private final StopHang stopHang = new StopHang(hang);
-  //  Trap Commands
-  // private final MoveRollerOut moveRollersOut = new MoveRollerOut(trap);
-  // private final MoveRollerIn moveRollersIn = new MoveRollerIn(trap);
-  // private final MoveWristForward moveWristForward = new MoveWristForward(trap);
-  // private final MoveWristMotorBack moveWristMotorBack = new MoveWristMotorBack(trap);
-  // private final StopRollers stopRollers = new StopRollers(trap);
-  // private final StopWrist stopWrist = new StopWrist(trap);
-  // private final StopTrap stopTrap = new StopTrap(trap);
   
   // Command Groups
   // private final ShootAnd ampAutoShoot = new ShootAnd(base, flyWheel, shooterTilt, indexer);
@@ -179,6 +178,7 @@ public class RobotContainer {
   private final IntakeAndIndexToStop intakeAndIndexToStop = new IntakeAndIndexToStop(intake, indexer);
   private final AimAndShoot aimAndShoot = new AimAndShoot(base, flyWheel, shooterTilt, indexer);
   private final IndexAndShoot indexAndShoot = new IndexAndShoot(flyWheel, indexer);
+  private final AutonShoot autonShoot = new AutonShoot(indexer, flyWheel, shooterTilt);
 
   // Shuffleboard AutonChooser
   private final SendableChooser<Command> autonChooser;
@@ -219,7 +219,8 @@ public class RobotContainer {
   public RobotContainer() {
     base.setDefaultCommand(drivewithJoysticks);
     intake.setDefaultCommand(intakeSpinStop);
-    shooterTilt.setDefaultCommand(new AutoAimShooterTilt(shooterTilt));
+    // shooterTilt.setDefaultCommand(shooterTiltWait);
+    shooterTilt.setDefaultCommand(autoAimShooterTilt);
     // shooterTilt.setDefaultCommand(shooterTiltStop);
     indexer.setDefaultCommand(indexerStop);
     flyWheel.setDefaultCommand(stopFlywheel);
@@ -241,10 +242,16 @@ public class RobotContainer {
     NamedCommands.registerCommand("rotateToSpeaker", new RotateToSpeaker(base));
     NamedCommands.registerCommand("intakeAndIndex", intakeAndIndex);
     NamedCommands.registerCommand("indexerSpinBack", indexerSpinBack);
+    NamedCommands.registerCommand("autoAimShooterTilt", autoAimShooterTilt);
+    NamedCommands.registerCommand("spinFlywheelAndRotate", spinFlywheelAndRotate);
+    NamedCommands.registerCommand("spinFlywheelAndTilt", spinFlywheelAndTilt);
+    NamedCommands.registerCommand("autonShoot", autonShoot);
+    NamedCommands.registerCommand("spinFlywheelSlow", spinFlywheelSlow);
 
     // Auton Chooser
     autonChooser = AutoBuilder.buildAutoChooser("3 NOTE ATTEMPT 2");
     SmartDashboard.putData("Auton Chooser", autonChooser);
+
 
     // Configure the trigger bindings
     logitech = new Joystick(KLogitechPort); // Logitech Dual Action
@@ -372,17 +379,18 @@ public class RobotContainer {
     compStreamDeck4.onTrue(stopFlywheel);
     compStreamDeck5.whileTrue(indexerSpin);
     //6-10
-    compStreamDeck6.whileTrue(intakeAndIndexToStop);
-    compStreamDeck7.whileTrue(intakeAndIndexOut);
+    compStreamDeck6.onTrue(spinFlywheelAmp);
+    compStreamDeck7.whileTrue(spinFlywheelAndRotate);
     compStreamDeck8.whileTrue(shooterTiltSpinDown);
     compStreamDeck9.onTrue(toggleHangPistons);
     compStreamDeck10.whileTrue(indexerSpinBack);
     //11-15
-    compStreamDeck11.onTrue(spinFlywheelAmp);
+    compStreamDeck11.whileTrue(intakeAndIndexToStop);
     compStreamDeck12.whileTrue(spinFlywheelReverse);
     compStreamDeck13.onTrue(new SetManualControl(shooterTilt));
-    compStreamDeck14.onTrue(new SpinFlywheelAndRotate(flyWheel, base, shooterTilt));
-
+    compStreamDeck14.onTrue(spinFlywheelAndTilt);
+    compStreamDeck15.whileTrue(intakeAndIndexOut);
+    
     // Testing Arms and Lifts Controls
     testStreamDeck1.whileTrue(rotateToSpeaker);
     testStreamDeck2.whileTrue(spinFlywheelAutoAim);

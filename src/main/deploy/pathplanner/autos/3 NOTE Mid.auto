@@ -24,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "spinFlywheelSpeaker"
+                  "name": "spinFlywheelAndTilt"
                 }
               }
             ]
@@ -43,7 +43,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "spinFlywheelSpeaker"
+                  "name": "spinFlywheelAndTilt"
                 }
               },
               {
@@ -74,7 +74,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterTiltWait"
+                  "name": "autoAimShooterTilt"
                 }
               },
               {
@@ -93,13 +93,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 2.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterTiltWait"
+                  "name": "spinFlywheelAndTilt"
                 }
               },
               {
@@ -118,51 +118,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "indexerSpinBack"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinFlywheelSpeakerPodium"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
                   "waitTime": 0.5
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinFlywheelSpeakerPodium"
+                  "name": "spinFlywheelAndTilt"
                 }
               },
               {
@@ -193,7 +155,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterTiltWait"
+                  "name": "autoAimShooterTilt"
                 }
               },
               {
@@ -224,13 +186,38 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterTiltWait"
+                  "name": "autoAimShooterTilt"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "stopFlywheel"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "spinFlywheelAndTilt"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeAndIndexToStop"
                 }
               }
             ]
@@ -249,57 +236,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "stopFlywheel"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeAndIndexToStop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinFlywheelSpeakerAuton2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeAndIndexToStop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.6
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "spinFlywheelSpeakerAuton2"
+                  "name": "spinFlywheelAndTilt"
                 }
               },
               {

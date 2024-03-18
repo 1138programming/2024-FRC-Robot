@@ -35,7 +35,7 @@ public class SwerveModule extends SubsystemBase {
   private PIDController driveController;
   private SparkPIDController drivingPidController;
 
-  // private SwerveModulePosition prevPosition;
+  private SwerveModulePosition prevPosition;
 
   private double offset;
   public SwerveModule(int angleMotorID, int driveMotorID, int encoderPort, double offset, 
@@ -82,7 +82,6 @@ public class SwerveModule extends SubsystemBase {
     // drivingPidController.setFF(1/Neo);
     drivingPidController.setFF(1/KNeoVortexMaxRPM);
     drivingPidController.setOutputRange(-1, 1);
-
   }
   
   
@@ -141,6 +140,12 @@ public class SwerveModule extends SubsystemBase {
   
   public SwerveModulePosition getPosition() {
     SwerveModulePosition position = new SwerveModulePosition(getDriveEncoderPos(), getAngleR2D());
+    if (Math.abs(position.distanceMeters) > 50) {
+      position = prevPosition;
+    }
+    else {
+      prevPosition = position;
+    }
     // TEST * TEST * TEST (possible solution to high odom values after disable)
     // if (position.distanceMeters > 50) {
     //   return new SwerveModulePosition(0, getAngleR2D());

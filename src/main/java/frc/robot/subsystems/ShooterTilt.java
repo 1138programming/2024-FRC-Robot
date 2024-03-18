@@ -125,6 +125,10 @@ public class ShooterTilt extends SubsystemBase {
     }
     // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
   }
+  public void swivelToPosNoNoteCheck(double setpoint) {
+      moveSwivel(swivelController.calculate(getTiltEncoder(), setpoint));
+    // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
+  }
 
   // public void swivelToPos(double setPoint) {
   //   if (setPoint > getTiltEncoder()) {
@@ -196,6 +200,12 @@ public class ShooterTilt extends SubsystemBase {
 
   // enter limelight stuff here
   public static double getAngleForShooterPivot(double distanceFromSpeakerMeters) {
-    return (Math.toDegrees(Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters))); //Meters
+    double angle = (Math.toDegrees(Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters)));
+    if (angle < KShooterTiltBottomAngle) {
+      angle = KShooterTiltBottomAngle;
+    } else if (angle > KShooterTiltSubAngle) {
+      angle = KShooterTiltSubAngle;
+    }
+    return angle; //Meters
   }
 }
