@@ -8,15 +8,17 @@ import static frc.robot.Constants.SwerveDriveConstants.*;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
-
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -39,7 +41,7 @@ public class Base extends SubsystemBase {
   private double rotSpeedFactor;
 
   private boolean defenseMode = false;
-  private Pose2d pose;
+  private Pose2d visionPose;
 
   private Limelight limelight;
 
@@ -86,8 +88,7 @@ public class Base extends SubsystemBase {
         KFrontLeftLocation, KFrontRightLocation,
         KBackLeftLocation, KBackRightLocation);
     odometry = new SwerveDriveOdometry(kinematics, getHeading(), getPositions());
-    pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
-    poseEstimate = new SwerveDrivePoseEstimator(kinematics, getHeading(), getPositions(), pose);
+    poseEstimate = new SwerveDrivePoseEstimator(kinematics, getHeading(), getPositions(), visionPose);
 
     driveSpeedFactor = KBaseDriveMidPercent;
     rotSpeedFactor = KBaseRotMidPercent;
@@ -242,15 +243,14 @@ public class Base extends SubsystemBase {
 
   public void resetPose() {
     resetAllRelEncoders();
-    pose = new Pose2d();
-    odometry.resetPosition(getHeading(), getPositions(), pose);
-    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
+    odometry.resetPosition(getHeading(), getPositions(), new Pose2d());
+    poseEstimate.resetPosition(getHeading(), getPositions(), new Pose2d());
   }
 
   public void updatePose(Double x, Double y) {
-    pose = new Pose2d(x, y, gyro.getRotation2d());
-    odometry.resetPosition(getHeading(), getPositions(), pose);
-    poseEstimate.resetPosition(getHeading(), getPositions(), pose);
+    Pose2d newPose = new Pose2d(x, y, gyro.getRotation2d());
+    odometry.resetPosition(getHeading(), getPositions(), newPose);
+    poseEstimate.resetPosition(getHeading(), getPositions(), newPose);
   }
 
   public Rotation2d getHeading() {
@@ -399,13 +399,67 @@ public class Base extends SubsystemBase {
     return offset;
   }
 
+  public void updatePoseEstimatorWithLimelight() {
+    double latency = limelight.getLatency();
+    // invalid LL data
+    if (limelight.getBotPoseX() == 0.0) {
+      return;
+    }
+
+    // distance from current pose to vision estimated pose
+    double poseDifference = poseEstimate.getEstimatedPosition().getTranslation()
+        .getDistance(new Translation2d(limelight.getBotPoseX(), limelight.getBotPoseY()));
+
+    if (limelight.getTargetFound()) {
+      double xyStds;
+      double degStds;
+      // multiple targets detected
+      if (limelight.getNumberOfTargetsSeen() >= 2) {
+        xyStds = 0.5;
+        degStds = 6;
+      }
+      // 1 target with large area and close to estimated pose
+      else if (limelight.getArea() > 0.8 && poseDifference < 0.5) {
+        xyStds = 1.0;
+        degStds = 12;
+      }
+      // 1 target farther away and estimated pose is close
+      else if (limelight.getArea() > 0.1 && poseDifference < 0.3) {
+        xyStds = 2.0;
+        degStds = 30;
+      }
+      // conditions don't match to add a vision measurement
+      else {
+        return;
+      }
+
+      poseEstimate.setVisionMeasurementStdDevs(
+          VecBuilder.fill(xyStds, xyStds, 9999999)); // 999999 is because rotation measurement should match gyro
+      poseEstimate.addVisionMeasurement(visionPose,
+          Timer.getFPGATimestamp() - limelight.getLatency());
+    }
+  }
+
+  public void updatePoseEstimatorMegaTag() {
+    double latency = limelight.getLatency();
+
+    if (limelight.getNumberOfTargetsSeen() >= 2) {
+      poseEstimate.addVisionMeasurement(
+        visionPose, 
+        latency,
+        VecBuilder.fill(0.7, 0.7, 9999999) // 999999 is because rotation measurement should match gyro
+      );
+    }
+
+  }
+
   @Override
   public void periodic() {
     // Position Updates
-    pose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
-    if (limelight.getTargetFound()) {
-      poseEstimate.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (limelight.getBotPose(5) / 1000));
-    }
+    visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    // updatePoseEstimatorWithLimelight();
+    updatePoseEstimatorMegaTag();
+    
     poseEstimate.update(getHeading(), getPositions());
     odometry.update(getHeading(), getPositions());
     SmartDashboard.putBoolean("limelight.getTargetFound()", limelight.getTargetFound());
