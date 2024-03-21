@@ -4,23 +4,26 @@
 
 package frc.robot.CommandGroups;
 
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import frc.robot.commands.Indexer.IndexerLoadNote;
-import frc.robot.commands.Intake.IntakeSpinIn;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.Flywheel.StopFlywheel;
+import frc.robot.commands.ShooterTilt.AutoAimShooterTilt;
+import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ShooterTilt;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeAndIndexToStop extends ParallelRaceGroup {
-  /** Creates a new IntakeAndIndexToStop. */
-  public IntakeAndIndexToStop(Intake intake, Indexer indexer) {
+public class IntakeAutonStopFlywheel extends ParallelCommandGroup {
+  /** Creates a new IntakeAuton. */
+  public IntakeAutonStopFlywheel(Intake intake, Indexer indexer, ShooterTilt shooterTilt, Flywheel flywheel) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new IntakeSpinIn(intake),
-      new IndexerLoadNote(indexer)
+      new IntakeAndIndex(intake, indexer),
+      new AutoAimShooterTilt(shooterTilt),
+      new StopFlywheel(flywheel)
     );
   }
 }

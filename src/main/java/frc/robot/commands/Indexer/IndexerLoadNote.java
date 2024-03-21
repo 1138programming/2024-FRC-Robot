@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
 
 
-public class IndexerLoadNoteSlow extends Command {
+public class IndexerLoadNote extends Command {
   private Indexer indexer;
 /** Creates a new IndexerNoteLoaded. */
-  public IndexerLoadNoteSlow(Indexer indexer) {
+  public IndexerLoadNote(Indexer indexer) {
     this.indexer = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);

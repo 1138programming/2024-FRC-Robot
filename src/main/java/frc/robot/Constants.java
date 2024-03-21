@@ -325,7 +325,6 @@ public final class Constants {
     public static final double KIndexerSlowSpeed = 0.2;
     // public static final double KIndexerMotorSpeed = 0.32;
     // public static final double KIndexerSlowSpeed = 0.32;
-    public static final double KIndexerSlowBackwardSpeed = 0.15;
     // public static final double KIndexerSlowSpeed = 0.35;
     public static final double KIndexerFastSpeed = 0.5;
 

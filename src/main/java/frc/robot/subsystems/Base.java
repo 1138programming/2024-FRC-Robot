@@ -116,7 +116,7 @@ public class Base extends SubsystemBase {
         // SmartDashboard.putNumber("DrivingPidP", KDrivingPidP);
         // SmartDashboard.putNumber("DrivingPidI", KDrivingPidI);
         // SmartDashboard.putNumber("DrivingPidD", KDrivingPidD);
-        SmartDashboard.putNumber("RotP", KRotationP);
+      SmartDashboard.putNumber("RotP", KRotationP);
       SmartDashboard.putNumber("RotI", KRotationI);
       SmartDashboard.putNumber("RotD", KRotationD);
   }
@@ -126,7 +126,6 @@ public class Base extends SubsystemBase {
     xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
     rot *= KMaxAngularSpeed * getRotSpeedFactor();
-    // rot *= KMaxAngularSpeed * getRotSpeedFactor();
 
     // feeding parameter speeds into toSwerveModuleStates to get an array of
     // SwerveModuleState objects
@@ -368,13 +367,13 @@ public class Base extends SubsystemBase {
       }
       theta = (Math.atan((yPos - KSpeakerCoordinatesBlue[1]) / (xPos - KSpeakerCoordinatesBlue[0])) * (180/Math.PI));
       angle = theta;
+    }
+    else {
+      if (Math.abs(xPos - KSpeakerCoordinatesRed[0]) < 0.01) {
+        return 0;
       }
-      else {
-        if (Math.abs(xPos - KSpeakerCoordinatesRed[0]) < 0.01) {
-          return 0;
-        }
-        theta = (Math.atan((yPos - KSpeakerCoordinatesRed[1]) / (xPos - KSpeakerCoordinatesRed[0])) * (180/Math.PI));
-        angle = theta;
+      theta = (Math.atan((yPos - KSpeakerCoordinatesRed[1]) / (xPos - KSpeakerCoordinatesRed[0])) * (180/Math.PI));
+      angle = theta;
     } 
     return angle;
     // return angle;
@@ -436,7 +435,7 @@ public class Base extends SubsystemBase {
       poseEstimate.setVisionMeasurementStdDevs(
           VecBuilder.fill(xyStds, xyStds, 9999999)); // 999999 is because rotation measurement should match gyro
       poseEstimate.addVisionMeasurement(visionPose,
-          Timer.getFPGATimestamp() - limelight.getLatency());
+          Timer.getFPGATimestamp() - latency);
     }
   }
 
