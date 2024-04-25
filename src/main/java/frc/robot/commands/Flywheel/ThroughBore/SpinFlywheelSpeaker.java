@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Flywheel.ThroughBore;
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +33,7 @@ public class SpinFlywheelSpeaker extends Command {
   @Override
   public void execute() {
     shooterTilt.swivelToPosAbsolute(KShooterTiltSubAngle);
-    flywheel.spinFlywheel(KFlywheelSpeed);
+    flywheel.spinFlywheel(KFlywheelFarSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

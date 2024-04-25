@@ -5,7 +5,7 @@
 package frc.robot.commands.Flywheel;
 
 import static frc.robot.Constants.FlywheelConstants.KFlywheelSlowSpeed;
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;

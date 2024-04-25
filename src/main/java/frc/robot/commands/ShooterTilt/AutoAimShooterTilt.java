@@ -36,7 +36,7 @@ public class AutoAimShooterTilt extends Command {
   public void execute() {
     if (SubsystemUtil.getIsNoteIndexed()) {
       shooterTilt.swivelToPosAbsolute(
-          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltAimOffset
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltAimOffset)
       );
     }
     else {

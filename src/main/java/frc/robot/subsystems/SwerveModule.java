@@ -43,14 +43,17 @@ public class SwerveModule extends SubsystemBase {
     angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
     driveMotor = new CANSparkFlex(driveMotorID, MotorType.kBrushless);
     // driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-
+    
     angleMotor.setIdleMode(IdleMode.kBrake);
     driveMotor.setIdleMode(IdleMode.kBrake);
-
+    // if (driveMotorID == 6) {
+    //   driveMotor.setIdleMode(IdleMode.kCoast);
+    // }
+    
     this.angleMotor.setInverted(angleMotorReversed);
     this.driveMotor.setInverted(driveMotorReversed);
     
-    this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit); // CURRENTLY 70! NEEDS TESTING
+    this.driveMotor.setSmartCurrentLimit(KDriveMotorCurrentLimit); // CURRENTLY 85! NEEDS TESTING
     this.angleMotor.setSmartCurrentLimit(KAngleMotorCurrentLimit); // 40
 
     canCoder = new CANcoder(encoderPort);

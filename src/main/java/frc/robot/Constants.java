@@ -18,7 +18,7 @@ import edu.wpi.first.math.geometry.Translation2d;
  * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>It is advised to statical0ly import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -255,13 +255,17 @@ public final class Constants {
     public static final double KShooterTiltDistanceOffGround = 0.0508;
 
     // Untuned - PID Constants
-    public static final double KShooterTiltControllerP = 0.012;
+    public static final double KShooterTiltControllerP = 0.010;
+    // public static final double KShooterTiltControllerP = 0.012;
     public static final double KShooterTiltControllerI = 0;
     public static final double KShooterTiltControllerD = 0.0001;
 
-    public static final double KShooterTiltAbsoluteControllerP = 0.015;
+    public static final double KShooterTiltAbsoluteControllerP = 0.01;
     public static final double KShooterTiltAbsoluteControllerI = 0;
-    public static final double KShooterTiltAbsoluteControllerD = 0.0001;
+    public static final double KShooterTiltAbsoluteControllerD = 0;
+    // public static final double KShooterTiltAbsoluteControllerP = 0.015;
+    // public static final double KShooterTiltAbsoluteControllerI = 0;
+    // public static final double KShooterTiltAbsoluteControllerD = 0.0001;
     
     // public static final double KShooterTiltControllerPUp = 0.01; 
     public static final double KShooterTiltControllerShootP = 0.018; // holds tilt in place while shooting
@@ -272,14 +276,15 @@ public final class Constants {
 
     public static final double kShooterTiltUpPos = 76.7;
     public static final double KShooterTiltAmpAngle = 55;
-    public static final double KShooterTiltSubAngle = 65;
+    public static final double KShooterTiltSubAngle = 63;
     public static final double KShooterTiltSource = 57.9;
-    public static final double KShooterTiltPodiumAngle = 40.08;
+    public static final double KShooterTiltPodiumAngle = 34.5;
     public static final double KShooterTiltAuton1Angle = 50.6;
     public static final double KShooterTiltAuton2Angle = 47.8;
     public static final double KShooterTiltBottomAngle = 30;
 
-    public static final double KShooterTiltAimOffset = 1.5;
+    public static final double KShooterTiltAimOffset = 1.3;
+    public static final double KShooterTiltFarAimOffset = 1;
     // public static final double KShooterTiltWingAimOffset = -2;
 
     // This array must be sorted for the shooter tilt functionality to work!!!!
@@ -307,10 +312,15 @@ public final class Constants {
 
     //Motor speeds
     public static final double KFlywheelFullSpeed = 1; 
-    public static final double KFlywheelSpeed = 0.7; 
+    public static final double KFlywheelFarSpeed = 0.85; 
+    public static final double KFlywheelCloseSpeed = 0.7; 
     public static final double KFlywheelSlowSpeed = 0.3; 
     // public static final double KFlywheelLowSpeed = 0.185;
-    public static final double KFLywheelAmpSpeed = 0.55;
+    public static final double KFLywheelAmpSpeed = 0.35;
+    // public static final double KFLywheelAmpSpeed = 0.40;
+
+    public static final double KFlywheelCloseSpeedMaxDistance = 3;
+    public static final double KFlywheelTiltUpDistance = 3;
     
     public static final double KFlywheelVelocity = 5000;
     
@@ -323,12 +333,9 @@ public final class Constants {
   public static class IndexerConstants{
     public static final double KIndexerMotorSpeed = 0.2;
     public static final double KIndexerSlowSpeed = 0.2;
-    // public static final double KIndexerMotorSpeed = 0.32;
-    // public static final double KIndexerSlowSpeed = 0.32;
-    // public static final double KIndexerSlowSpeed = 0.35;
     public static final double KIndexerFastSpeed = 0.5;
 
-    public static final int KIndexerBBreakerTopID = 0;
+    public static final int KIndexerBBreakerTopID = 7;
     public static final int KIndexerBBreakerBottomID = 9;
 
     public static final int KIndexerMotorID = 13;

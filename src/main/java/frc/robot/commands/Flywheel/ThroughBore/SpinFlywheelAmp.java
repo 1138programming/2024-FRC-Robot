@@ -33,8 +33,10 @@ public class SpinFlywheelAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPosAbsolute(KShooterTiltAmpAngle);
-    flywheel.spinFlywheel(0.55);
+    // if (shooterTilt.getAbsoluteEncoder() < Math.abs(KShooterTiltAmpAngle + 1)) {
+      shooterTilt.swivelToPosAbsolute(KShooterTiltAmpAngle);
+    // }
+    flywheel.spinFlywheel(KFLywheelAmpSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

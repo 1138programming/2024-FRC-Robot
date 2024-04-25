@@ -194,7 +194,7 @@
         {
           "type": "named",
           "data": {
-            "name": "autonShoot"
+            "name": "autonShootLow"
           }
         }
       ]

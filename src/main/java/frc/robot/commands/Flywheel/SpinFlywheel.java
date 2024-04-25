@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Flywheel;
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
@@ -28,7 +28,7 @@ public class SpinFlywheel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.spinFlywheel(KFlywheelSpeed);
+    flywheel.spinFlywheel(KFlywheelFarSpeed); 
   }
   // Called once the command ends or is interrupted.
   @Override

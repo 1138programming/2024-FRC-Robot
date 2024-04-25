@@ -75,7 +75,17 @@ public class Flywheel extends SubsystemBase {
     flywheelUpperMotor.set(speed);
     flywheelLowerMotor.set(speed);
   }
-
+  
+  public void setBrakeMode() {
+    flywheelUpperMotor.setIdleMode(IdleMode.kBrake);
+    flywheelLowerMotor.setIdleMode(IdleMode.kBrake);
+    
+  }
+  public void setCoastMode() {
+    flywheelUpperMotor.setIdleMode(IdleMode.kCoast);
+    flywheelLowerMotor.setIdleMode(IdleMode.kCoast);
+  }
+  
   public void setFlywheelVelocity(double velocity) {
     flywheelUpperController.setReference(velocity, ControlType.kVelocity);
     flywheelLowerController.setReference(velocity, ControlType.kVelocity);

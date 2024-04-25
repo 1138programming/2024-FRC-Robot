@@ -32,7 +32,7 @@ public class SpinFlywheelSpeakerPodium extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheel.spinFlywheel(KFlywheelSpeed);
+    flywheel.spinFlywheel(KFlywheelFarSpeed);
     shooterTilt.swivelToPosAbsolute(KShooterTiltPodiumAngle);
   }
   // Called once the command ends or is interrupted.

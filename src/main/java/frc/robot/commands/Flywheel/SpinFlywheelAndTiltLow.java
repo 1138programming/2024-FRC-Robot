@@ -20,14 +20,14 @@ import frc.robot.subsystems.Flywheel;
 //import static frc.robot.Constants.FlywheelConstants.*;
 import frc.robot.subsystems.ShooterTilt;
 
-public class SpinFlywheelAndTilt extends Command {
+public class SpinFlywheelAndTiltLow extends Command {
   private Flywheel flywheel;
   private ShooterTilt shooterTilt;
 
   private PIDController rotController;
 
   /** Creates a new SpinFlywheel. */
-  public SpinFlywheelAndTilt(Flywheel flywheel, ShooterTilt shooterTilt) {
+  public SpinFlywheelAndTiltLow(Flywheel flywheel, ShooterTilt shooterTilt) {
     this.flywheel = flywheel;
     this.shooterTilt = shooterTilt;
     rotController = new PIDController(KRotationP, KRotationI, KRotationD);
@@ -39,16 +39,13 @@ public class SpinFlywheelAndTilt extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    flywheel.setCoastMode();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     shooterTilt.swivelToPosAbsolute(
-      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltAimOffset)
-    );
+      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + 0.8);
 
     if (SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
       flywheel.spinFlywheel(KFlywheelCloseSpeed);

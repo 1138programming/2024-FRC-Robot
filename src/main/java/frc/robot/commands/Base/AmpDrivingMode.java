@@ -12,6 +12,7 @@ import static frc.robot.Constants.SwerveDriveConstants.KRotationP;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Base;
@@ -55,6 +56,10 @@ public class AmpDrivingMode extends Command {
         angle = 90;
       }
     }
+
+    rotController.setP(SmartDashboard.getNumber("RotP", KRotationP));
+    rotController.setI(SmartDashboard.getNumber("RotI", KRotationI));
+    rotController.setD(SmartDashboard.getNumber("RotD", KRotationD));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

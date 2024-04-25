@@ -20,11 +20,15 @@ import frc.robot.commands.Base.DriveWithJoysticks;
 import frc.robot.commands.Base.ResetGyro;
 import frc.robot.commands.Base.RotateToSpeaker;
 import frc.robot.commands.Base.SpeakerDrivingMode;
+import frc.robot.commands.Base.ToggleLimelight;
 import frc.robot.commands.Base.ToggleSpeed;
+import frc.robot.commands.Flywheel.FlywheelSetBrakeMode;
+import frc.robot.commands.Flywheel.FlywheelSetCoastMode;
 //  Flywheel
 import frc.robot.commands.Flywheel.SpinFlywheel;
 import frc.robot.commands.Flywheel.SpinFlywheelAndRotate;
 import frc.robot.commands.Flywheel.SpinFlywheelAndTilt;
+import frc.robot.commands.Flywheel.SpinFlywheelAndTiltLow;
 import frc.robot.commands.Flywheel.SpinFlywheelBottom;
 import frc.robot.commands.Flywheel.SpinFlywheelFullSpeed;
 import frc.robot.commands.Flywheel.SpinFlywheelReverse;
@@ -60,11 +64,13 @@ import frc.robot.commands.ShooterTilt.ShooterTiltSpinUp;
 import frc.robot.commands.ShooterTilt.ShooterTiltStop;
 import frc.robot.commands.ShooterTilt.ShooterTiltWait;
 import frc.robot.CommandGroups.AutonShoot;
+import frc.robot.CommandGroups.AutonShootLow;
 import frc.robot.CommandGroups.IndexAndShoot;
 // Command Groups+++
 import frc.robot.CommandGroups.IntakeAndIndex;
 import frc.robot.CommandGroups.IntakeAndIndexOut;
 import frc.robot.CommandGroups.IntakeAndIndexToStop;
+import frc.robot.CommandGroups.IntakeAutonStopFlywheel;
 
 // Constants
 import static frc.robot.Constants.SwerveDriveConstants.*;
@@ -117,6 +123,7 @@ public class RobotContainer {
   private final RotateToSpeaker rotateToSpeaker = new RotateToSpeaker(base);
   private final AmpDrivingMode ampDrivingMode = new AmpDrivingMode(base, hang);
   private final SpeakerDrivingMode speakerDrivingMode = new SpeakerDrivingMode(base);
+  private final ToggleLimelight toggleLimelight = new ToggleLimelight();
   //  Shooter Tilt Commands
   private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
   private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
@@ -146,7 +153,11 @@ public class RobotContainer {
 
   private final SpinFlywheelAndRotate spinFlywheelAndRotate = new SpinFlywheelAndRotate(flyWheel, base, shooterTilt);
   private final SpinFlywheelAndTilt spinFlywheelAndTilt = new SpinFlywheelAndTilt(flyWheel, shooterTilt);
+  private final SpinFlywheelAndTiltLow spinFlywheelAndTiltLow = new SpinFlywheelAndTiltLow(flyWheel, shooterTilt);
   private final SpinFlywheelSlow spinFlywheelSlow = new SpinFlywheelSlow(flyWheel);
+
+  private final FlywheelSetBrakeMode flywheelSetBrakeMode = new FlywheelSetBrakeMode(flyWheel);
+  private final FlywheelSetCoastMode flywheelSetCoastMode = new FlywheelSetCoastMode(flyWheel);
   //  Indexer Commands
   private final IndexerSpin indexerSpin = new IndexerSpin(indexer);
   private final IndexerSpinBack indexerSpinBack = new IndexerSpinBack(indexer);
@@ -162,6 +173,8 @@ public class RobotContainer {
   private final IntakeAndIndexToStop intakeAndIndexToStop = new IntakeAndIndexToStop(intake, indexer);
   private final IndexAndShoot indexAndShoot = new IndexAndShoot(flyWheel, indexer);
   private final AutonShoot autonShoot = new AutonShoot(indexer, flyWheel, shooterTilt);
+  private final AutonShootLow autonShootLow = new AutonShootLow(indexer, flyWheel, shooterTilt);
+  private final IntakeAutonStopFlywheel intakeAutonStopFlywheel = new IntakeAutonStopFlywheel(intake, indexer, shooterTilt, flyWheel);
 
   // Shuffleboard AutonChooser
   private final SendableChooser<Command> autonChooser;
@@ -202,7 +215,7 @@ public class RobotContainer {
   public RobotContainer() {
     base.setDefaultCommand(drivewithJoysticks);
     intake.setDefaultCommand(intakeSpinStop);
-    shooterTilt.setDefaultCommand(autoAimShooterTilt);
+    shooterTilt.setDefaultCommand(shooterTiltWait);
     indexer.setDefaultCommand(indexerStop);
     flyWheel.setDefaultCommand(stopFlywheel);
     hang.setDefaultCommand(stopHang);
@@ -224,11 +237,15 @@ public class RobotContainer {
     NamedCommands.registerCommand("autoAimShooterTilt", autoAimShooterTilt);
     NamedCommands.registerCommand("spinFlywheelAndRotate", spinFlywheelAndRotate);
     NamedCommands.registerCommand("spinFlywheelAndTilt", spinFlywheelAndTilt);
+    NamedCommands.registerCommand("spinFlywheelAndTiltLow", spinFlywheelAndTiltLow);
     NamedCommands.registerCommand("autonShoot", autonShoot);
     NamedCommands.registerCommand("spinFlywheelSlow", spinFlywheelSlow);
+    NamedCommands.registerCommand("intakeAutonStopFlywheel", intakeAutonStopFlywheel);
+    NamedCommands.registerCommand("autonShootLow", autonShootLow);
+    NamedCommands.registerCommand("flywheelSetBrakeMode", flywheelSetBrakeMode);
 
     // Auton Chooser
-    autonChooser = AutoBuilder.buildAutoChooser("3 NOTE ATTEMPT 2");
+    autonChooser = AutoBuilder.buildAutoChooser("4 NOTE Mid");
     SmartDashboard.putData("Auton Chooser", autonChooser);
 
 
@@ -330,23 +347,24 @@ public class RobotContainer {
   private void configureBindings() {
     /*      Driver Controls     */
     //  Auto aim while driving
-    logitechBtnRB.whileTrue(speakerDrivingMode);
-    logitechBtnRT.whileTrue(ampDrivingMode);
+    // logitechBtnRB.whileTrue(speakerDrivingMode);
+    // logitechBtnRT.whileTrue(ampDrivingMode);
     //  Intake
-    // logitechBtnRB.whileTrue(intakeAndIndexToStop);
-    // logitechBtnRT.whileTrue(intakeAndIndexOut);
+    logitechBtnRB.whileTrue(intakeAndIndexToStop);
+    logitechBtnRT.whileTrue(intakeAndIndexOut);
     // Other
     logitechBtnY.onTrue(resetGyro);
     logitechBtnA.whileTrue(spinFlywheelFullSpeed);
+    logitechBtnX.whileTrue(speakerDrivingMode);
     logitechBtnLB.onTrue(toggleMaxSpeed);
-    logitechBtnLT.onTrue(toggleLowSpeed);
+    logitechBtnLT.onTrue(speakerDrivingMode);
     // Controlling Speed
     //  if LB and RB are held and one is released, go back to previous speed
     if (!logitechBtnLB.getAsBoolean()) {
       logitechBtnLT.onFalse(toggleMidSpeed);
     } else {
       logitechBtnLT.onFalse(toggleMaxSpeed);
-    }
+    } 
     if (!logitechBtnLT.getAsBoolean()) {
       logitechBtnLB.onFalse(toggleMidSpeed);
     } else {
@@ -370,7 +388,7 @@ public class RobotContainer {
     compStreamDeck11.whileTrue(intakeAndIndexToStop);
     compStreamDeck12.whileTrue(spinFlywheelReverse);
     compStreamDeck13.onTrue(setManualControl);
-    compStreamDeck14.onTrue(spinFlywheelAndTilt);
+    compStreamDeck14.whileTrue(spinFlywheel);
     compStreamDeck15.whileTrue(intakeAndIndexOut);
     
     // Testing Arms and Lifts Controls

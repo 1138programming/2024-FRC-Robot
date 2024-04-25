@@ -47,6 +47,8 @@ public class Base extends SubsystemBase {
 
   private SwerveDrivePoseEstimator poseEstimate;
 
+  static boolean useLimelight = true;
+
   public Base() {
     limelight = new Limelight();
     // poseEstimate = new PoseEstimator<>(kinematics, odometry,
@@ -84,6 +86,7 @@ public class Base extends SubsystemBase {
     gyro = new AHRS(SPI.Port.kMXP);
     gyro.reset();
 
+    visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
     kinematics = new SwerveDriveKinematics(
         KFrontLeftLocation, KFrontRightLocation,
         KBackLeftLocation, KBackRightLocation);
@@ -111,7 +114,8 @@ public class Base extends SubsystemBase {
           }
           return false;
         },
-        this);
+        this
+      );
 
         // SmartDashboard.putNumber("DrivingPidP", KDrivingPidP);
         // SmartDashboard.putNumber("DrivingPidI", KDrivingPidI);
@@ -381,7 +385,8 @@ public class Base extends SubsystemBase {
 
   public double getAprilTagOffsetFromSpeaker() {
     double offset = 0;
-
+    visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+    
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       if(alliance.get() == DriverStation.Alliance.Blue) {
@@ -397,71 +402,110 @@ public class Base extends SubsystemBase {
     }
     return offset;
   }
-
+  
   public void updatePoseEstimatorWithLimelight() {
-    double latency = limelight.getLatency();
-    // invalid LL data
-    if (limelight.getBotPoseX() == 0.0) {
-      return;
+    // double latency = limelight.getLatency();
+    // // invalid LL data
+    // if (limelight.getBotPoseX() == 0.0) {
+    //   return;
+    // }
+
+    // // distance from current pose to vision estimated pose
+    // double poseDifference = poseEstimate.getEstimatedPosition().getTranslation()
+    // .getDistance(new Translation2d(limelight.getBotPoseX(), limelight.getBotPoseY()));
+    
+    // if (limelight.getTargetFound()) {
+    //   double xyStds;
+    //   double degStds;
+    //   // multiple targets detected
+    //   if (limelight.getNumberOfTargetsSeen() >= 2) {
+    //     xyStds = 0.5;
+    //     degStds = 6;
+    //   }
+    //   // 1 target with large area and close to estimated pose
+    //   else if (limelight.getArea() > 0.8 && poseDifference < 0.5) {
+    //     xyStds = 1.0;
+    //     degStds = 12;
+    //   }
+    //   // 1 target farther away and estimated pose is close
+    //   else if (limelight.getArea() > 0.1 && poseDifference < 0.3) {
+    //     xyStds = 2.0;
+    //     degStds = 30;
+    //   }
+    //   // conditions don't match to add a vision measurement
+    //   else {
+    //     return;
+    //   }
+      
+    //   poseEstimate.setVisionMeasurementStdDevs(
+    //     VecBuilder.fill(xyStds, xyStds, 9999999)); // 999999 is because rotation measurement should match gyro
+    //     poseEstimate.addVisionMeasurement(visionPose,
+    //     Timer.getFPGATimestamp() - latency);
+    //   }
     }
-
-    // distance from current pose to vision estimated pose
-    double poseDifference = poseEstimate.getEstimatedPosition().getTranslation()
-        .getDistance(new Translation2d(limelight.getBotPoseX(), limelight.getBotPoseY()));
-
-    if (limelight.getTargetFound()) {
-      double xyStds;
-      double degStds;
-      // multiple targets detected
+    
+    public void updatePoseEstimatorMegaTag() {
+      visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+      double latency = Timer.getFPGATimestamp() - (limelight.getLatency() / 1000);
+      // double latency = 0;
+      
       if (limelight.getNumberOfTargetsSeen() >= 2) {
-        xyStds = 0.5;
-        degStds = 6;
+        poseEstimate.addVisionMeasurement(
+          visionPose, 
+          latency,
+          // VecBuilder.fill(1, 1, 1) // 999999 is because rotation measurement should match gyro
+          VecBuilder.fill(0.7, 0.7, 9999999) // 999999 is because rotation measurement should match gyro
+          );
       }
-      // 1 target with large area and close to estimated pose
-      else if (limelight.getArea() > 0.8 && poseDifference < 0.5) {
-        xyStds = 1.0;
-        degStds = 12;
-      }
-      // 1 target farther away and estimated pose is close
-      else if (limelight.getArea() > 0.1 && poseDifference < 0.3) {
-        xyStds = 2.0;
-        degStds = 30;
-      }
-      // conditions don't match to add a vision measurement
-      else {
-        return;
-      }
-
-      poseEstimate.setVisionMeasurementStdDevs(
-          VecBuilder.fill(xyStds, xyStds, 9999999)); // 999999 is because rotation measurement should match gyro
-      poseEstimate.addVisionMeasurement(visionPose,
-          Timer.getFPGATimestamp() - latency);
+      
     }
-  }
-
-  public void updatePoseEstimatorMegaTag() {
-    double latency = limelight.getLatency();
-
-    if (limelight.getNumberOfTargetsSeen() >= 2) {
-      poseEstimate.addVisionMeasurement(
-        visionPose, 
-        latency,
-        VecBuilder.fill(0.7, 0.7, 9999999) // 999999 is because rotation measurement should match gyro
-      );
+    public void updatePoseEstimatorMegaTagNoLatency() {
+      visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+      double latency = Timer.getFPGATimestamp() - (limelight.getLatency() / 1000);
+      // double latency = 0;
+      
+      if (limelight.getNumberOfTargetsSeen() >= 2) {
+        poseEstimate.addVisionMeasurement(
+          visionPose, 
+          0
+          // VecBuilder.fill(1, 1, 1) // 999999 is because rotation measurement should match gyro
+          // VecBuilder.fill(0.7, 0.7, 9999999) // 999999 is because rotation measurement should match gyro
+          );
+      }
+      
     }
 
-  }
-
-  @Override
-  public void periodic() {
-    // Position Updates
+    public static boolean isUsingLimelight() {
+      return useLimelight;
+    }
+    public static void setUsingLimelight(boolean using) {
+      useLimelight = using;
+    }
+    
+    @Override
+    public void periodic() {
+      // Position Updates
+      
     visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
-    // updatePoseEstimatorWithLimelight();
-    updatePoseEstimatorMegaTag();
+      // updatePoseEstimatorWithLimelight();
+    // if (limelight.getTargetFound()) {
+    //   poseEstimate.addVisionMeasurement(visionPose, Timer.getFPGATimestamp() - (limelight.getBotPose(5) / 1000));
+    // }
+    // if (limelight.getTargetFound()) {
+    //   poseEstimate.addVisionMeasurement(visionPose, 0);
+    // }
+    // if (limelight.getTargetFound()) {
+    //   poseEstimate.addVisionMeasurement(visionPose, 0);
+    // }
+    // updatePoseEstimatorMegaTagNoLatency();
+    if (useLimelight) {
+      updatePoseEstimatorMegaTag();
+    }
     
     poseEstimate.update(getHeading(), getPositions());
     odometry.update(getHeading(), getPositions());
     SmartDashboard.putBoolean("limelight.getTargetFound()", limelight.getTargetFound());
+    SmartDashboard.putNumber("latency", limelight.getLatency());
 
     SubsystemUtil.setDistanceFromSpeaker(getDistanceFromSpeaker());
 
@@ -483,7 +527,7 @@ public class Base extends SubsystemBase {
     // SmartDashboard.putNumber("BackLeftVel", leftBackModule.getDriveEncoderVel());
     // SmartDashboard.putNumber("FrontRightVel", rightFrontModule.getDriveEncoderVel());
     // SmartDashboard.putNumber("BackRightVel", rightBackModule.getDriveEncoderVel());
-    
+     
     // SmartDashboard.putNumber("lime
     // light botpose", limelight.getBotPose(5));
   }

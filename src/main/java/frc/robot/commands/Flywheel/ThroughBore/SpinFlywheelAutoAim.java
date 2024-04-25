@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Flywheel.ThroughBore;
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +38,7 @@ public class SpinFlywheelAutoAim extends Command {
           ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
       );
     }
-    flywheel.spinFlywheel(KFlywheelSpeed);
+    flywheel.spinFlywheel(KFlywheelFarSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

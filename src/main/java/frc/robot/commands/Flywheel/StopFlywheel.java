@@ -22,16 +22,14 @@ public class StopFlywheel extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      flywheel.spinUpperFlywheel(0);
-  flywheel.spinLowerFlywheel(0);
-
+    flywheel.spinUpperFlywheel(0);
+    flywheel.spinLowerFlywheel(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // flywheel.spinUpperFlywheel(0);
-    // flywheel.spinLowerFlywheel(0);
+    flywheel.stopMotors();
   }
 
   // Called once the command ends or is interrupted.

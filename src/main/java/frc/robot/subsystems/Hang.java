@@ -66,7 +66,7 @@ public class Hang extends SubsystemBase {
   
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("Pressure", compressor.getPressure());
+    SmartDashboard.putNumber("Pressure", compressor.getPressure());
     // SmartDashboard.putBoolean("Pressure switch value", compressor.getPressureSwitchValue());
   }
 

@@ -4,8 +4,12 @@
 
 package frc.robot.commands.Flywheel;
 
-import static frc.robot.Constants.FlywheelConstants.KFlywheelSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeedMaxDistance;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
+import static frc.robot.Constants.FlywheelConstants.KFlywheelTiltUpDistance;
 import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltFarAimOffset;
 import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
 import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
@@ -42,7 +46,9 @@ public class SpinFlywheelAndRotate extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    flywheel.setCoastMode();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -60,11 +66,27 @@ public class SpinFlywheelAndRotate extends Command {
     SmartDashboard.putNumber("base.getPositiveHeadingDeg()",  base.getPositiveHeadingDeg());
     SmartDashboard.putNumber("base.getAprilTagOffsetFromSpeaker()", base.getAprilTagOffsetFromSpeaker());
     
+    // if (SubsystemUtil.getDistanceFromSpeaker() > KFlywheelTiltUpDistance) {
+    //   shooterTilt.swivelToPosAbsolute(
+    //     ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltFarAimOffset
+    //   );
+    // }
+    // else {
+    //   shooterTilt.swivelToPosAbsolute(
+    //     ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltFarAimOffset
+    //   );
+    // }
     shooterTilt.swivelToPosAbsolute(
-      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltAimOffset
+      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltAimOffset)
     );
 
-    flywheel.spinFlywheel(KFlywheelSpeed);
+    if(SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
+      flywheel.spinFlywheel(KFlywheelCloseSpeed);
+    }
+    else {
+      flywheel.spinFlywheel(KFlywheelFarSpeed);
+    }
+
   }
   // Called once the command ends or is interrupted.
   @Override
