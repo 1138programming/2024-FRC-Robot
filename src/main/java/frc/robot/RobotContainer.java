@@ -165,6 +165,8 @@ public class RobotContainer {
   //  Hang Commands
   private final ToggleHangPistons toggleHangPistons = new ToggleHangPistons(hang);
   private final StopHang stopHang = new StopHang(hang);
+  private final MoveHangUp moveHangUp = new MoveHangUp(hang);
+  private final MoveHangDown moveHangDown = new MoveHangDown(hang);
   
   // Command Groups
   // private final ShootAnd ampAutoShoot = new ShootAnd(base, flyWheel, shooterTilt, indexer);
@@ -197,7 +199,7 @@ public class RobotContainer {
   public JoystickButton compStreamDeck1, compStreamDeck2, compStreamDeck3, compStreamDeck4, compStreamDeck5,
       compStreamDeck6, compStreamDeck7, compStreamDeck8, compStreamDeck9, compStreamDeck10, compStreamDeck11,
       compStreamDeck12, compStreamDeck13,
-      compStreamDeck14, compStreamDeck15;
+      compStreamDeck14, compStreamDeck15, compStreamDeck16, compStreamDeck17;
 
   // Top Left SD = 1, numbered from left to right
   public JoystickButton testStreamDeck1, testStreamDeck2, testStreamDeck3, testStreamDeck4, testStreamDeck5,
@@ -293,6 +295,8 @@ public class RobotContainer {
     compStreamDeck13 = new JoystickButton(compStreamDeck, 13);
     compStreamDeck14 = new JoystickButton(compStreamDeck, 14);
     compStreamDeck15 = new JoystickButton(compStreamDeck, 15);
+    compStreamDeck16 = new JoystickButton(compStreamDeck, 16);
+    compStreamDeck17 = new JoystickButton(compStreamDeck, 17);
 
     testStreamDeck1 = new JoystickButton(testStreamDeck, 1);
     testStreamDeck2 = new JoystickButton(testStreamDeck, 2);
@@ -325,6 +329,7 @@ public class RobotContainer {
     autonTestStreamDeck13 = new JoystickButton(testStreamDeck, 13);
     autonTestStreamDeck14 = new JoystickButton(testStreamDeck, 14);
     autonTestStreamDeck15 = new JoystickButton(testStreamDeck, 15);
+
 
     // Configure the trigger bindings
     configureBindings();
@@ -390,6 +395,9 @@ public class RobotContainer {
     compStreamDeck13.onTrue(setManualControl);
     compStreamDeck14.whileTrue(spinFlywheel);
     compStreamDeck15.whileTrue(intakeAndIndexOut);
+    //16-17
+    compStreamDeck16.whileTrue(moveHangUp);
+    compStreamDeck17.whileTrue(moveHangDown);
     
     // Testing Arms and Lifts Controls
     testStreamDeck1.whileTrue(rotateToSpeaker);
