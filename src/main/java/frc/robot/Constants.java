@@ -342,7 +342,7 @@ public final class Constants {
   }
 
   public static class HangConstants {
-    public static final int KHangMotorID = 19;
+    public static final int KHangMotorID = 17;
 
     public static final int KLaserCanID = 5;
 

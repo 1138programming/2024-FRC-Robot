@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.LimelightConstants.*;
+import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesBlue;
+import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesRed;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltSubAngle;
 import static frc.robot.Constants.SwerveDriveConstants.*;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -10,11 +12,13 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -112,6 +116,10 @@ public class Base extends SubsystemBase {
         },
         this
       );
+
+        // SmartDashboard.putNumber("DrivingPidP", KDrivingPidP);
+        // SmartDashboard.putNumber("DrivingPidI", KDrivingPidI);
+        // SmartDashboard.putNumber("DrivingPidD", KDrivingPidD);
       SmartDashboard.putNumber("RotP", KRotationP);
       SmartDashboard.putNumber("RotI", KRotationI);
       SmartDashboard.putNumber("RotD", KRotationD);
@@ -262,11 +270,15 @@ public class Base extends SubsystemBase {
       }
     }
     return Rotation2d.fromDegrees(heading);
+
+    // return gyro.getRotation2d(); // TEST
   }
   public Rotation2d getDrivingHeading() {
     double heading = getAimingHeadingDeg();
 
     return Rotation2d.fromDegrees(heading);
+
+    // return gyro.getRotation2d(); // TEST
   }
 
   public double getHeadingDeg() {
@@ -449,6 +461,7 @@ public class Base extends SubsystemBase {
     }
     public void updatePoseEstimatorMegaTagNoLatency() {
       visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
+      double latency = Timer.getFPGATimestamp() - (limelight.getLatency() / 1000);
       // double latency = 0;
       
       if (limelight.getNumberOfTargetsSeen() >= 2) {
