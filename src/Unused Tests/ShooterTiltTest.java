@@ -17,7 +17,7 @@ public class ShooterTiltTest {
     @Test
     void ShooterTiltAngleFinderTest2() {
         System.out.println(ShooterTilt.getAngleForShooterPivot(0.762));
-        assertEquals(69.6768632, ShooterTilt.getAngleForShooterPivot(0.762), 0.01);
+        assertEquals(63, ShooterTilt.getAngleForShooterPivot(0.762), 0.01);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ShooterTiltTest {
     @Test
     void overLimit() {
         System.out.println(ShooterTilt.getMotorAngleFromShooterAngle(90));
-        assertEquals(196.07, ShooterTilt.getMotorAngleFromShooterAngle(90), 0.01);
+        assertEquals(202.918, ShooterTilt.getMotorAngleFromShooterAngle(90), 0.01);
     }
 
     @Test
@@ -62,6 +62,7 @@ public class ShooterTiltTest {
         assertEquals(130.64, ShooterTilt.getMotorAngleFromShooterAngle(60), 0.01);
     }
 
+    
     @Test
     void interpolateTest() {
         System.out.println(ShooterTilt.getMotorAngleFromShooterAngle(63));

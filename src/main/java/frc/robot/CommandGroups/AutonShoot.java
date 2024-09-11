@@ -7,8 +7,10 @@ package frc.robot.CommandGroups;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Flywheel.SpinFlywheelAndRotate;
 import frc.robot.commands.Flywheel.SpinFlywheelAndTilt;
 import frc.robot.commands.Indexer.IndexerSpin;
+import frc.robot.subsystems.Base;
 import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.ShooterTilt;
@@ -18,17 +20,17 @@ import frc.robot.subsystems.ShooterTilt;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonShoot extends SequentialCommandGroup {
   /** Creates a new AutonShoot. */
-  public AutonShoot(Indexer indexer, Flywheel flywheel, ShooterTilt shooterTilt) {
+  public AutonShoot(Base base, Indexer indexer, Flywheel flywheel, ShooterTilt shooterTilt) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelDeadlineGroup(
         new WaitCommand(0.8),
-        new SpinFlywheelAndTilt(flywheel, shooterTilt)
+        new SpinFlywheelAndRotate(flywheel, base, shooterTilt)
       ),
       new ParallelDeadlineGroup(
         new WaitCommand(0.25), 
-        new SpinFlywheelAndTilt(flywheel, shooterTilt),
+        new SpinFlywheelAndRotate(flywheel, base, shooterTilt),
         new IndexerSpin(indexer)
       )
     );

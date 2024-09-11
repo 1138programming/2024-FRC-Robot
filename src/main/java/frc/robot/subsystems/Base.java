@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesBlue;
 import static frc.robot.Constants.LimelightConstants.KSpeakerCoordinatesRed;
-import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltSubAngle;
 import static frc.robot.Constants.SwerveDriveConstants.*;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -12,13 +11,11 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -204,6 +201,7 @@ public class Base extends SubsystemBase {
     states[2] = getModuleState(leftBackModule);
     states[3] = getModuleState(rightBackModule);
 
+
     return states;
   }
 
@@ -357,7 +355,7 @@ public class Base extends SubsystemBase {
   public double getAngleFromSpeaker() {
     SmartDashboard.putNumber("gyro input", getPositiveHeadingDeg());
     if (DriverStation.getAlliance().isPresent()) {
-      return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getPositiveHeadingDeg());
+      return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getHeadingDeg());
     }
     return 0;
   }
@@ -365,24 +363,29 @@ public class Base extends SubsystemBase {
   public static double getAngleFromSpeaker(DriverStation.Alliance allianceColor, double xPos, double yPos, double lambda) {
     double theta = 0;
     double angle = 0;
+    if (lambda > 180) {
+      lambda -= 360;
+    }
+
     if (allianceColor == DriverStation.Alliance.Blue) {
       if (Math.abs(xPos - KSpeakerCoordinatesBlue[0]) < 0.01) {
         return 0;
       }
       theta = (Math.atan((yPos - KSpeakerCoordinatesBlue[1]) / (xPos - KSpeakerCoordinatesBlue[0])) * (180/Math.PI));
-      angle = theta;
+      angle = theta - lambda;
     }
     else {
       if (Math.abs(xPos - KSpeakerCoordinatesRed[0]) < 0.01) {
         return 0;
       }
       theta = (Math.atan((yPos - KSpeakerCoordinatesRed[1]) / (xPos - KSpeakerCoordinatesRed[0])) * (180/Math.PI));
-      angle = theta;
+      angle = theta - lambda;
     } 
     return angle;
     // return angle;
   }
 
+  //Unused
   public double getAprilTagOffsetFromSpeaker() {
     double offset = 0;
     visionPose = new Pose2d(limelight.getBotPoseX(), limelight.getBotPoseY(), getHeading());
@@ -403,6 +406,7 @@ public class Base extends SubsystemBase {
     return offset;
   }
   
+  //Unused
   public void updatePoseEstimatorWithLimelight() {
     // double latency = limelight.getLatency();
     // // invalid LL data
@@ -513,10 +517,13 @@ public class Base extends SubsystemBase {
     SmartDashboard.putNumber("Gyro", getHeadingDeg());
     SmartDashboard.putString("odometry pose", odometry.getPoseMeters().toString());
     SmartDashboard.putString("Pose Estimate", poseEstimate.getEstimatedPosition().toString());
+    SmartDashboard.putString("VisionPose", visionPose.toString());
     SmartDashboard.putBoolean("getTargetFound", limelight.getTargetFound());
     SmartDashboard.putNumber("getBotPose", limelight.getBotPose(5));
     SmartDashboard.putNumber("Distance from speaker", getDistanceFromSpeaker());
-    
+    SmartDashboard.putNumber("base.getAngleFromSpeaker()",  getAngleFromSpeaker());
+    SmartDashboard.putNumber("base.getPositiveHeadingDeg()",  getPositiveHeadingDeg());
+    SmartDashboard.putNumber("base.getAprilTagOffsetFromSpeaker()", getAprilTagOffsetFromSpeaker());
     // SwerveDrive Cancoder Position
     SmartDashboard.putNumber("BackLeftCanCoderPos", leftBackModule.getMagDegRaw());
     SmartDashboard.putNumber("FrontLeftCanCoderPos", leftFrontModule.getMagDegRaw());

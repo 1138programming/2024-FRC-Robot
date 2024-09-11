@@ -148,11 +148,7 @@ public class SwerveModule extends SubsystemBase {
     }
     else {
       prevPosition = position;
-    }
-    // TEST * TEST * TEST (possible solution to high odom values after disable)
-    // if (position.distanceMeters > 50) {
-    //   return new SwerveModulePosition(0, getAngleR2D());
-    // }
+    } 
     return position;
   }
   

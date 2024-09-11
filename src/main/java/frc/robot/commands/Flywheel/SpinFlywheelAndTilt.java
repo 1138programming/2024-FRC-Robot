@@ -7,7 +7,9 @@ package frc.robot.commands.Flywheel;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeed;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeedMaxDistance;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
-import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltCloseAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltFarAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltMediumAimOffset;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationI;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationP;
@@ -46,13 +48,21 @@ public class SpinFlywheelAndTilt extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterTilt.swivelToPosAbsolute(
-      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltAimOffset)
-    );
 
     if (SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
+      shooterTilt.swivelToPosAbsolute(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+              + SmartDashboard.getNumber("Tilt Offset Close", KShooterTiltCloseAimOffset));
       flywheel.spinFlywheel(KFlywheelCloseSpeed);
+    } else if (SubsystemUtil.getDistanceFromSpeaker() < 6) {
+      shooterTilt.swivelToPosAbsolute(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+              + SmartDashboard.getNumber("Tilt Offset Medium", KShooterTiltMediumAimOffset));
+      flywheel.spinFlywheel(KFlywheelFarSpeed);
     } else {
+      shooterTilt.swivelToPosAbsolute(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+              + SmartDashboard.getNumber("Tilt Offset Far", KShooterTiltFarAimOffset));
       flywheel.spinFlywheel(KFlywheelFarSpeed);
     }
   }

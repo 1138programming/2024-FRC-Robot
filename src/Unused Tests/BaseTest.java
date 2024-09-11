@@ -59,7 +59,7 @@ public class BaseTest {
     @Test
     void BlueLeftOfSpeaker293() {
         System.out.println(Base.getAngleFromSpeaker(DriverStation.Alliance.Blue, 2, 3, 293));
-        assertEquals(-164.86, Base.getAngleFromSpeaker(DriverStation.Alliance.Blue, 2, 3, 293), 1);
+        assertEquals(360-164.86, Base.getAngleFromSpeaker(DriverStation.Alliance.Blue, 2, 3, 293), 1);
     }
 
 

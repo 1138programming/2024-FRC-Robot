@@ -7,7 +7,7 @@ package frc.robot.commands.Flywheel;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeed;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeedMaxDistance;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
-import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltCloseAimOffset;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationI;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationP;
@@ -45,7 +45,7 @@ public class SpinFlywheelAndTiltLow extends Command {
   @Override
   public void execute() {
     shooterTilt.swivelToPosAbsolute(
-      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + 0.8);
+      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltCloseAimOffset);
 
     if (SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
       flywheel.spinFlywheel(KFlywheelCloseSpeed);
