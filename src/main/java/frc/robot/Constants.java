@@ -387,4 +387,9 @@ public final class Constants {
   public static class CameraConstants {
     public static final int KCameraPivotServoID = 1;
   }
+
+  public static class ExampleConstants {
+    public static final int KExampleMotorID = 14;
+    public static final boolean KExampleMotorInverted = false;
+  }
 }
