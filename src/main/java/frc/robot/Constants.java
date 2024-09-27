@@ -207,6 +207,7 @@ public final class Constants {
     public static final int KIntakeMotorID = 12;
 
     // Motor setup
+    public static final boolean exampleMotorInverted = false;
     public static final boolean KIntakeMotorIsInverted = false;
     public static final int KIntakeMotorCurrentLimit = 40;
 
