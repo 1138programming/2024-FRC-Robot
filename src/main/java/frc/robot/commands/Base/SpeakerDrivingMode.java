@@ -48,9 +48,9 @@ public class SpeakerDrivingMode extends Command {
   public void execute() {
     fbSpeed = Robot.m_robotContainer.getLogiLeftYAxis();
     lrSpeed = Robot.m_robotContainer.getLogiLeftXAxis();
-    rot = rotController.calculate(base.getAimingHeadingDeg(), base.getAngleFromSpeaker());
+    rot = rotController.calculate(base.getAngleFromSpeaker(), 0);
 
-    base.drive(fbSpeed, lrSpeed, rot, true, KPhysicalMaxDriveSpeedMPS * base.getDriveSpeedFactor(), KBaseRotMaxPercent * base.getRotSpeedFactor());
+    base.drive(fbSpeed, lrSpeed, -rot, true, KPhysicalMaxDriveSpeedMPS * base.getDriveSpeedFactor(), KBaseRotMaxPercent * base.getRotSpeedFactor());
   }
 
   // Called once the command ends or is interrupted.

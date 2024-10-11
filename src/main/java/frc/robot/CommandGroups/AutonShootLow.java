@@ -28,7 +28,7 @@ public class AutonShootLow extends SequentialCommandGroup {
         new SpinFlywheelAndTiltLow(flywheel, shooterTilt)
       ),
       new ParallelDeadlineGroup(
-        new WaitCommand(0.25), 
+        new WaitCommand(0.35), 
         new SpinFlywheelAndTiltLow(flywheel, shooterTilt),
         new IndexerSpin(indexer)
       )

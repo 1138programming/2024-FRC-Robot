@@ -8,8 +8,9 @@ import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeed;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelCloseSpeedMaxDistance;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelFarSpeed;
 import static frc.robot.Constants.FlywheelConstants.KFlywheelTiltUpDistance;
-import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltCloseAimOffset;
 import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltFarAimOffset;
+import static frc.robot.Constants.ShooterTiltConstants.KShooterTiltMediumAimOffset;
 import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
 import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
 import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
@@ -31,6 +32,7 @@ public class SpinFlywheelAndRotate extends Command {
   private ShooterTilt shooterTilt;
 
   private PIDController rotController;
+  private double rotSpeed;
 
   /** Creates a new SpinFlywheel. */
   public SpinFlywheelAndRotate(Flywheel flywheel, Base base, ShooterTilt shooterTilt) {
@@ -39,7 +41,7 @@ public class SpinFlywheelAndRotate extends Command {
     this.shooterTilt = shooterTilt;
     rotController = new PIDController(KRotationP, KRotationI, KRotationD);
     rotController.enableContinuousInput(-180, 180);
-    
+
     addRequirements(flywheel, base, shooterTilt);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -57,42 +59,39 @@ public class SpinFlywheelAndRotate extends Command {
     rotController.setI(SmartDashboard.getNumber("RotI", KRotationI));
     rotController.setD(SmartDashboard.getNumber("RotD", KRotationD));
 
-    double rotSpeed = rotController.calculate(base.getAimingHeadingDeg(), base.getAngleFromSpeaker());
-    // double rotSpeed = rotController.calculate(base.getAprilTagOffsetFromSpeaker(), 0);
+    rotSpeed = rotController.calculate(base.getAngleFromSpeaker(), 0);
+    // double rotSpeed = rotController.calculate(base.getAimingHeadingDeg(),
+    // base.getAngleFromSpeaker());
+    // double rotSpeed =
+    // rotController.calculate(base.getAprilTagOffsetFromSpeaker(), 0);
 
-    base.drive(0, 0, rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KBaseRotMaxPercent * base.getRotSpeedFactor());
+    base.drive(0, 0, -rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KBaseRotMaxPercent * base.getRotSpeedFactor());
 
-    SmartDashboard.putNumber("base.getAngleFromSpeaker()",  base.getAngleFromSpeaker());
-    SmartDashboard.putNumber("base.getPositiveHeadingDeg()",  base.getPositiveHeadingDeg());
-    SmartDashboard.putNumber("base.getAprilTagOffsetFromSpeaker()", base.getAprilTagOffsetFromSpeaker());
-    
-    // if (SubsystemUtil.getDistanceFromSpeaker() > KFlywheelTiltUpDistance) {
-    //   shooterTilt.swivelToPosAbsolute(
-    //     ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltFarAimOffset
-    //   );
-    // }
-    // else {
-    //   shooterTilt.swivelToPosAbsolute(
-    //     ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + KShooterTiltFarAimOffset
-    //   );
-    // }
-    shooterTilt.swivelToPosAbsolute(
-      ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltAimOffset)
-    );
-
-    if(SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
+    if (SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
+      shooterTilt.swivelToPosAbsolute(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+              + SmartDashboard.getNumber("Tilt Offset Close", KShooterTiltCloseAimOffset));
       flywheel.spinFlywheel(KFlywheelCloseSpeed);
-    }
-    else {
+    } else if (SubsystemUtil.getDistanceFromSpeaker() < 6) {
+      shooterTilt.swivelToPosAbsolute(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+              + SmartDashboard.getNumber("Tilt Offset Medium", KShooterTiltMediumAimOffset));
+      flywheel.spinFlywheel(KFlywheelFarSpeed);
+    } else {
+      shooterTilt.swivelToPosAbsolute(
+          ShooterTilt.getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker())
+              + SmartDashboard.getNumber("Tilt Offset Far", KShooterTiltFarAimOffset));
       flywheel.spinFlywheel(KFlywheelFarSpeed);
     }
 
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     flywheel.stopMotors();
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

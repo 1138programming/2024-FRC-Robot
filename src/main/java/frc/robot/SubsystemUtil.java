@@ -34,7 +34,7 @@ public class SubsystemUtil {
 
     public static double lerp(double input, double minX, double minY, double maxX, double maxY) {
         double slope = (maxY - minY)/(maxX - minX);
-        return minY + slope * (input - minX);
+        return minY + (slope * (input - minX));
     }
 
 }

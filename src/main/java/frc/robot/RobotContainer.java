@@ -125,7 +125,8 @@ public class RobotContainer {
   private final SpeakerDrivingMode speakerDrivingMode = new SpeakerDrivingMode(base);
   private final ToggleLimelight toggleLimelight = new ToggleLimelight();
   //  Shooter Tilt Commands
-  private final ShooterTiltStop shooterTiltStop = new ShooterTiltStop(shooterTilt);
+  private final ShooterTiltStop 
+  shooterTiltStop = new ShooterTiltStop(shooterTilt);
   private final MoveShooterTiltToPos moveShooterTiltToPos = new MoveShooterTiltToPos(shooterTilt, 0);
   private final ShooterTiltWait shooterTiltWait = new ShooterTiltWait(shooterTilt, leds);
   private final MoveShooterTiltToPos moveShooterTiltTo90 = new MoveShooterTiltToPos(shooterTilt, 90);
@@ -172,7 +173,7 @@ public class RobotContainer {
   private final IntakeAndIndexOut intakeAndIndexOut = new IntakeAndIndexOut(intake, indexer);
   private final IntakeAndIndexToStop intakeAndIndexToStop = new IntakeAndIndexToStop(intake, indexer);
   private final IndexAndShoot indexAndShoot = new IndexAndShoot(flyWheel, indexer);
-  private final AutonShoot autonShoot = new AutonShoot(indexer, flyWheel, shooterTilt);
+  private final AutonShoot autonShoot = new AutonShoot(base, indexer, flyWheel, shooterTilt);
   private final AutonShootLow autonShootLow = new AutonShootLow(indexer, flyWheel, shooterTilt);
   private final IntakeAutonStopFlywheel intakeAutonStopFlywheel = new IntakeAutonStopFlywheel(intake, indexer, shooterTilt, flyWheel);
 
@@ -221,29 +222,30 @@ public class RobotContainer {
     hang.setDefaultCommand(stopHang);
     
     // Named commands for PathPlanner
-    NamedCommands.registerCommand("rotateToSpeaker", rotateToSpeaker);
-    NamedCommands.registerCommand("shooterTiltWait", shooterTiltWait);
-    NamedCommands.registerCommand("stopFlywheel", stopFlywheel);
-    NamedCommands.registerCommand("intakeAndIndexToStop", intakeAndIndexToStop);
+    NamedCommands.registerCommand("autoAimShooterTilt", autoAimShooterTilt);
+    NamedCommands.registerCommand("autonShoot", autonShoot);
+    NamedCommands.registerCommand("autonShootLow", autonShootLow);
+    NamedCommands.registerCommand("flywheelSetBrakeMode", flywheelSetBrakeMode);
     NamedCommands.registerCommand("indexAndShoot", indexAndShoot);
+    NamedCommands.registerCommand("indexerSpin", indexerSpin);
+    NamedCommands.registerCommand("indexerSpinBack", indexerSpinBack);
+    NamedCommands.registerCommand("intakeAndIndex", intakeAndIndex);
+    NamedCommands.registerCommand("intakeAndIndexToStop", intakeAndIndexToStop);
+    NamedCommands.registerCommand("intakeAutonStopFlywheel", intakeAutonStopFlywheel);
+    NamedCommands.registerCommand("rotateToSpeaker", rotateToSpeaker);
+    NamedCommands.registerCommand("rotateToSpeaker", new RotateToSpeaker(base));
+    NamedCommands.registerCommand("resetGyro", new ResetGyro(base));
+    NamedCommands.registerCommand("shooterTiltWait", shooterTiltWait);
     NamedCommands.registerCommand("spinFlywheelSpeaker", spinFlywheelSpeaker);
     NamedCommands.registerCommand("spinFlywheelSpeakerPodium", spinFlywheelSpeakerPodium);
     NamedCommands.registerCommand("spinFlywheelSpeakerAuton2", spinFlywheelSpeakerAuton2);
-    NamedCommands.registerCommand("indexerSpin", indexerSpin);
     NamedCommands.registerCommand("stopFlywheel", stopFlywheel);
-    NamedCommands.registerCommand("rotateToSpeaker", new RotateToSpeaker(base));
-    NamedCommands.registerCommand("intakeAndIndex", intakeAndIndex);
-    NamedCommands.registerCommand("indexerSpinBack", indexerSpinBack);
-    NamedCommands.registerCommand("autoAimShooterTilt", autoAimShooterTilt);
     NamedCommands.registerCommand("spinFlywheelAndRotate", spinFlywheelAndRotate);
     NamedCommands.registerCommand("spinFlywheelAndTilt", spinFlywheelAndTilt);
     NamedCommands.registerCommand("spinFlywheelAndTiltLow", spinFlywheelAndTiltLow);
-    NamedCommands.registerCommand("autonShoot", autonShoot);
     NamedCommands.registerCommand("spinFlywheelSlow", spinFlywheelSlow);
-    NamedCommands.registerCommand("intakeAutonStopFlywheel", intakeAutonStopFlywheel);
-    NamedCommands.registerCommand("autonShootLow", autonShootLow);
-    NamedCommands.registerCommand("flywheelSetBrakeMode", flywheelSetBrakeMode);
-
+    NamedCommands.registerCommand("stopFlywheel", stopFlywheel);
+    
     // Auton Chooser
     autonChooser = AutoBuilder.buildAutoChooser("4 NOTE Mid");
     SmartDashboard.putData("Auton Chooser", autonChooser);
@@ -354,8 +356,8 @@ public class RobotContainer {
     logitechBtnRT.whileTrue(intakeAndIndexOut);
     // Other
     logitechBtnY.onTrue(resetGyro);
-    logitechBtnA.whileTrue(spinFlywheelFullSpeed);
-    logitechBtnX.whileTrue(speakerDrivingMode);
+    logitechBtnA.whileTrue(indexerSpin);
+    logitechBtnX.whileTrue(spinFlywheelAndTilt);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(speakerDrivingMode);
     // Controlling Speed
@@ -373,7 +375,7 @@ public class RobotContainer {
 
     /*    Comp Arms and Lifts Controls      */
     //1-5
-    compStreamDeck1.onTrue(spinFlywheelSpeaker);
+    compStreamDeck1.onTrue(spinFlywheelAndTilt);
     compStreamDeck2.onTrue(spinFlywheelSpeakerPodium);
     compStreamDeck3.whileTrue(shooterTiltSpinUp);
     compStreamDeck4.onTrue(stopFlywheel);
