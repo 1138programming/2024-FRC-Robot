@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "resetGyro"
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -74,13 +80,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "autoAimShooterTilt"
+                  "name": "spinFlywheelSlow"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinFlywheelSlow"
+                  "name": "shooterTiltWait"
                 }
               }
             ]
@@ -111,13 +117,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "autoAimShooterTilt"
+                  "name": "stopFlywheel"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "stopFlywheel"
+                  "name": "shooterTiltWait"
                 }
               }
             ]
@@ -142,13 +148,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "autoAimShooterTilt"
+                  "name": "spinFlywheelSlow"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "spinFlywheelSlow"
+                  "name": "shooterTiltWait"
                 }
               }
             ]
@@ -173,12 +179,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "autoAimShooterTilt"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "spinFlywheelSlow"
                 }
               },
@@ -186,6 +186,12 @@
                 "type": "named",
                 "data": {
                   "name": "intakeAndIndexToStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterTiltWait"
                 }
               }
             ]

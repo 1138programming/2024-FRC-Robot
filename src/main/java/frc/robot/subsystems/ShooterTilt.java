@@ -74,11 +74,17 @@ public class ShooterTilt extends SubsystemBase {
     SmartDashboard.putNumber("absolute I", KShooterTiltAbsoluteControllerI);
     SmartDashboard.putNumber("absolute D", KShooterTiltAbsoluteControllerD);
 
-    SmartDashboard.putNumber("Tilt Offset", KShooterTiltAimOffset);
+    SmartDashboard.putNumber("Tilt Offset Close", KShooterTiltCloseAimOffset);
+    SmartDashboard.putNumber("Tilt Offset Medium", KShooterTiltMediumAimOffset);
+    SmartDashboard.putNumber("Tilt Offset Far", KShooterTiltFarAimOffset);
 
     // swivelshootController = new PIDController(KShooterTiltControllerShootP, 0, 0);
   }
   
+  public double getTiltEncoder() {
+    double angle = shooterTiltCANcoder.getPosition().getValueAsDouble() * 360 + startingAngle;
+    return angle;
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -88,6 +94,8 @@ public class ShooterTilt extends SubsystemBase {
     SmartDashboard.putNumber("tilt shooter absolute pos through bore", shooterTiltThroughBoreEncoder.getAbsolutePosition());
     SmartDashboard.putNumber("tilt shooter get final through bore", getAbsoluteEncoder());
     SmartDashboard.putBoolean("manualControl", manualControl);
+    SmartDashboard.putNumber("auto tilt angle", getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltCloseAimOffset));
+
 
     absoluteSwivelController.setP(SmartDashboard.getNumber("absolute P", KShooterTiltAbsoluteControllerP));
     absoluteSwivelController.setI(SmartDashboard.getNumber("absolute I", KShooterTiltAbsoluteControllerI));
@@ -104,16 +112,17 @@ public class ShooterTilt extends SubsystemBase {
 
   // starting angle is 17 degrees and the range is between 17-90 or 15-180 (If i
   // recall correctly)
-  public double getTiltEncoder() {
-    double angle = shooterTiltCANcoder.getPosition().getValueAsDouble() * 360 + startingAngle;
-    return angle;
-  }
 
   public double getAbsoluteEncoder() {
     return 101.63 - shooterTiltThroughBoreEncoder.getDistance();
   }
 
   public void swivelToPosAbsolute(double setpoint) {
+    if (!manualControl) {
+      moveSwivel(absoluteSwivelController.calculate(getAbsoluteEncoder(), setpoint));
+    }
+  }
+  public void swivelToPosAbsoluteFar(double setpoint) {
     if (!manualControl) {
       moveSwivel(absoluteSwivelController.calculate(getAbsoluteEncoder(), setpoint));
     }
@@ -130,14 +139,6 @@ public class ShooterTilt extends SubsystemBase {
       moveSwivel(swivelController.calculate(getTiltEncoder(), setpoint));
     // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
   }
-
-  // public void swivelToPos(double setPoint) {
-  //   if (setPoint > getTiltEncoder()) {
-  //     moveSwivel(swivelUpController.calculate(getTiltEncoder(), setPoint));
-  //   } else {
-  //     moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint));
-  //   }
-  // }
 
   public static double getMotorAngleFromShooterAngle(double shooterAngle) {
     double motorAngle = 0;
@@ -201,7 +202,8 @@ public class ShooterTilt extends SubsystemBase {
 
   // enter limelight stuff here
   public static double getAngleForShooterPivot(double distanceFromSpeakerMeters) {
-    double angle = (Math.toDegrees(Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters)));
+    double angle = (Math.atan((KspeakerHeight - KShooterTiltDistanceOffGround) / distanceFromSpeakerMeters));
+    angle *= (180/Math.PI);
     if (angle < KShooterTiltBottomAngle) {
       angle = KShooterTiltBottomAngle;
     } else if (angle > KShooterTiltSubAngle) {

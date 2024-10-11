@@ -17,11 +17,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveModule extends SubsystemBase {
   private CANSparkMax angleMotor;
+  private int driveMotorID;
   // private CANSparkMax driveMotor;
   private CANSparkFlex driveMotor;
 
@@ -49,7 +51,7 @@ public class SwerveModule extends SubsystemBase {
     // if (driveMotorID == 6) {
     //   driveMotor.setIdleMode(IdleMode.kCoast);
     // }
-    
+    this.driveMotorID = driveMotorID;
     this.angleMotor.setInverted(angleMotorReversed);
     this.driveMotor.setInverted(driveMotorReversed);
     
@@ -97,6 +99,7 @@ public class SwerveModule extends SubsystemBase {
     angleMotorOutput = angleController.calculate(getAngleDeg(), desiredState.angle.getDegrees());
     
     driveMotorOutput = desiredState.speedMetersPerSecond / KPhysicalMaxDriveSpeedMPS;
+    
     // driveMotorOutput = desiredState.speedMetersPerSecond;
     // driveMotorOutput = driveController.calculate(getDriveEncoderVel(), desiredState.speedMetersPerSecond) / KPhysicalMaxDriveSpeedMPS;
     
@@ -148,11 +151,7 @@ public class SwerveModule extends SubsystemBase {
     }
     else {
       prevPosition = position;
-    }
-    // TEST * TEST * TEST (possible solution to high odom values after disable)
-    // if (position.distanceMeters > 50) {
-    //   return new SwerveModulePosition(0, getAngleR2D());
-    // }
+    } 
     return position;
   }
   
@@ -192,6 +191,8 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
+        SmartDashboard.putNumber("swerve #" + driveMotorID, driveMotor.getEncoder().getVelocity());
+
     // if (drivingPidController.getP() != SmartDashboard.getNumber("DrivingPidP", KDrivingPidP)) {
     //   drivingPidController.setP(SmartDashboard.getNumber("DrivingPidP", KDrivingPidP));
     // }

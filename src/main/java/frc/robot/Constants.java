@@ -200,7 +200,7 @@ public final class Constants {
     public static final double KBaseRotMidPercent = 1;
     public static final double KBaseRotMaxPercent = 1.5;
 
-    public static final double KRotationP = 0.025;
+    public static final double KRotationP = 0.02;
     public static final double KRotationI = 0;
     public static final double KRotationD = 0;
     
@@ -283,8 +283,9 @@ public final class Constants {
     public static final double KShooterTiltAuton2Angle = 47.8;
     public static final double KShooterTiltBottomAngle = 30;
 
-    public static final double KShooterTiltAimOffset = 1.3;
-    public static final double KShooterTiltFarAimOffset = 1;
+    public static final double KShooterTiltCloseAimOffset = 0.8;
+    public static final double KShooterTiltMediumAimOffset = -1.15;
+    public static final double KShooterTiltFarAimOffset = -6;
     // public static final double KShooterTiltWingAimOffset = -2;
 
     // This array must be sorted for the shooter tilt functionality to work!!!!
@@ -312,14 +313,14 @@ public final class Constants {
 
     //Motor speeds
     public static final double KFlywheelFullSpeed = 1; 
-    public static final double KFlywheelFarSpeed = 0.85; 
+    public static final double KFlywheelFarSpeed = 0.8; 
     public static final double KFlywheelCloseSpeed = 0.7; 
     public static final double KFlywheelSlowSpeed = 0.3; 
     // public static final double KFlywheelLowSpeed = 0.185;
     public static final double KFLywheelAmpSpeed = 0.35;
     // public static final double KFLywheelAmpSpeed = 0.40;
 
-    public static final double KFlywheelCloseSpeedMaxDistance = 3;
+    public static final double KFlywheelCloseSpeedMaxDistance = 3.75;
     public static final double KFlywheelTiltUpDistance = 3;
     
     public static final double KFlywheelVelocity = 5000;
