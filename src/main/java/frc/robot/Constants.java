@@ -224,6 +224,7 @@ public final class Constants {
   public static class IntakeConstants {
     // Motor ID
     public static final int KIntakeMotorID = 12;
+    public static final int KIntakeOuterRollerID = 40;
 
     // Motor setup
     public static final boolean KIntakeMotorIsInverted = false;

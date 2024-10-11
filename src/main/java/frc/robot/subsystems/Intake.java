@@ -15,22 +15,30 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Intake extends SubsystemBase {
   private CANSparkMax intakeMotor;
+  private CANSparkMax intakeOuterRoler;
   /** Creates a new Intake. */
 
   public Intake() {
     intakeMotor = new CANSparkMax(KIntakeMotorID, MotorType.kBrushless);
+    intakeOuterRoler = new CANSparkMax(KIntakeOuterRollerID, MotorType.kBrushless);
 
     intakeMotor.setIdleMode(IdleMode.kCoast);
     intakeMotor.setSmartCurrentLimit(KIntakeMotorCurrentLimit);
     intakeMotor.setInverted(KIntakeMotorIsInverted);
+
+    intakeOuterRoler.setIdleMode(IdleMode.kCoast);
+    intakeOuterRoler.setSmartCurrentLimit(KIntakeMotorCurrentLimit);
+    intakeOuterRoler.setInverted(KIntakeMotorIsInverted);
   }
   
   public void spinIntake(double speed){
     intakeMotor.set(speed);
+    intakeOuterRoler.set(speed);
   }
 
   public void intakeSpinStop(){
     intakeMotor.set(0);
+    intakeOuterRoler.set(0);
   }
 
   @Override
