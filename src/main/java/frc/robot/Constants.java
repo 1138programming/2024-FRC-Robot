@@ -159,7 +159,7 @@ public final class Constants {
 
     // Max Speeds
     public static final double KMaxAcceleration = 8;
-    public static final double KMaxAngularSpeed =   10;
+    public static final double KMaxAngularSpeed = 10;
     // public static final double KMaxAngularSpeed = 3.5;
 
     // Offsets
@@ -240,6 +240,8 @@ public final class Constants {
     // Encoder IDs
     public static final int KShooterTiltEncoderID = 5; // CANCoder
     public static final int KShooterTiltAbsoluteEncoderID = 2; // Throughbore
+    
+    public static final int KShooterTiltBottomLimitSwitch = 12; // Throughbore
     
     // CANCoder offset
     public static final double KShooterTiltEncoderOffset = 0; // CANCoder

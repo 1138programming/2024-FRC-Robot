@@ -9,6 +9,7 @@ import static frc.robot.Constants.LimelightConstants.KspeakerHeight;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,7 @@ public class ShooterTilt extends SubsystemBase {
   private CANcoder shooterTiltCANcoder;
   private DutyCycleEncoder shooterTiltThroughBoreEncoder;
   private double startingAngle;
+  private DigitalInput shooterTiltBottomLS;
 
   // PID
   private PIDController swivelController;
@@ -52,6 +54,7 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltThroughBoreEncoder.setPositionOffset(KShooterTiltAbsoluteOffset);
     shooterTiltThroughBoreEncoder.setDistancePerRotation(360);
 
+    shooterTiltBottomLS = new DigitalInput(KShooterTiltBottomLimitSwitch);
 
     double offsetToRotations = 0;
     // double offsetToRotations = KShooterTiltEncoderOffset / 360;
@@ -107,7 +110,12 @@ public class ShooterTilt extends SubsystemBase {
   }
 
   public void moveSwivel(double speed) {
-    shooterTiltMotor.set(speed);
+    if (shooterTiltBottomLS.get() && speed < 0) {
+      shooterTiltMotor.set(0);
+    }
+    else {
+      shooterTiltMotor.set(speed);
+    }
   }
 
   // starting angle is 17 degrees and the range is between 17-90 or 15-180 (If i
