@@ -65,7 +65,7 @@ public class SpinFlywheelAndRotate extends Command {
     // double rotSpeed =
     // rotController.calculate(base.getAprilTagOffsetFromSpeaker(), 0);
 
-    base.drive(0, 0, -rotSpeed, true, KPhysicalMaxDriveSpeedMPS, KBaseRotMaxPercent * base.getRotSpeedFactor());
+    base.drive(0, 0, -rotSpeed, true, KPhysicalMaxDriveSpeedMPS * base.getDriveSpeedFactor(), KBaseRotMaxPercent * base.getRotSpeedFactor());
 
     if (SubsystemUtil.getDistanceFromSpeaker() < KFlywheelCloseSpeedMaxDistance) {
       shooterTilt.swivelToPosAbsolute(

@@ -357,7 +357,7 @@ public class RobotContainer {
     // Other
     logitechBtnY.onTrue(resetGyro);
     logitechBtnA.whileTrue(indexerSpin);
-    logitechBtnX.whileTrue(spinFlywheelAndTilt);
+    logitechBtnX.whileTrue(spinFlywheel);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(speakerDrivingMode);
     // Controlling Speed

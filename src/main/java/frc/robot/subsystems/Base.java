@@ -44,6 +44,8 @@ public class Base extends SubsystemBase {
 
   private SwerveDrivePoseEstimator poseEstimate;
 
+  private double lastHeading = 0; 
+
   static boolean useLimelight = true;
 
   public Base() {
@@ -124,9 +126,9 @@ public class Base extends SubsystemBase {
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double maxDriveSpeedMPS,
       double maxRotSpeed) {
-    xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
-    ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
-    rot *= KMaxAngularSpeed * getRotSpeedFactor();
+        xSpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
+        ySpeed *= maxDriveSpeedMPS * getDriveSpeedFactor();
+        rot *= KMaxAngularSpeed * getRotSpeedFactor();
 
     // feeding parameter speeds into toSwerveModuleStates to get an array of
     // SwerveModuleState objects
@@ -405,7 +407,17 @@ public class Base extends SubsystemBase {
     }
     return offset;
   }
-  
+
+  public double getLastHeading() {
+      return lastHeading;
+   }
+
+  public void updateLastHeading() {
+    if (Math.abs(getHeadingDeg() - lastHeading) <= 2)
+      lastHeading =+ 0;
+    else 
+      lastHeading = getHeadingDeg();
+   }
   //Unused
   public void updatePoseEstimatorWithLimelight() {
     // double latency = limelight.getLatency();
@@ -505,7 +517,7 @@ public class Base extends SubsystemBase {
     if (useLimelight) {
       updatePoseEstimatorMegaTag();
     }
-    
+    updateLastHeading();
     poseEstimate.update(getHeading(), getPositions());
     odometry.update(getHeading(), getPositions());
     SmartDashboard.putBoolean("limelight.getTargetFound()", limelight.getTargetFound());

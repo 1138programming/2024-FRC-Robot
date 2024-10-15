@@ -6,8 +6,14 @@ package frc.robot.commands.Base;
 
 import static frc.robot.Constants.SwerveDriveConstants.KBaseRotMaxPercent;
 import static frc.robot.Constants.SwerveDriveConstants.KPhysicalMaxDriveSpeedMPS;
+import static frc.robot.Constants.SwerveDriveConstants.KRotationD;
+import static frc.robot.Constants.SwerveDriveConstants.KRotationI;
+import static frc.robot.Constants.SwerveDriveConstants.KRotationP;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Base;
 
@@ -17,10 +23,17 @@ public class DriveWithJoysticks extends Command {
   private double fbSpeed; //Speed of the robot in the x direction (forward).
   private double lrSpeed; //Speed of the robot in the Y direction (sideways).
   private double rot;
+  private double rotSpeed;
+  private double heading;
+
+  private PIDController rotController;
 
   /** Creates a new DriveWithJoySticks. */
   public DriveWithJoysticks(Base base) {
+    rotController = new PIDController(KRotationP, KRotationI, KRotationD);
     this.base = base;
+    rotSpeed = 0;
+    heading = 0;
     addRequirements(base);
   }
 
@@ -36,7 +49,15 @@ public class DriveWithJoysticks extends Command {
     fbSpeed = Robot.m_robotContainer.getLogiLeftYAxis();
     lrSpeed = Robot.m_robotContainer.getLogiLeftXAxis();
     rot = Robot.m_robotContainer.getLogiRightXAxis();
-    base.drive(fbSpeed, lrSpeed, rot, true, KPhysicalMaxDriveSpeedMPS * base.getDriveSpeedFactor(), KBaseRotMaxPercent * base.getRotSpeedFactor());
+
+    rotSpeed = rotController.calculate(base.getHeadingDeg(), base.getLastHeading());
+
+    if (rot <= 0) {
+      base.drive(fbSpeed, lrSpeed, -rotSpeed, true, KPhysicalMaxDriveSpeedMPS * base.getDriveSpeedFactor(), KBaseRotMaxPercent * base.getRotSpeedFactor());
+    }
+    else {
+      base.drive(fbSpeed, lrSpeed, rot, true, KPhysicalMaxDriveSpeedMPS * base.getDriveSpeedFactor(), KBaseRotMaxPercent * base.getRotSpeedFactor());
+    }
   }
   // Called once the command ends or is interrupted.
   @Override
