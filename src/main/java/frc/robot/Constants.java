@@ -130,7 +130,7 @@ public final class Constants {
     public static final double KDriveD = 0;
 
     // Swerve Current Limits
-    public static final int KDriveMotorCurrentLimit = 70;
+    public static final int KDriveMotorCurrentLimit = 60;
     public static final int KAngleMotorCurrentLimit = 40;
 
     // Motor Info
@@ -164,19 +164,19 @@ public final class Constants {
 
     // Offsets
     //  Meow (Gray Bot)
-    public static final double KFrontLeftOffset = -106.3;
-    public static final double KFrontRightOffset = -106.35;
-    public static final double KBackLeftOffset = 99.89;
-    public static final double KBackRightOffset = -35.6;
-    // public static final double KFrontLeftOffset = -104.326171875;
-    // public static final double KFrontRightOffset = -101.69;
-    // public static final double KBackLeftOffset = 101.34;
-    // public static final double KBackRightOffset = -34.45;
+    public static final double KFrontLeftOffset = 141.32; //Good
+    public static final double KFrontRightOffset = -122.5; // Need to do
+    public static final double KBackLeftOffset = -29.6; // Good
+    public static final double KBackRightOffset = 113.2; // Good
+    // public static final double KFrontLeftOffset = 0;
+    // public static final double KFrontRightOffset = 0;
+    // public static final double KBackLeftOffset = 0;
+    // public static final double KBackRightOffset = 0;
 
-    // Drive Motor Reversals
-    public static final boolean KFrontLeftDriveReversed = false;
+    // Drive Motor Reversals+
+    public static final boolean KFrontLeftDriveReversed = true;
     public static final boolean KFrontRightDriveReversed = false;
-    public static final boolean KBackLeftDriveReversed = false;
+    public static final boolean KBackLeftDriveReversed = true;
     public static final boolean KBackRightDriveReversed = false;
 
     // Angle Motor Reversals
@@ -241,11 +241,11 @@ public final class Constants {
     public static final int KShooterTiltEncoderID = 5; // CANCoder
     public static final int KShooterTiltAbsoluteEncoderID = 2; // Throughbore
     
-    public static final int KShooterTiltBottomLimitSwitch = 12; // Throughbore
+    public static final int KShooterTiltBottomLimitSwitch = 4; // Limit Switch
     
     // CANCoder offset
     public static final double KShooterTiltEncoderOffset = 0; // CANCoder
-    public static final double KShooterTiltAbsoluteOffset = 0.0435; // Throughbore
+    public static final double KShooterTiltAbsoluteOffset = 0; // Throughbore
     // public static final double KShooterTiltAbsoluteOffset = 50.56/360; // Throughbore
 
     // Gear Ratio
@@ -277,7 +277,7 @@ public final class Constants {
     // public static 
     public static final double KShooterTiltAngleOffset = -7;
 
-    public static final double kShooterTiltUpPos = 76.7;
+    public static final double kShooterTiltUpPos = 65;
     public static final double KShooterTiltAmpAngle = 55;
     public static final double KShooterTiltSubAngle = 63;
     public static final double KShooterTiltSource = 57.9;
@@ -335,9 +335,9 @@ public final class Constants {
   }
 
   public static class IndexerConstants{
-    public static final double KIndexerMotorSpeed = 0.2;
-    public static final double KIndexerSlowSpeed = 0.2;
-    public static final double KIndexerFastSpeed = 0.5;
+    public static final double KIndexerMotorSpeed = 1;
+    public static final double KIndexerSlowSpeed = 1;
+    public static final double KIndexerFastSpeed = 1;
 
     public static final int KIndexerBBreakerTopID = 7;
     public static final int KIndexerBBreakerBottomID = 9;

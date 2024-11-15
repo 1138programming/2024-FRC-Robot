@@ -28,7 +28,7 @@ public class Intake extends SubsystemBase {
 
     intakeOuterRoler.setIdleMode(IdleMode.kCoast);
     intakeOuterRoler.setSmartCurrentLimit(KIntakeMotorCurrentLimit);
-    intakeOuterRoler.setInverted(KIntakeMotorIsInverted);
+    intakeOuterRoler.setInverted(true);
   }
   
   public void spinIntake(double speed){

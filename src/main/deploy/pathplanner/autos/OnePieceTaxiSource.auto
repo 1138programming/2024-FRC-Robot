@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "autonShoot"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [

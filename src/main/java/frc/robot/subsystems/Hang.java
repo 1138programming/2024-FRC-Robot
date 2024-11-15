@@ -38,20 +38,6 @@ public class Hang extends SubsystemBase {
   private Compressor compressor;
   
   public Hang() {
-    // Motor
-    // hangMotor = new CANSparkFlex(KHangMotorID, MotorType.kBrushless);
-    
-    // // Sensors
-    // hangLimitSwitchUp = new DigitalInput(KHangLimitSwitchUp);
-    
-    // hangLaserCanBottom = new LaserCan(KLaserCanID);
-    // try {
-    //   hangLaserCanBottom.setRangingMode(LaserCan.RangingMode.SHORT);
-    //   hangLaserCanBottom.setRegionOfInterest(new LaserCan.RegionOfInterest(6, 6, 16, 16));
-    //   hangLaserCanBottom.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
-    // } catch (ConfigurationFailedException e){
-    //   System.out.println("Configuration failed! " + e);
-    // }
     
     // Pneumatics
     compressor = new Compressor(PneumaticsModuleType.REVPH);
@@ -66,6 +52,7 @@ public class Hang extends SubsystemBase {
   
   @Override
   public void periodic() {
+  
     SmartDashboard.putNumber("Pressure", compressor.getPressure());
     // SmartDashboard.putBoolean("Pressure switch value", compressor.getPressureSwitchValue());
   }
@@ -75,25 +62,6 @@ public class Hang extends SubsystemBase {
   // add pneumatics into methods and commands
 
  // Only moves up and down to the limit switches
-   public void moveHangMotor(double speed){
-    //  if(speed < 0 ){
-    //    if (laserCanDistanceInch() <= 2){
-    //      hangMotor.set(0);
-    //    }
-    //    else{
-    //      hangMotor.set(speed);
-    //    }
-    //  }
-    //  else if(speed > 0){
-    //    if (getHangTopLimitSwitch()){
-    //      hangMotor.set(0);
-    //    }
-    //    else{
-    //      hangMotor.set(speed);
-    //    }
-    //  }
-    // hangMotor.set(speed);
-   }
  
    // Pneumatics
    public void moveHangPistons(){

@@ -27,7 +27,7 @@ public class MoveHangDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hang.moveHangMotor(KHangMotorSpeedDown);
+    // hang.moveHangMotor(KHangMotorSpeedDown);
   }
 
   // Called once the command ends or is interrupted.

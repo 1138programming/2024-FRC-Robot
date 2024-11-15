@@ -4,15 +4,17 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.LimelightConstants.KlimelightMountHeight;
+// import static frc.robot.Constants.LimelightConstants.KlimelightMountHeight;
 import static frc.robot.Constants.LimelightConstants.KspeakerHeight;
 import static frc.robot.Constants.ShooterTiltConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycle;
+// import edu.wpi.first.wpilibj.DutyCycle;
+// import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SubsystemUtil;
 
@@ -21,10 +23,10 @@ import frc.robot.SubsystemUtil;
 import com.revrobotics.CANSparkMax; // Covers Neo's
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+// import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
+// import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+// import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class ShooterTilt extends SubsystemBase {
   private CANSparkMax shooterTiltMotor;
@@ -44,7 +46,7 @@ public class ShooterTilt extends SubsystemBase {
     shooterTiltMotor = new CANSparkMax(KShooterTiltMotorID, MotorType.kBrushless);
 
     shooterTiltMotor.setIdleMode(IdleMode.kBrake);
-    shooterTiltMotor.setInverted(true);
+    shooterTiltMotor.setInverted(false);
 
     // CANCoder Setup
     shooterTiltCANcoder = new CANcoder(KShooterTiltEncoderID);
@@ -56,22 +58,8 @@ public class ShooterTilt extends SubsystemBase {
 
     shooterTiltBottomLS = new DigitalInput(KShooterTiltBottomLimitSwitch);
 
-    double offsetToRotations = 0;
-    // double offsetToRotations = KShooterTiltEncoderOffset / 360;
-
-    MagnetSensorConfigs canCoderConfig = new MagnetSensorConfigs();
-
-    canCoderConfig.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-    canCoderConfig.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-    canCoderConfig.MagnetOffset = offsetToRotations;
-    shooterTiltCANcoder.getConfigurator().apply(canCoderConfig);
-    manualControl = false;
-
-    // PID Controller Setups
-    swivelController = new PIDController(0, 0, 0);
-    // swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
     absoluteSwivelController = new PIDController(0.4, 0, 0);
-    startingAngle = 202.91833 - shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
+    // startingAngle = 202.91833 - shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
 
     SmartDashboard.putNumber("absolute P", KShooterTiltAbsoluteControllerP);
     SmartDashboard.putNumber("absolute I", KShooterTiltAbsoluteControllerI);
@@ -85,8 +73,12 @@ public class ShooterTilt extends SubsystemBase {
   }
   
   public double getTiltEncoder() {
-    double angle = shooterTiltCANcoder.getPosition().getValueAsDouble() * 360 + startingAngle;
+    // double angle = shooterTiltCANcoder.getPosition().getValueAsDouble() * 360 + startingAngle;
+    double angle = 360 - shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
     return angle;
+  }
+  public boolean getLS() {
+    return !shooterTiltBottomLS.get();
   }
   @Override
   public void periodic() {
@@ -96,8 +88,9 @@ public class ShooterTilt extends SubsystemBase {
     SmartDashboard.putNumber("tilt shooter angle through bore", shooterTiltThroughBoreEncoder.getDistance());
     SmartDashboard.putNumber("tilt shooter absolute pos through bore", shooterTiltThroughBoreEncoder.getAbsolutePosition());
     SmartDashboard.putNumber("tilt shooter get final through bore", getAbsoluteEncoder());
-    SmartDashboard.putBoolean("manualControl", manualControl);
     SmartDashboard.putNumber("auto tilt angle", getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltCloseAimOffset));
+    SmartDashboard.putBoolean("manualControl", manualControl);
+    SmartDashboard.putBoolean("limitswitch", getLS());
 
 
     absoluteSwivelController.setP(SmartDashboard.getNumber("absolute P", KShooterTiltAbsoluteControllerP));
@@ -110,7 +103,7 @@ public class ShooterTilt extends SubsystemBase {
   }
 
   public void moveSwivel(double speed) {
-    if (shooterTiltBottomLS.get() && speed < 0) {
+    if (!shooterTiltBottomLS.get() && speed < 0) {
       shooterTiltMotor.set(0);
     }
     else {
@@ -122,7 +115,7 @@ public class ShooterTilt extends SubsystemBase {
   // recall correctly)
 
   public double getAbsoluteEncoder() {
-    return 101.63 - shooterTiltThroughBoreEncoder.getDistance();
+    return shooterTiltThroughBoreEncoder.getDistance() + 80;
   }
 
   public void swivelToPosAbsolute(double setpoint) {
@@ -144,7 +137,9 @@ public class ShooterTilt extends SubsystemBase {
     // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
   }
   public void swivelToPosNoNoteCheck(double setpoint) {
+    if (setpoint > 25 && setpoint < 83) {  
       moveSwivel(swivelController.calculate(getTiltEncoder(), setpoint));
+    }
     // moveSwivel(swivelController.calculate(getTiltEncoder(), setPoint) + KShooterTiltAngleOffset);
   }
 
