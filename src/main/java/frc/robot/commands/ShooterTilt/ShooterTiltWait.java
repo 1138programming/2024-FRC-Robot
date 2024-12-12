@@ -39,6 +39,9 @@ public class ShooterTiltWait extends Command {
     if (!isNoteIndexed) {
       shooterTilt.swivelToPosAbsolute(kShooterTiltUpPos);
     }
+    else {
+      shooterTilt.swivelToPosAbsolute(kShooterTiltUpPos);
+    }
     // boolean isNoteIndexed = SubsystemUtil.getIsNoteIndexed();
     // SmartDashboard.putBoolean("isNoteIndexed", isNoteIndexed);
     // if (!isNoteIndexed) {

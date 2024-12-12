@@ -338,13 +338,13 @@ public class Base extends SubsystemBase {
     double distanceFromSpeaker = 0;
     if (DriverStation.getAlliance().isPresent()) {
       if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
-        double botPoseXOffsetFromSpeaker = poseEstimate.getEstimatedPosition().getX() - KSpeakerCoordinatesBlue[0];
-        double botPoseYOffsetFromSpeaker = poseEstimate.getEstimatedPosition().getY() - KSpeakerCoordinatesBlue[1];
+        double botPoseXOffsetFromSpeaker = visionPose.getX() - KSpeakerCoordinatesBlue[0];
+        double botPoseYOffsetFromSpeaker = visionPose.getY() - KSpeakerCoordinatesBlue[1];
         distanceFromSpeaker = Math
             .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
       } else {
-        double botPoseXOffsetFromSpeaker = poseEstimate.getEstimatedPosition().getX() - KSpeakerCoordinatesRed[0];
-        double botPoseYOffsetFromSpeaker = poseEstimate.getEstimatedPosition().getY() - KSpeakerCoordinatesRed[1];
+        double botPoseXOffsetFromSpeaker = visionPose.getX() - KSpeakerCoordinatesRed[0];
+        double botPoseYOffsetFromSpeaker = visionPose.getY() - KSpeakerCoordinatesRed[1];
         distanceFromSpeaker = Math
             .sqrt(Math.pow(botPoseXOffsetFromSpeaker, 2) + Math.pow(botPoseYOffsetFromSpeaker, 2));
       }
@@ -355,7 +355,7 @@ public class Base extends SubsystemBase {
   public double getAngleFromSpeaker() {
     SmartDashboard.putNumber("gyro input", getPositiveHeadingDeg());
     if (DriverStation.getAlliance().isPresent()) {
-      return getAngleFromSpeaker(DriverStation.getAlliance().get(), getRobotPoseX(), getRobotPoseY(), getHeadingDeg());
+      return getAngleFromSpeaker(DriverStation.getAlliance().get(), visionPose.getX(), visionPose.getY(), getHeadingDeg());
     }
     return 0;
   }

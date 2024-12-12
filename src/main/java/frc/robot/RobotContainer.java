@@ -247,7 +247,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("stopFlywheel", stopFlywheel);
     
     // Auton Chooser
-    autonChooser = AutoBuilder.buildAutoChooser("4 NOTE Mid");
+    autonChooser = AutoBuilder.buildAutoChooser("TEST AUTON");
     SmartDashboard.putData("Auton Chooser", autonChooser);
 
 
@@ -357,7 +357,7 @@ public class RobotContainer {
     // Other
     logitechBtnY.onTrue(resetGyro);
     logitechBtnA.whileTrue(indexerSpin);
-    logitechBtnX.whileTrue(spinFlywheelAndTilt);
+    logitechBtnX.whileTrue(spinFlywheelAndRotate);
     logitechBtnLB.onTrue(toggleMaxSpeed);
     logitechBtnLT.onTrue(speakerDrivingMode);
     // Controlling Speed
@@ -409,8 +409,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return new SubBackPickShootAuton(base, flyWheel, shooterTilt, indexer, intake);
-    return autonChooser.getSelected();
+    // return autonChooser.getSelected();
+    return null;
   }
 
   public double getLogiRightYAxis() {

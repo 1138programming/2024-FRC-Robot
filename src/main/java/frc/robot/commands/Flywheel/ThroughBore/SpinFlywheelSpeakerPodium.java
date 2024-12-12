@@ -33,7 +33,7 @@ public class SpinFlywheelSpeakerPodium extends Command {
   @Override
   public void execute() {
     flywheel.spinFlywheel(KFlywheelFarSpeed);
-    shooterTilt.swivelToPosAbsolute(KShooterTiltPodiumAngle);
+    shooterTilt.swivelToPosAbsolute(32);
   }
   // Called once the command ends or is interrupted.
   @Override

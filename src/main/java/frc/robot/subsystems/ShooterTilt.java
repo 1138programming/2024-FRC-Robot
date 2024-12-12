@@ -67,7 +67,7 @@ public class ShooterTilt extends SubsystemBase {
     // PID Controller Setups
     swivelController = new PIDController(0, 0, 0);
     // swivelController = new PIDController(KShooterTiltControllerP, KShooterTiltControllerI, KShooterTiltControllerD);
-    absoluteSwivelController = new PIDController(0.4, 0, 0);
+    absoluteSwivelController = new PIDController(0.4, 0.1, 0);
     startingAngle = 202.91833 - shooterTiltCANcoder.getPosition().getValueAsDouble() * 360;
 
     SmartDashboard.putNumber("absolute P", KShooterTiltAbsoluteControllerP);
@@ -95,6 +95,7 @@ public class ShooterTilt extends SubsystemBase {
     SmartDashboard.putNumber("tilt shooter get final through bore", getAbsoluteEncoder());
     SmartDashboard.putBoolean("manualControl", manualControl);
     SmartDashboard.putNumber("auto tilt angle", getAngleForShooterPivot(SubsystemUtil.getDistanceFromSpeaker()) + SmartDashboard.getNumber("Tilt Offset", KShooterTiltCloseAimOffset));
+    SmartDashboard.putNumber("distancfrom speaker", SubsystemUtil.getDistanceFromSpeaker());
 
 
     absoluteSwivelController.setP(SmartDashboard.getNumber("absolute P", KShooterTiltAbsoluteControllerP));

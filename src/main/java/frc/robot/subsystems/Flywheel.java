@@ -46,6 +46,9 @@ public class Flywheel extends SubsystemBase {
     flywheelUpperMotor.setIdleMode(IdleMode.kCoast);
     flywheelLowerMotor.setIdleMode(IdleMode.kCoast);
 
+    flywheelUpperMotor.getAbsoluteEncoder().getVelocity();
+     flywheelLowerMotor.getAbsoluteEncoder().getVelocity();
+
     upperFlywheelEncoder = flywheelUpperMotor.getEncoder();
     lowerFlywheelEncoder = flywheelLowerMotor.getEncoder();
     
@@ -53,6 +56,8 @@ public class Flywheel extends SubsystemBase {
     flywheelUpperController.setP(KFlywheelP);
     flywheelUpperController.setI(KFlywheelI);
     flywheelUpperController.setD(KFlywheelD);
+
+    
     
     flywheelLowerController = flywheelLowerMotor.getPIDController();
     flywheelLowerController.setP(KFlywheelP);
@@ -61,7 +66,7 @@ public class Flywheel extends SubsystemBase {
 
     SmartDashboard.putNumber("F SPEED", 0.175);
     
-
+   
     // SmartDashboard.putNumber("Flywheel P", 0);
     // SmartDashboard.putNumber("Flywheel I", 0);
     // SmartDashboard.putNumber("Flywheel D", 0);
